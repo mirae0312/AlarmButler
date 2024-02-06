@@ -6,3 +6,13 @@
 //
 
 import Foundation
+import UIKit
+import SnapKit
+
+class AlarmListView: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .red
+    }
+
+}
