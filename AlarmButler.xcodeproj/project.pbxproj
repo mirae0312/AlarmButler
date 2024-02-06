@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		2E43CA692B70925F00FCA414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA682B70925F00FCA414 /* AppDelegate.swift */; };
 		2E43CA6B2B70925F00FCA414 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA6A2B70925F00FCA414 /* SceneDelegate.swift */; };
-		2E43CA6D2B70925F00FCA414 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA6C2B70925F00FCA414 /* ViewController.swift */; };
-		2E43CA702B70925F00FCA414 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E43CA6E2B70925F00FCA414 /* Main.storyboard */; };
 		2E43CA732B70925F00FCA414 /* AlarmButler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA712B70925F00FCA414 /* AlarmButler.xcdatamodeld */; };
 		2E43CA752B70926100FCA414 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E43CA742B70926100FCA414 /* Assets.xcassets */; };
 		2E43CA782B70926100FCA414 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E43CA762B70926100FCA414 /* LaunchScreen.storyboard */; };
@@ -29,6 +27,7 @@
 		2E43CAD02B70999C00FCA414 /* SleepWakeAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CACF2B70999C00FCA414 /* SleepWakeAlarm.swift */; };
 		2E43CAD22B7099A300FCA414 /* SleepWakeAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAD12B7099A300FCA414 /* SleepWakeAlarmView.swift */; };
 		2E43CAD42B7099B800FCA414 /* SleepWakeAlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAD32B7099B800FCA414 /* SleepWakeAlarmViewModel.swift */; };
+		2E43CAE12B7257E000FCA414 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE02B7257E000FCA414 /* CustomTabBarController.swift */; };
 		97C441F104D09081FBE9EEA8 /* Pods_AlarmButler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1BD13C16ABBD4E5267BF49 /* Pods_AlarmButler.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,8 +35,6 @@
 		2E43CA652B70925F00FCA414 /* AlarmButler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlarmButler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E43CA682B70925F00FCA414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E43CA6A2B70925F00FCA414 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2E43CA6C2B70925F00FCA414 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		2E43CA6F2B70925F00FCA414 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E43CA722B70925F00FCA414 /* AlarmButler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmButler.xcdatamodel; sourceTree = "<group>"; };
 		2E43CA742B70926100FCA414 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E43CA772B70926100FCA414 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,6 +54,7 @@
 		2E43CACF2B70999C00FCA414 /* SleepWakeAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarm.swift; sourceTree = "<group>"; };
 		2E43CAD12B7099A300FCA414 /* SleepWakeAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmView.swift; sourceTree = "<group>"; };
 		2E43CAD32B7099B800FCA414 /* SleepWakeAlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmViewModel.swift; sourceTree = "<group>"; };
+		2E43CAE02B7257E000FCA414 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		7AEFC77EA2F9C726F43F84E7 /* Pods-AlarmButler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmButler.release.xcconfig"; path = "Target Support Files/Pods-AlarmButler/Pods-AlarmButler.release.xcconfig"; sourceTree = "<group>"; };
 		AD1BD13C16ABBD4E5267BF49 /* Pods_AlarmButler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlarmButler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA5F46919E172A966BE5865 /* Pods-AlarmButler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmButler.debug.xcconfig"; path = "Target Support Files/Pods-AlarmButler/Pods-AlarmButler.debug.xcconfig"; sourceTree = "<group>"; };
@@ -95,6 +93,7 @@
 		2E43CA672B70925F00FCA414 /* AlarmButler */ = {
 			isa = PBXGroup;
 			children = (
+				2E43CADF2B7257B200FCA414 /* TapBar */,
 				2E43CA962B70953F00FCA414 /* Alarm */,
 				2E43CA8A2B70940D00FCA414 /* Stopwatch */,
 				2E43CA842B7093F400FCA414 /* Timer */,
@@ -102,8 +101,6 @@
 				2E43CA802B7093E900FCA414 /* SleepWakeAlarm */,
 				2E43CA682B70925F00FCA414 /* AppDelegate.swift */,
 				2E43CA6A2B70925F00FCA414 /* SceneDelegate.swift */,
-				2E43CA6C2B70925F00FCA414 /* ViewController.swift */,
-				2E43CA6E2B70925F00FCA414 /* Main.storyboard */,
 				2E43CA742B70926100FCA414 /* Assets.xcassets */,
 				2E43CA762B70926100FCA414 /* LaunchScreen.storyboard */,
 				2E43CA792B70926100FCA414 /* Info.plist */,
@@ -282,6 +279,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		2E43CADF2B7257B200FCA414 /* TapBar */ = {
+			isa = PBXGroup;
+			children = (
+				2E43CAE02B7257E000FCA414 /* CustomTabBarController.swift */,
+			);
+			path = TapBar;
+			sourceTree = "<group>";
+		};
 		35090F2188E74A464AE395DD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,7 +366,6 @@
 			files = (
 				2E43CA782B70926100FCA414 /* LaunchScreen.storyboard in Resources */,
 				2E43CA752B70926100FCA414 /* Assets.xcassets in Resources */,
-				2E43CA702B70925F00FCA414 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,7 +420,7 @@
 			files = (
 				2E43CAC22B70992E00FCA414 /* StopwatchViewModel.swift in Sources */,
 				2E43CACC2B70997F00FCA414 /* WorldClockModel.swift in Sources */,
-				2E43CA6D2B70925F00FCA414 /* ViewController.swift in Sources */,
+				2E43CAE12B7257E000FCA414 /* CustomTabBarController.swift in Sources */,
 				2E43CA692B70925F00FCA414 /* AppDelegate.swift in Sources */,
 				2E43CACE2B70998E00FCA414 /* WorldClockViewModel.swift in Sources */,
 				2E43CACA2B70997700FCA414 /* WorldClock.swift in Sources */,
@@ -439,14 +443,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2E43CA6E2B70925F00FCA414 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2E43CA6F2B70925F00FCA414 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		2E43CA762B70926100FCA414 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -590,7 +586,7 @@
 				INFOPLIST_FILE = AlarmButler/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -619,7 +615,7 @@
 				INFOPLIST_FILE = AlarmButler/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
