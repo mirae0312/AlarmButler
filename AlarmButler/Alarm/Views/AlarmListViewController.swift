@@ -18,7 +18,7 @@ class AlarmListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .white
         setupCustomNavigationBar()
         viewModel.fetchAlarms() // 알람 데이터 불러오기
         setupTableView()
@@ -27,7 +27,7 @@ class AlarmListViewController: UIViewController {
     // 네비게이션 바 설정
     func setupCustomNavigationBar() {
         customNavigationBar = UIView()
-        customNavigationBar.backgroundColor = .yellow // 예시 색상
+        customNavigationBar.backgroundColor = .systemGray6
         view.addSubview(customNavigationBar)
         
         // Auto Layout 설정
@@ -68,14 +68,26 @@ class AlarmListViewController: UIViewController {
         }
     }
 
-    // 편집 모드 전환 액션
-    @objc private func toggleEditing() {
-        
-    }
-
     // 새 알람 추가 액션
     @objc private func addAlarm() {
-        // 새 알람 추가 로직, 사용자 입력 필요
+        let detailVC = AlarmDetailViewController()
+        
+        // 부모 뷰 컨트롤러의 컨텍스트 내에서 모달로 표시되도록 설정합니다.
+        definesPresentationContext = true
+        
+        // 모달로 표시될 뷰 컨트롤러의 modalPresentationStyle을 automatic으로 설정합니다.
+        detailVC.modalPresentationStyle = .automatic
+        
+        // AlarmDetailViewController를 모달로 표시.
+        present(detailVC, animated: true, completion: nil)
+    }
+
+    // 편집 모드 전환 액션
+    @objc private func toggleEditing() {
+        tableView.setEditing(!tableView.isEditing, animated: true) // 편집 모드 전환
+        // 편집 버튼의 타이틀을 편집 모드에 따라 변경.
+        let buttonTitle = tableView.isEditing ? "완료" : "편집"
+        editButton.setTitle(buttonTitle, for: .normal)
     }
 
     // 테이블뷰 설정과 SnapKit을 사용한 레이아웃 정의
