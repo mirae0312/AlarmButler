@@ -35,26 +35,26 @@ class CustomTabBarController: UITabBarController {
     func setupTabBar() {
         // 각 탭에 대한 뷰 컨트롤러 생성
         // TODO: (추후 각자 View명 보고 수정 필!)
-        let worldClockVC = AlarmListView()
+        let worldClockVC = AlarmListViewController()
         worldClockVC.tabBarItem = UITabBarItem(title: "세계시간", image: UIImage(named: "worldClockIcon"), tag: 0)
         
-        let alarmVC = AlarmListView() // 알람 뷰 컨트롤러
+        let alarmVC = AlarmListViewController() // 알람 뷰 컨트롤러
         alarmVC.tabBarItem = UITabBarItem(title: "알람", image: UIImage(named: "alarmIcon"), tag: 1)
         
-        let stopwatchVC = AlarmListView()
+        let stopwatchVC = AlarmListViewController()
         stopwatchVC.tabBarItem = UITabBarItem(title: "스톱워치", image: UIImage(named: "stopwatchIcon"), tag: 2)
         
-        let timerVC = AlarmListView()
+        let timerVC = AlarmListViewController()
         timerVC.tabBarItem = UITabBarItem(title: "타이머", image: UIImage(named: "timerIcon"), tag: 3)
         
-        let patternModeVC = AlarmListView()
-        patternModeVC.tabBarItem = UITabBarItem(title: "패턴모드", image: UIImage(named: "patternModeIcon"), tag: 4)
+        let SleepWakeAlarmVC = AlarmListViewController()
+        SleepWakeAlarmVC.tabBarItem = UITabBarItem(title: "패턴모드", image: UIImage(named: "patternModeIcon"), tag: 4)
         
         // 탭 바 컨트롤러에 뷰 컨트롤러들 추가
         // 세계시간, 알람, 스톱워치, 타이머, 패턴모드 순서로 배치
-        viewControllers = [worldClockVC, alarmVC, stopwatchVC, timerVC, patternModeVC]
+        viewControllers = [worldClockVC, alarmVC, stopwatchVC, timerVC, SleepWakeAlarmVC]
         
         // 초기 탭 설정 (알람 화면)
-        selectedIndex = 1 // 첫 번째 탭(알람)을 초기 화면으로 설정
+        selectedIndex = 1 // 두번째 탭(알람)을 초기 화면으로 설정
     }
 }

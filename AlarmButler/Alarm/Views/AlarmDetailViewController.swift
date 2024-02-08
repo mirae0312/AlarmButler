@@ -1,5 +1,5 @@
 //
-//  AlarmDetailView.swift
+//  AlarmDetailViewController.swift
 //  AlarmButler
 //
 //  Created by mirae on 2/7/24.

@@ -13,7 +13,7 @@
 		2E43CA752B70926100FCA414 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E43CA742B70926100FCA414 /* Assets.xcassets */; };
 		2E43CA782B70926100FCA414 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E43CA762B70926100FCA414 /* LaunchScreen.storyboard */; };
 		2E43CAB82B7098E200FCA414 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAB72B7098E200FCA414 /* Alarm.swift */; };
-		2E43CABA2B7098EE00FCA414 /* AlarmListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAB92B7098EE00FCA414 /* AlarmListView.swift */; };
+		2E43CABA2B7098EE00FCA414 /* AlarmListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAB92B7098EE00FCA414 /* AlarmListViewController.swift */; };
 		2E43CABC2B7098FD00FCA414 /* AlarmListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CABB2B7098FD00FCA414 /* AlarmListViewModel.swift */; };
 		2E43CABE2B70991900FCA414 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CABD2B70991900FCA414 /* Stopwatch.swift */; };
 		2E43CAC02B70992100FCA414 /* StopwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CABF2B70992100FCA414 /* StopwatchView.swift */; };
@@ -28,6 +28,11 @@
 		2E43CAD22B7099A300FCA414 /* SleepWakeAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAD12B7099A300FCA414 /* SleepWakeAlarmView.swift */; };
 		2E43CAD42B7099B800FCA414 /* SleepWakeAlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAD32B7099B800FCA414 /* SleepWakeAlarmViewModel.swift */; };
 		2E43CAE12B7257E000FCA414 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE02B7257E000FCA414 /* CustomTabBarController.swift */; };
+		2E43CAE32B7341D000FCA414 /* AlarmSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE22B7341D000FCA414 /* AlarmSound.swift */; };
+		2E43CAE52B7341DC00FCA414 /* AlarmDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE42B7341DC00FCA414 /* AlarmDetailViewController.swift */; };
+		2E43CAE72B7341E600FCA414 /* AlarmSoundPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */; };
+		2E43CAE92B7341F500FCA414 /* AlarmDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */; };
+		2E43CAEB2B73420000FCA414 /* AlarmSoundPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */; };
 		97C441F104D09081FBE9EEA8 /* Pods_AlarmButler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1BD13C16ABBD4E5267BF49 /* Pods_AlarmButler.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +45,7 @@
 		2E43CA772B70926100FCA414 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E43CA792B70926100FCA414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E43CAB72B7098E200FCA414 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
-		2E43CAB92B7098EE00FCA414 /* AlarmListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListView.swift; sourceTree = "<group>"; };
+		2E43CAB92B7098EE00FCA414 /* AlarmListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListViewController.swift; sourceTree = "<group>"; };
 		2E43CABB2B7098FD00FCA414 /* AlarmListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListViewModel.swift; sourceTree = "<group>"; };
 		2E43CABD2B70991900FCA414 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		2E43CABF2B70992100FCA414 /* StopwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchView.swift; sourceTree = "<group>"; };
@@ -55,6 +60,11 @@
 		2E43CAD12B7099A300FCA414 /* SleepWakeAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmView.swift; sourceTree = "<group>"; };
 		2E43CAD32B7099B800FCA414 /* SleepWakeAlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmViewModel.swift; sourceTree = "<group>"; };
 		2E43CAE02B7257E000FCA414 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		2E43CAE22B7341D000FCA414 /* AlarmSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSound.swift; sourceTree = "<group>"; };
+		2E43CAE42B7341DC00FCA414 /* AlarmDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmDetailViewController.swift; sourceTree = "<group>"; };
+		2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundPickerViewController.swift; sourceTree = "<group>"; };
+		2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmDetailViewModel.swift; sourceTree = "<group>"; };
+		2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundPickerViewModel.swift; sourceTree = "<group>"; };
 		7AEFC77EA2F9C726F43F84E7 /* Pods-AlarmButler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmButler.release.xcconfig"; path = "Target Support Files/Pods-AlarmButler/Pods-AlarmButler.release.xcconfig"; sourceTree = "<group>"; };
 		AD1BD13C16ABBD4E5267BF49 /* Pods_AlarmButler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlarmButler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA5F46919E172A966BE5865 /* Pods-AlarmButler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmButler.debug.xcconfig"; path = "Target Support Files/Pods-AlarmButler/Pods-AlarmButler.debug.xcconfig"; sourceTree = "<group>"; };
@@ -187,6 +197,8 @@
 			isa = PBXGroup;
 			children = (
 				2E43CABB2B7098FD00FCA414 /* AlarmListViewModel.swift */,
+				2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */,
+				2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -194,7 +206,9 @@
 		2E43CAA22B70962600FCA414 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2E43CAB92B7098EE00FCA414 /* AlarmListView.swift */,
+				2E43CAB92B7098EE00FCA414 /* AlarmListViewController.swift */,
+				2E43CAE42B7341DC00FCA414 /* AlarmDetailViewController.swift */,
+				2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -203,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				2E43CAB72B7098E200FCA414 /* Alarm.swift */,
+				2E43CAE22B7341D000FCA414 /* AlarmSound.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -426,14 +441,19 @@
 				2E43CACA2B70997700FCA414 /* WorldClock.swift in Sources */,
 				2E43CAD22B7099A300FCA414 /* SleepWakeAlarmView.swift in Sources */,
 				2E43CAC82B70996700FCA414 /* TimerViewModel.swift in Sources */,
-				2E43CABA2B7098EE00FCA414 /* AlarmListView.swift in Sources */,
+				2E43CAE92B7341F500FCA414 /* AlarmDetailViewModel.swift in Sources */,
+				2E43CABA2B7098EE00FCA414 /* AlarmListViewController.swift in Sources */,
+				2E43CAEB2B73420000FCA414 /* AlarmSoundPickerViewModel.swift in Sources */,
+				2E43CAE32B7341D000FCA414 /* AlarmSound.swift in Sources */,
 				2E43CAB82B7098E200FCA414 /* Alarm.swift in Sources */,
 				2E43CAD42B7099B800FCA414 /* SleepWakeAlarmViewModel.swift in Sources */,
 				2E43CABC2B7098FD00FCA414 /* AlarmListViewModel.swift in Sources */,
 				2E43CAC62B70995200FCA414 /* TimerView.swift in Sources */,
+				2E43CAE52B7341DC00FCA414 /* AlarmDetailViewController.swift in Sources */,
 				2E43CA6B2B70925F00FCA414 /* SceneDelegate.swift in Sources */,
 				2E43CA732B70925F00FCA414 /* AlarmButler.xcdatamodeld in Sources */,
 				2E43CAD02B70999C00FCA414 /* SleepWakeAlarm.swift in Sources */,
+				2E43CAE72B7341E600FCA414 /* AlarmSoundPickerViewController.swift in Sources */,
 				2E43CABE2B70991900FCA414 /* Stopwatch.swift in Sources */,
 				2E43CAC42B70994100FCA414 /* TimerModel.swift in Sources */,
 				2E43CAC02B70992100FCA414 /* StopwatchView.swift in Sources */,
