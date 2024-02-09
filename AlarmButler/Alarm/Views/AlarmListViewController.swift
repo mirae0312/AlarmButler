@@ -20,8 +20,8 @@ class AlarmListViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupCustomNavigationBar()
-        viewModel.fetchAlarms() // 알람 데이터 불러오기
-        setupTableView()
+        //viewModel.fetchAlarms() // 알람 데이터 불러오기
+        //setupTableView()
     }
 
     // 네비게이션 바 설정
@@ -39,6 +39,7 @@ class AlarmListViewController: UIViewController {
         // 타이틀 레이블 설정
         titleLabel = UILabel()
         titleLabel.text = "알람"
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         customNavigationBar.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { make in
@@ -71,14 +72,11 @@ class AlarmListViewController: UIViewController {
     // 새 알람 추가 액션
     @objc private func addAlarm() {
         let detailVC = AlarmDetailViewController()
-        
-        // 부모 뷰 컨트롤러의 컨텍스트 내에서 모달로 표시되도록 설정합니다.
+        // 부모 뷰 컨트롤러의 컨텍스트 내에서 모달로 표시되도록 설정
         definesPresentationContext = true
-        
-        // 모달로 표시될 뷰 컨트롤러의 modalPresentationStyle을 automatic으로 설정합니다.
+        // 모달로 표시될 뷰 컨트롤러의 modalPresentationStyle을 automatic으로 설정
         detailVC.modalPresentationStyle = .automatic
-        
-        // AlarmDetailViewController를 모달로 표시.
+        // AlarmDetailViewController를 모달로 표시
         present(detailVC, animated: true, completion: nil)
     }
 
@@ -93,45 +91,45 @@ class AlarmListViewController: UIViewController {
     // 테이블뷰 설정과 SnapKit을 사용한 레이아웃 정의
     private func setupTableView() {
         tableView = UITableView()
-        view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
-        tableView.backgroundColor = UIColor.lightGray
-
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(customNavigationBar.snp.bottom) // 커스텀 네비게이션 바의 하단에 맞춤
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide) // 뷰의 하단 안전 영역에 맞춤
-        }
+//        view.addSubview(tableView)
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
+//        tableView.backgroundColor = UIColor.lightGray
+//
+//        tableView.snp.makeConstraints { make in
+//            make.top.equalTo(customNavigationBar.snp.bottom) // 커스텀 네비게이션 바의 하단에 맞춤
+//            make.leading.trailing.equalToSuperview()
+//            make.bottom.equalTo(view.safeAreaLayoutGuide) // 뷰의 하단 안전 영역에 맞춤
+//        }
     }
 }
 
 // UITableViewDataSource 및 UITableViewDelegate 구현
-extension AlarmListViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.alarms.count // 알람 개수 반환
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
-        let alarm = viewModel.alarms[indexPath.row]
-        cell.textLabel?.text = "\(alarm.title ?? "") - \(alarm.time?.description ?? "")" // 알람 정보 표시
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true // 편집 가능 설정
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let alarmToDelete = viewModel.alarms[indexPath.row]
-            viewModel.deleteAlarm(alarm: alarmToDelete) // 알람 삭제
-            tableView.deleteRows(at: [indexPath], with: .automatic) // 테이블뷰에서도 삭제
-        }
-    }
-}
+//extension AlarmListViewController: UITableViewDataSource, UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return viewModel.alarms.count // 알람 개수 반환
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
+//        let alarm = viewModel.alarms[indexPath.row]
+//        cell.textLabel?.text = "\(alarm.title ?? "") - \(alarm.time?.description ?? "")" // 알람 정보 표시
+//        return cell
+//    }
+//
+//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return true // 편집 가능 설정
+//    }
+//
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            let alarmToDelete = viewModel.alarms[indexPath.row]
+//            viewModel.deleteAlarm(alarm: alarmToDelete) // 알람 삭제
+//            tableView.deleteRows(at: [indexPath], with: .automatic) // 테이블뷰에서도 삭제
+//        }
+//    }
+//}
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI

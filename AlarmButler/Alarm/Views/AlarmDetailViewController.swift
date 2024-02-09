@@ -13,22 +13,16 @@ class AlarmDetailViewController: UIViewController {
     // 네비게이션 바 관련 UI
     var customNavigationBar: UIView!
     var titleLabel: UILabel!
-    var backButton: UIButton!
-    var saveButton: UIButton!
+    var backButton, saveButton: UIButton!
     // 시간 선택 피커
     var timePicker: UIDatePicker!
     // 옵션들을 담을 컨테이너
-    var optionsContainer: UIView!
-    var repeatOptionView: UIView!
-    var labelOptionView: UIView!
-    var soundOptionView: UIView!
-    var snoozeOptionView: UIView!
-    // 레이블 옵션을 위한 텍스트 필드 및 알람 레이블
-    var labelTextField: UITextField?
-    var alarmLabel: UILabel?
+    var optionsContainer, repeatOptionView, labelOptionView, soundOptionView, snoozeOptionView: UIView!
     // 반복, 사운드의 기본 값
     var repeatOptionValue: String = "안 함"
     var soundOptionValue: String = "래디얼"
+    // 레이블 값
+    var labelTextField: UITextField?
 
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -36,19 +30,26 @@ class AlarmDetailViewController: UIViewController {
         configureUI()
     }
     
-    // UI Setup Methods
+    // MARK: - UI Setup Methods
     private func configureUI() {
-        // 배경색 설정
-        view.backgroundColor = .white
-        
-        // 네비게이션 바, 시간 선택 피커, 옵션 컨테이너 설정
-        setupCustomNavigationBar()
-        setupTimePicker()
-        setupOptionsContainer()
-        updateOptionValues()
+        setupViewBackground()       // 배경색 설정
+        setupCustomNavigationBar()  // 네비게이션 바
+        setupTimePicker()           // 시간 선택 피커
+        setupOptionsContainer()     // 옵션 컨테이너 설정
+        updateOptionValues()        // 옵션 뷰에 반복, 사운드 현재 값을 표시하는 메소드
     }
     
-    // 네비게이션 바 설정
+    // MARK: - 배경색 설정
+    private func setupViewBackground() {
+        view.backgroundColor = .white
+    }
+    
+    // TODO: 알람 저장 액션 (구현 필요)
+    @objc func saveAlarm() {
+        // 알람 저장 로직 구현
+    }
+    
+    // MARK: - 네비게이션 바 설정
     func setupCustomNavigationBar() {
         // 네비게이션 바 초기화 및 뷰에 추가
         customNavigationBar = UIView()
@@ -64,6 +65,7 @@ class AlarmDetailViewController: UIViewController {
         // 타이틀 설정
         titleLabel = UILabel()
         titleLabel.text = "알람 추가" // 타이틀 텍스트
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         customNavigationBar.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { make in
@@ -98,7 +100,7 @@ class AlarmDetailViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    // 시간 선택 피커 설정
+    // MARK: - 시간 선택 피커 설정
     func setupTimePicker() {
         // 시간 선택 피커 초기화 및 뷰에 추가
         timePicker = UIDatePicker()
@@ -113,12 +115,7 @@ class AlarmDetailViewController: UIViewController {
         }
     }
     
-    // TODO: 알람 저장 액션 (구현 필요)
-    @objc func saveAlarm() {
-        // 알람 저장 로직 구현
-    }
-    
-    // 옵션 컨테이너 및 각 옵션 설정
+    // MARK: - 옵션 컨테이너 및 각 옵션 설정
     func setupOptionsContainer() {
         // 옵션 컨테이너 뷰 초기화 및 뷰에 추가
         optionsContainer = UIView()
@@ -150,6 +147,9 @@ class AlarmDetailViewController: UIViewController {
         
         // RepeatOptionsViewController를 모달로 띄우기 위한 탭 제스처 추가
         setupRepeatOptionViewGesture()
+        
+        // labelOptionView 텍스트필드 설정
+        setupLabelOptionView()
     }
 
     // 옵션 뷰 생성 및 설정
@@ -188,39 +188,10 @@ class AlarmDetailViewController: UIViewController {
             }
         }
         
-        // 텍스트 필드가 필요한 경우 설정
-        if hasTextField {
-            labelTextField = UITextField()
-            labelTextField?.borderStyle = .none
-            labelTextField?.font = UIFont.systemFont(ofSize: 16)
-            labelTextField?.tintColor = .orange // 커서 색상
-            labelTextField?.returnKeyType = .done
-            labelTextField?.clearButtonMode = .whileEditing
-            labelTextField?.delegate = self
-
-            optionView.addSubview(labelTextField!)
-            labelTextField?.snp.makeConstraints { make in
-                make.right.equalToSuperview().offset(-15)
-                make.centerY.equalToSuperview()
-            }
-            
-            // 알람 레이블 설정
-            alarmLabel = UILabel()
-            alarmLabel?.text = "알람"
-            alarmLabel?.textColor = .lightGray
-            optionView.addSubview(alarmLabel!)
-            alarmLabel?.snp.makeConstraints { make in
-                make.right.equalTo(labelTextField!.snp.left).offset(3)
-                make.centerY.equalTo(labelTextField!.snp.centerY)
-            }
-            
-            // 텍스트 변경 감지
-            labelTextField?.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        }
-        
         // 스위치 옵션이 필요한 경우 설정
         if isSwitchEnabled {
             let optionSwitch = UISwitch()
+            optionSwitch.isOn = true // 디폴트 활성화 상태
             optionView.addSubview(optionSwitch)
             optionSwitch.snp.makeConstraints { make in
                 make.right.equalToSuperview().inset(17)
@@ -240,7 +211,7 @@ class AlarmDetailViewController: UIViewController {
         return optionView
     }
     
-    // 옵션 뷰에 반복, 사운드 현재 값을 표시하는 메소드
+    // MARK: - 옵션 뷰에 반복, 사운드 현재 값을 표시하는 메소드
     private func updateOptionValues() {
         // '반복' 옵션 뷰에 현재 값을 업데이트
         if let repeatLabel = repeatOptionView.subviews.compactMap({ $0 as? UILabel }).first(where: { $0.tag == 101 }) {
@@ -251,26 +222,6 @@ class AlarmDetailViewController: UIViewController {
         if let soundLabel = soundOptionView.subviews.compactMap({ $0 as? UILabel }).first(where: { $0.tag == 102 }) {
             soundLabel.text = "\(soundOptionValue) ⟩"
         }
-    }
-
-    // 텍스트 필드 변경 감지 및 처리
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        // 텍스트 필드의 내용에 따라 알람 레이블 가시성 및 정렬 조정
-        alarmLabel?.isHidden = !(textField.text?.isEmpty ?? true)
-        textField.textAlignment = textField.text?.isEmpty ?? true ? .right : .left
-        
-        // 텍스트 필드가 비어있으면 알람 레이블을 오른쪽으로 이동
-        alarmLabel?.snp.remakeConstraints { make in
-            if textField.text?.isEmpty ?? true {
-                make.right.equalTo(labelOptionView.snp.right).offset(-15)
-            } else {
-                make.right.equalTo(textField.snp.left).offset(-2)
-            }
-            make.centerY.equalToSuperview()
-        }
-        
-        // 레이아웃 즉시 업데이트
-        self.view.layoutIfNeeded()
     }
 
     // 옵션 뷰 탭 시 처리
@@ -284,13 +235,6 @@ class AlarmDetailViewController: UIViewController {
             UIView.animate(withDuration: 0.5) {
                 tappedView.backgroundColor = .clear
             }
-        }
-        
-        // 레이블 옵션 뷰를 탭한 경우 텍스트 필드에 포커스
-        if tappedView === labelOptionView {
-            labelTextField?.becomeFirstResponder()
-        } else {
-            labelTextField?.resignFirstResponder()
         }
     }
 
@@ -315,27 +259,99 @@ class AlarmDetailViewController: UIViewController {
         }
     }
 }
-
-// UITextFieldDelegate 프로토콜 구현
+// MARK: - UITextField 관련 설정
 extension AlarmDetailViewController: UITextFieldDelegate {
-    // 리턴 키를 누르면 키보드 숨기기
+
+    func setupLabelOptionView() {
+        labelOptionView.isUserInteractionEnabled = true // 사용자 상호작용 활성화
+        optionsContainer.addSubview(labelOptionView)
+        
+        labelOptionView.snp.makeConstraints { make in
+            // labelOptionView의 레이아웃 설정...
+        }
+
+        // 텍스트 필드 초기화 및 설정
+        labelTextField = UITextField()
+        configureTextField(labelTextField)
+
+        labelOptionView.addSubview(labelTextField!)
+        labelTextField?.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(30) // 'x' 버튼 공간 확보를 위해 오른쪽 여백 증가
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(15) // 왼쪽 여백 설정, 텍스트 필드가 레이블 텍스트를 침범하지 않도록 조정
+        }
+
+        // UITapGestureRecognizer 추가
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelOptionViewTapped))
+        labelOptionView.addGestureRecognizer(tapGesture)
+    }
+
+    func configureTextField(_ textField: UITextField?) {
+        textField?.borderStyle = .none
+        textField?.textAlignment = .right
+        textField?.tintColor = .orange
+        textField?.clearButtonMode = .whileEditing
+        textField?.returnKeyType = .done
+        textField?.delegate = self
+        textField?.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+
+    @objc func labelOptionViewTapped(_ sender: UITapGestureRecognizer) {
+        labelTextField?.becomeFirstResponder()
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // 텍스트 필드 편집 시작 시 필요한 동작 구현
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // 텍스트 필드 편집 종료 시 필요한 동작 구현
+        textField.snp.updateConstraints { make in
+            make.right.equalToSuperview().inset(10) // 'x' 버튼이 사라진 후 오른쪽 여백 조정
+        }
+        if textField.text?.isEmpty ?? true {
+            // 텍스트가 없을 경우 커서 사라짐 처리
+        }
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        // 텍스트 필드의 내용이 변경될 때 호출되는 메소드
+        if textField.text?.isEmpty ?? true {
+            // 텍스트가 없는 경우 처리
+            textField.snp.updateConstraints { make in
+                make.right.equalToSuperview().inset(30) // 'x' 버튼 공간 확보를 위해 오른쪽 여백 증가
+            }
+        } else {
+            // 텍스트가 있는 경우 처리
+            textField.snp.updateConstraints { make in
+                make.right.equalToSuperview().inset(10) // 'x' 버튼이 사라진 후 오른쪽 여백 조정
+            }
+        }
+    }
 }
 
-// RepeatOptionsViewController를 모달로 표시하는 메서드.
+// MARK: - RepeatOptionsViewController를 모달로 표시하는 메서드
 extension AlarmDetailViewController {
     @objc func repeatOptionViewTapped(_ sender: UITapGestureRecognizer) {
         let repeatOptionsVC = RepeatOptionsViewController()
+                
+        // 이미 선택된 옵션들을 RepeatOptionsViewController에 전달
+        repeatOptionsVC.selectedOptions = getSelectedDaysFromOptionValue(repeatOptionValue)
         
-        // 화면을 전체적으로 채우도록 모달 프레젠테이션 스타일을 설정
-        //repeatOptionsVC.modalPresentationStyle = .fullScreen
+        // 선택된 옵션을 받아오는 클로저 설정
+        repeatOptionsVC.onOptionsSelected = { [weak self] selectedOptions in
+            // 여기에서 선택된 옵션을 처리
+            self?.handleSelectedRepeatOptions(selectedOptions)
+        }
 
         // 전환 애니메이션 설정 (오른쪽 > 왼쪽으로 이동)
         let transition = CATransition()
-        transition.duration = 0.3 // 애니메이션 지속 시간 설정
+        transition.duration = 0.4 // 애니메이션 지속 시간 설정
         transition.type = CATransitionType.push // 푸시 형태의 전환
         transition.subtype = CATransitionSubtype.fromRight // 오른쪽에서 왼쪽으로 전환
         self.view.window!.layer.add(transition, forKey: kCATransition)
@@ -344,34 +360,93 @@ extension AlarmDetailViewController {
         self.present(repeatOptionsVC, animated: false, completion: nil)
     }
     
+    // 선택한 요일에 따라 문자열을 반환하는 함수
+    func getRepeatOptionString(for selectedDays: Set<String>) -> String {
+        let allDays = ["일요일마다", "월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다"]
+        
+        if selectedDays.isEmpty {
+            return "안 함"
+        }
+
+        let orderedSelectedDays = allDays.filter { selectedDays.contains($0) }
+        
+        switch orderedSelectedDays.count {
+        case 7:
+            return "매일"
+        case 5 where selectedDays.isSuperset(of: allDays[1...5]):
+            return "주중"
+        case 2 where selectedDays.isSuperset(of: [allDays.first!, allDays.last!]):
+            return "주말"
+        case 1:
+            return orderedSelectedDays.first!.replacingOccurrences(of: "마다", with: "")
+        default:
+            var dayNames = orderedSelectedDays.map { $0.replacingOccurrences(of: "요일마다", with: "") }
+            if dayNames.count > 1 {
+                let lastDayName = dayNames.removeLast()
+                return "\(dayNames.joined(separator: ", ")) 및 \(lastDayName)"
+            } else {
+                return dayNames.first ?? ""
+            }
+        }
+    }
+    
+    // RepeatOptionsViewController로부터 받은 선택된 옵션을 처리하는 메서드
+    func handleSelectedRepeatOptions(_ selectedOptions: Set<String>) {
+        // 사용자가 선택한 요일에 따라 문자열을 가져옴
+        let repeatText = getRepeatOptionString(for: selectedOptions)
+        
+        // '반복' 옵션 값 업데이트
+        self.repeatOptionValue = repeatText
+        
+        // UI 업데이트
+        if let repeatLabel = repeatOptionView.subviews.compactMap({ $0 as? UILabel }).first(where: { $0.tag == 101 }) {
+            // '반복' 옵션 라벨에 새로운 값 표시
+            repeatLabel.text = "\(repeatOptionValue) ⟩"
+        }
+    }
+    
+
     // RepeatOptionsViewController를 모달로 띄우기 위한 탭 제스처 추가
     func setupRepeatOptionViewGesture() {
+        // repeatOptionView는 사용자가 탭할 수 있는 뷰
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(repeatOptionViewTapped(_:)))
         repeatOptionView.addGestureRecognizer(tapGesture)
         repeatOptionView.isUserInteractionEnabled = true
     }
 }
 
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-// SwiftUI 뷰로 UIKit 뷰 컨트롤러를 래핑
-struct ViewControllerPreview2: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> AlarmDetailViewController {
-        return AlarmDetailViewController()
-    }
-    
-    func updateUIViewController(_ uiViewController: AlarmDetailViewController, context: Context) {
-        // 뷰 컨트롤러 업데이트가 필요할 때 사용
+extension AlarmDetailViewController {
+    // 선택된 반복 옵션 문자열로부터 Set<String>을 추출하는 메서드.
+    func getSelectedDaysFromOptionValue(_ optionValue: String) -> Set<String> {
+        let dayMap = ["일": "일요일마다", "월": "월요일마다", "화": "화요일마다", "수": "수요일마다", "목": "목요일마다", "금": "금요일마다", "토": "토요일마다"]
+        
+        var selectedDays = Set<String>()
+        
+        // "매일", "주중", "주말", "안 함"과 같은 특별한 경우를 처리
+        switch optionValue {
+        case "매일":
+            return Set(dayMap.values)
+        case "주중":
+            return Set(dayMap.values.filter { !$0.contains("토요일") && !$0.contains("일요일") })
+        case "주말":
+            return Set(dayMap.values.filter { $0.contains("토요일") || $0.contains("일요일") })
+        case "안 함":
+            return selectedDays
+        default:
+            break
+        }
+        
+        // 쉼표로 구분된 요일들을 처리
+        let components = optionValue.components(separatedBy: ", ")
+        for component in components {
+            let subcomponents = component.components(separatedBy: " 및 ")
+            for subcomponent in subcomponents {
+                if let day = dayMap[String(subcomponent.prefix(1))] {
+                    selectedDays.insert(day)
+                }
+            }
+        }
+        return selectedDays
     }
 }
 
-// SwiftUI Preview
-@available(iOS 13.0, *)
-struct ViewControllerPreview_Preview2: PreviewProvider {
-    static var previews: some View {
-        ViewControllerPreview2()
-            .edgesIgnoringSafeArea(.all) // Safe Area를 무시하고 전체 화면으로 표시하고 싶은 경우
-    }
-}
-#endif
