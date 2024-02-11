@@ -33,6 +33,19 @@
 		2E43CAE72B7341E600FCA414 /* AlarmSoundPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */; };
 		2E43CAE92B7341F500FCA414 /* AlarmDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */; };
 		2E43CAEB2B73420000FCA414 /* AlarmSoundPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */; };
+		2E43CAFD2B752B8100FCA414 /* RepeatOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAFC2B752B8100FCA414 /* RepeatOptionsViewController.swift */; };
+		2EA693CA2B789DD100BBA548 /* 로미오와 줄리엣.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693BE2B789DCB00BBA548 /* 로미오와 줄리엣.mp3 */; };
+		2EA693CB2B789DD100BBA548 /* 슈베르트 세레나데.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693BF2B789DCB00BBA548 /* 슈베르트 세레나데.mp3 */; };
+		2EA693CC2B789DD100BBA548 /* 차이코프스키 12월 크리스마스.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C02B789DCC00BBA548 /* 차이코프스키 12월 크리스마스.mp3 */; };
+		2EA693CD2B789DD100BBA548 /* 비발디 사계 여름.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C12B789DCC00BBA548 /* 비발디 사계 여름.mp3 */; };
+		2EA693CE2B789DD100BBA548 /* 차이코프스키 10월 가을.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C22B789DCD00BBA548 /* 차이코프스키 10월 가을.mp3 */; };
+		2EA693CF2B789DD100BBA548 /* 마림바.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C32B789DCE00BBA548 /* 마림바.wav */; };
+		2EA693D02B789DD100BBA548 /* 머큐리.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C42B789DCE00BBA548 /* 머큐리.wav */; };
+		2EA693D12B789DD100BBA548 /* 타란텔라 A단조.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C52B789DCF00BBA548 /* 타란텔라 A단조.mp3 */; };
+		2EA693D22B789DD100BBA548 /* 거울.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C62B789DCF00BBA548 /* 거울.mp3 */; };
+		2EA693D32B789DD100BBA548 /* 골짜기.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C72B789DD000BBA548 /* 골짜기.wav */; };
+		2EA693D42B789DD100BBA548 /* 래디얼.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C82B789DD100BBA548 /* 래디얼.wav */; };
+		2EA693D52B789DD100BBA548 /* 프로모.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C92B789DD100BBA548 /* 프로모.mp3 */; };
 		97C441F104D09081FBE9EEA8 /* Pods_AlarmButler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1BD13C16ABBD4E5267BF49 /* Pods_AlarmButler.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +78,20 @@
 		2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundPickerViewController.swift; sourceTree = "<group>"; };
 		2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmDetailViewModel.swift; sourceTree = "<group>"; };
 		2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundPickerViewModel.swift; sourceTree = "<group>"; };
+		2E43CAFC2B752B8100FCA414 /* RepeatOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatOptionsViewController.swift; sourceTree = "<group>"; };
+		2EA693A22B789BB800BBA548 /* AlarmButler copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AlarmButler copy-Info.plist"; path = "/Users/mr/workSpace/Swift/iOS/Assignment/team/AlarmButler/AlarmButler copy-Info.plist"; sourceTree = "<absolute>"; };
+		2EA693BE2B789DCB00BBA548 /* 로미오와 줄리엣.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "로미오와 줄리엣.mp3"; sourceTree = "<group>"; };
+		2EA693BF2B789DCB00BBA548 /* 슈베르트 세레나데.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "슈베르트 세레나데.mp3"; sourceTree = "<group>"; };
+		2EA693C02B789DCC00BBA548 /* 차이코프스키 12월 크리스마스.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "차이코프스키 12월 크리스마스.mp3"; sourceTree = "<group>"; };
+		2EA693C12B789DCC00BBA548 /* 비발디 사계 여름.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "비발디 사계 여름.mp3"; sourceTree = "<group>"; };
+		2EA693C22B789DCD00BBA548 /* 차이코프스키 10월 가을.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "차이코프스키 10월 가을.mp3"; sourceTree = "<group>"; };
+		2EA693C32B789DCE00BBA548 /* 마림바.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "마림바.wav"; sourceTree = "<group>"; };
+		2EA693C42B789DCE00BBA548 /* 머큐리.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "머큐리.wav"; sourceTree = "<group>"; };
+		2EA693C52B789DCF00BBA548 /* 타란텔라 A단조.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "타란텔라 A단조.mp3"; sourceTree = "<group>"; };
+		2EA693C62B789DCF00BBA548 /* 거울.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "거울.mp3"; sourceTree = "<group>"; };
+		2EA693C72B789DD000BBA548 /* 골짜기.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "골짜기.wav"; sourceTree = "<group>"; };
+		2EA693C82B789DD100BBA548 /* 래디얼.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "래디얼.wav"; sourceTree = "<group>"; };
+		2EA693C92B789DD100BBA548 /* 프로모.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "프로모.mp3"; sourceTree = "<group>"; };
 		7AEFC77EA2F9C726F43F84E7 /* Pods-AlarmButler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmButler.release.xcconfig"; path = "Target Support Files/Pods-AlarmButler/Pods-AlarmButler.release.xcconfig"; sourceTree = "<group>"; };
 		AD1BD13C16ABBD4E5267BF49 /* Pods_AlarmButler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlarmButler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA5F46919E172A966BE5865 /* Pods-AlarmButler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmButler.debug.xcconfig"; path = "Target Support Files/Pods-AlarmButler/Pods-AlarmButler.debug.xcconfig"; sourceTree = "<group>"; };
@@ -85,10 +112,12 @@
 		2E43CA5C2B70925F00FCA414 = {
 			isa = PBXGroup;
 			children = (
+				2EA693522B78984400BBA548 /* Audio */,
 				2E43CA672B70925F00FCA414 /* AlarmButler */,
 				2E43CA662B70925F00FCA414 /* Products */,
 				35090F2188E74A464AE395DD /* Pods */,
 				5460A418355EBFC70F81E43E /* Frameworks */,
+				2EA693A22B789BB800BBA548 /* AlarmButler copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +132,7 @@
 		2E43CA672B70925F00FCA414 /* AlarmButler */ = {
 			isa = PBXGroup;
 			children = (
+				2E43CAF32B74B7F000FCA414 /* AlarmSoundPicker */,
 				2E43CADF2B7257B200FCA414 /* TapBar */,
 				2E43CA962B70953F00FCA414 /* Alarm */,
 				2E43CA8A2B70940D00FCA414 /* Stopwatch */,
@@ -198,7 +228,6 @@
 			children = (
 				2E43CABB2B7098FD00FCA414 /* AlarmListViewModel.swift */,
 				2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */,
-				2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -208,7 +237,7 @@
 			children = (
 				2E43CAB92B7098EE00FCA414 /* AlarmListViewController.swift */,
 				2E43CAE42B7341DC00FCA414 /* AlarmDetailViewController.swift */,
-				2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */,
+				2E43CAFC2B752B8100FCA414 /* RepeatOptionsViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -302,6 +331,58 @@
 			path = TapBar;
 			sourceTree = "<group>";
 		};
+		2E43CAF32B74B7F000FCA414 /* AlarmSoundPicker */ = {
+			isa = PBXGroup;
+			children = (
+				2E43CAFB2B74B81E00FCA414 /* Views */,
+				2E43CAF92B74B81800FCA414 /* ViewModels */,
+			);
+			path = AlarmSoundPicker;
+			sourceTree = "<group>";
+		};
+		2E43CAF92B74B81800FCA414 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		2E43CAFB2B74B81E00FCA414 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2EA693522B78984400BBA548 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				2EA693BD2B789D2700BBA548 /* AlarmSound */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		2EA693BD2B789D2700BBA548 /* AlarmSound */ = {
+			isa = PBXGroup;
+			children = (
+				2EA693C32B789DCE00BBA548 /* 마림바.wav */,
+				2EA693C62B789DCF00BBA548 /* 거울.mp3 */,
+				2EA693C72B789DD000BBA548 /* 골짜기.wav */,
+				2EA693C82B789DD100BBA548 /* 래디얼.wav */,
+				2EA693BE2B789DCB00BBA548 /* 로미오와 줄리엣.mp3 */,
+				2EA693C42B789DCE00BBA548 /* 머큐리.wav */,
+				2EA693C12B789DCC00BBA548 /* 비발디 사계 여름.mp3 */,
+				2EA693BF2B789DCB00BBA548 /* 슈베르트 세레나데.mp3 */,
+				2EA693C22B789DCD00BBA548 /* 차이코프스키 10월 가을.mp3 */,
+				2EA693C02B789DCC00BBA548 /* 차이코프스키 12월 크리스마스.mp3 */,
+				2EA693C52B789DCF00BBA548 /* 타란텔라 A단조.mp3 */,
+				2EA693C92B789DD100BBA548 /* 프로모.mp3 */,
+			);
+			path = AlarmSound;
+			sourceTree = "<group>";
+		};
 		35090F2188E74A464AE395DD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,8 +460,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EA693CB2B789DD100BBA548 /* 슈베르트 세레나데.mp3 in Resources */,
 				2E43CA782B70926100FCA414 /* LaunchScreen.storyboard in Resources */,
+				2EA693D32B789DD100BBA548 /* 골짜기.wav in Resources */,
+				2EA693D52B789DD100BBA548 /* 프로모.mp3 in Resources */,
+				2EA693CC2B789DD100BBA548 /* 차이코프스키 12월 크리스마스.mp3 in Resources */,
+				2EA693D22B789DD100BBA548 /* 거울.mp3 in Resources */,
+				2EA693D02B789DD100BBA548 /* 머큐리.wav in Resources */,
+				2EA693CE2B789DD100BBA548 /* 차이코프스키 10월 가을.mp3 in Resources */,
+				2EA693D12B789DD100BBA548 /* 타란텔라 A단조.mp3 in Resources */,
+				2EA693D42B789DD100BBA548 /* 래디얼.wav in Resources */,
+				2EA693CA2B789DD100BBA548 /* 로미오와 줄리엣.mp3 in Resources */,
+				2EA693CD2B789DD100BBA548 /* 비발디 사계 여름.mp3 in Resources */,
 				2E43CA752B70926100FCA414 /* Assets.xcassets in Resources */,
+				2EA693CF2B789DD100BBA548 /* 마림바.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +542,7 @@
 				2E43CAD42B7099B800FCA414 /* SleepWakeAlarmViewModel.swift in Sources */,
 				2E43CABC2B7098FD00FCA414 /* AlarmListViewModel.swift in Sources */,
 				2E43CAC62B70995200FCA414 /* TimerView.swift in Sources */,
+				2E43CAFD2B752B8100FCA414 /* RepeatOptionsViewController.swift in Sources */,
 				2E43CAE52B7341DC00FCA414 /* AlarmDetailViewController.swift in Sources */,
 				2E43CA6B2B70925F00FCA414 /* SceneDelegate.swift in Sources */,
 				2E43CA732B70925F00FCA414 /* AlarmButler.xcdatamodeld in Sources */,
