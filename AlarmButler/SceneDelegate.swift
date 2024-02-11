@@ -15,11 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        //MARK: 최어진 컨트롤러 수정
-        let worldClockVC = WorldClockViewController()
-        let rootNavigationController = UINavigationController(rootViewController: worldClockVC)
-        window?.rootViewController = rootNavigationController
-        //window?.rootViewController = CustomTabBarController() // 첫 화면의 ViewController를 설정
+        window?.rootViewController = CustomTabBarController() // 첫 화면의 ViewController를 설정
         window?.makeKeyAndVisible()
     }
 
