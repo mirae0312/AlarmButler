@@ -10,7 +10,6 @@ import SnapKit
 
 class RepeatOptionsViewController: UIViewController {
     // MARK: - Properties
-    
     // 커스텀 네비게이션 바
     let customNavigationBar = UIView()
     let titleLabel = UILabel()
@@ -22,7 +21,7 @@ class RepeatOptionsViewController: UIViewController {
     
     // UI Components
     private var optionsContainer: UIView!
-    private var optionViews: [OptionView] = []
+    private var optionViews: [RepeatOptionView] = []
     
     // 반복 선택 값을 전달해주는 클로저
     var onOptionsSelected: ((Set<String>) -> Void)?
@@ -43,7 +42,6 @@ class RepeatOptionsViewController: UIViewController {
     }
     
     // MARK: - Setup Methods
-    
     // 커스텀 네비게이션 바 설정
     private func setupCustomNavigationBar() {
         // 네비게이션 바 컨테이너 뷰 생성
@@ -133,8 +131,8 @@ class RepeatOptionsViewController: UIViewController {
     }
     
     // 옵션 뷰 생성 및 설정
-    func createOptionView(title: String) -> OptionView {
-        let optionView = OptionView()
+    func createOptionView(title: String) -> RepeatOptionView {
+        let optionView = RepeatOptionView()
         optionView.title = title
         optionView.onSelect = { [weak self] selected in
             if selected {
@@ -151,8 +149,8 @@ class RepeatOptionsViewController: UIViewController {
 }
 
 
-// MARK: - OptionView
-class OptionView: UIView {
+// MARK: - RepeatOptionView
+class RepeatOptionView: UIView {
     // Properties
     var title: String? {
         didSet { titleLabel.text = title }
