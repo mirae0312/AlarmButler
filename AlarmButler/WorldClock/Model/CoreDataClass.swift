@@ -9,10 +9,10 @@ import Foundation
 import CoreData
 
 
-@objc(WorldClockEntity)
-public class WorldClockEntity: NSManagedObject {
-    @NSManaged public var date: Date?
-    @NSManaged public var index: Int64
-    @NSManaged public var region: String?
-    @NSManaged public var timeZone: String?
-}
+//@objc(WorldClockEntity)
+//public class WorldClockEntity: NSManagedObject {
+//    @NSManaged public var date: Date?
+//    @NSManaged public var index: Int64
+//    @NSManaged public var region: String?
+//    @NSManaged public var timeZone: String?
+//}
