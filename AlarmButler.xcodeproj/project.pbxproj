@@ -30,16 +30,18 @@
 		2E43CAE72B7341E600FCA414 /* AlarmSoundPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */; };
 		2E43CAE92B7341F500FCA414 /* AlarmDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */; };
 		2E43CAEB2B73420000FCA414 /* AlarmSoundPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */; };
-		6B7B04352B74D81000DEAA58 /* WorldClockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04342B74D81000DEAA58 /* WorldClockViewController.swift */; };
-		6B7B04372B74D81600DEAA58 /* WorldClockViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04362B74D81600DEAA58 /* WorldClockViewCell.swift */; };
-		6B7B04392B74D81A00DEAA58 /* TimZoneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04382B74D81A00DEAA58 /* TimZoneController.swift */; };
-		6B7B043B2B74D81F00DEAA58 /* TimeZoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B043A2B74D81F00DEAA58 /* TimeZoneTableViewCell.swift */; };
 		6B7B043D2B74F95000DEAA58 /* WorldClockNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B043C2B74F95000DEAA58 /* WorldClockNavigationController.swift */; };
 		6B7B043F2B74FA9E00DEAA58 /* ClockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B043E2B74FA9E00DEAA58 /* ClockDataManager.swift */; };
 		6B7B04412B74FF4E00DEAA58 /* WorldClockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04402B74FF4E00DEAA58 /* WorldClockManager.swift */; };
 		6B7B04432B7501F700DEAA58 /* CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04422B7501F700DEAA58 /* CoreDataClass.swift */; };
 		6B7B04452B75029F00DEAA58 /* CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04442B75029F00DEAA58 /* CoreDataProperties.swift */; };
 		6B7B04472B78BB1600DEAA58 /* FilterSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04462B78BB1600DEAA58 /* FilterSectionData.swift */; };
+		6B7B04492B7A011800DEAA58 /* TimeZoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04482B7A011800DEAA58 /* TimeZoneVC.swift */; };
+		6B7B044C2B7A031C00DEAA58 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B7B044B2B7A031C00DEAA58 /* SnapKit */; };
+		6B7B044E2B7A031C00DEAA58 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 6B7B044D2B7A031C00DEAA58 /* SnapKit-Dynamic */; };
+		6B7B04502B7A034E00DEAA58 /* TimeZoneTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B044F2B7A034E00DEAA58 /* TimeZoneTVCell.swift */; };
+		6B7B04522B7A038C00DEAA58 /* WorldClockVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04512B7A038C00DEAA58 /* WorldClockVC.swift */; };
+		6B7B04542B7A03BE00DEAA58 /* WorldClockTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04532B7A03BE00DEAA58 /* WorldClockTVCell.swift */; };
 		97C441F104D09081FBE9EEA8 /* Pods_AlarmButler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1BD13C16ABBD4E5267BF49 /* Pods_AlarmButler.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,16 +71,16 @@
 		2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundPickerViewController.swift; sourceTree = "<group>"; };
 		2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmDetailViewModel.swift; sourceTree = "<group>"; };
 		2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundPickerViewModel.swift; sourceTree = "<group>"; };
-		6B7B04342B74D81000DEAA58 /* WorldClockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorldClockViewController.swift; path = ../../../../AlarmButler/AlarmButler/WorldClock/Views/WorldClockViewController.swift; sourceTree = "<group>"; };
-		6B7B04362B74D81600DEAA58 /* WorldClockViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorldClockViewCell.swift; path = ../../../../AlarmButler/AlarmButler/WorldClock/Views/WorldClockViewCell.swift; sourceTree = "<group>"; };
-		6B7B04382B74D81A00DEAA58 /* TimZoneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimZoneController.swift; path = ../../../../AlarmButler/AlarmButler/WorldClock/Views/TimZoneController.swift; sourceTree = "<group>"; };
-		6B7B043A2B74D81F00DEAA58 /* TimeZoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeZoneTableViewCell.swift; path = ../../../../AlarmButler/AlarmButler/WorldClock/Views/TimeZoneTableViewCell.swift; sourceTree = "<group>"; };
 		6B7B043C2B74F95000DEAA58 /* WorldClockNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClockNavigationController.swift; sourceTree = "<group>"; };
 		6B7B043E2B74FA9E00DEAA58 /* ClockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockDataManager.swift; sourceTree = "<group>"; };
 		6B7B04402B74FF4E00DEAA58 /* WorldClockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClockManager.swift; sourceTree = "<group>"; };
 		6B7B04422B7501F700DEAA58 /* CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataClass.swift; sourceTree = "<group>"; };
 		6B7B04442B75029F00DEAA58 /* CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataProperties.swift; sourceTree = "<group>"; };
 		6B7B04462B78BB1600DEAA58 /* FilterSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSectionData.swift; sourceTree = "<group>"; };
+		6B7B04482B7A011800DEAA58 /* TimeZoneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneVC.swift; sourceTree = "<group>"; };
+		6B7B044F2B7A034E00DEAA58 /* TimeZoneTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneTVCell.swift; sourceTree = "<group>"; };
+		6B7B04512B7A038C00DEAA58 /* WorldClockVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClockVC.swift; sourceTree = "<group>"; };
+		6B7B04532B7A03BE00DEAA58 /* WorldClockTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClockTVCell.swift; sourceTree = "<group>"; };
 		7AEFC77EA2F9C726F43F84E7 /* Pods-AlarmButler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmButler.release.xcconfig"; path = "Target Support Files/Pods-AlarmButler/Pods-AlarmButler.release.xcconfig"; sourceTree = "<group>"; };
 		AD1BD13C16ABBD4E5267BF49 /* Pods_AlarmButler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlarmButler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA5F46919E172A966BE5865 /* Pods-AlarmButler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmButler.debug.xcconfig"; path = "Target Support Files/Pods-AlarmButler/Pods-AlarmButler.debug.xcconfig"; sourceTree = "<group>"; };
@@ -90,6 +92,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C441F104D09081FBE9EEA8 /* Pods_AlarmButler.framework in Frameworks */,
+				6B7B044C2B7A031C00DEAA58 /* SnapKit in Frameworks */,
+				6B7B044E2B7A031C00DEAA58 /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,10 +278,10 @@
 			isa = PBXGroup;
 			children = (
 				6B7B043C2B74F95000DEAA58 /* WorldClockNavigationController.swift */,
-				6B7B04342B74D81000DEAA58 /* WorldClockViewController.swift */,
-				6B7B04362B74D81600DEAA58 /* WorldClockViewCell.swift */,
-				6B7B04382B74D81A00DEAA58 /* TimZoneController.swift */,
-				6B7B043A2B74D81F00DEAA58 /* TimeZoneTableViewCell.swift */,
+				6B7B04482B7A011800DEAA58 /* TimeZoneVC.swift */,
+				6B7B044F2B7A034E00DEAA58 /* TimeZoneTVCell.swift */,
+				6B7B04512B7A038C00DEAA58 /* WorldClockVC.swift */,
+				6B7B04532B7A03BE00DEAA58 /* WorldClockTVCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -358,6 +362,10 @@
 			dependencies = (
 			);
 			name = AlarmButler;
+			packageProductDependencies = (
+				6B7B044B2B7A031C00DEAA58 /* SnapKit */,
+				6B7B044D2B7A031C00DEAA58 /* SnapKit-Dynamic */,
+			);
 			productName = AlarmButler;
 			productReference = 2E43CA652B70925F00FCA414 /* AlarmButler.app */;
 			productType = "com.apple.product-type.application";
@@ -386,6 +394,9 @@
 				Base,
 			);
 			mainGroup = 2E43CA5C2B70925F00FCA414;
+			packageReferences = (
+				6B7B044A2B7A031C00DEAA58 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 2E43CA662B70925F00FCA414 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -454,10 +465,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B7B04372B74D81600DEAA58 /* WorldClockViewCell.swift in Sources */,
 				6B7B04412B74FF4E00DEAA58 /* WorldClockManager.swift in Sources */,
-				6B7B04392B74D81A00DEAA58 /* TimZoneController.swift in Sources */,
+				6B7B04492B7A011800DEAA58 /* TimeZoneVC.swift in Sources */,
 				2E43CAC22B70992E00FCA414 /* StopwatchViewModel.swift in Sources */,
+				6B7B04502B7A034E00DEAA58 /* TimeZoneTVCell.swift in Sources */,
 				2E43CAE12B7257E000FCA414 /* CustomTabBarController.swift in Sources */,
 				2E43CA692B70925F00FCA414 /* AppDelegate.swift in Sources */,
 				2E43CACA2B70997700FCA414 /* WorldClock.swift in Sources */,
@@ -470,16 +481,16 @@
 				6B7B04472B78BB1600DEAA58 /* FilterSectionData.swift in Sources */,
 				2E43CAB82B7098E200FCA414 /* Alarm.swift in Sources */,
 				2E43CAD42B7099B800FCA414 /* SleepWakeAlarmViewModel.swift in Sources */,
+				6B7B04542B7A03BE00DEAA58 /* WorldClockTVCell.swift in Sources */,
 				6B7B043D2B74F95000DEAA58 /* WorldClockNavigationController.swift in Sources */,
-				6B7B043B2B74D81F00DEAA58 /* TimeZoneTableViewCell.swift in Sources */,
 				6B7B04452B75029F00DEAA58 /* CoreDataProperties.swift in Sources */,
-				6B7B04352B74D81000DEAA58 /* WorldClockViewController.swift in Sources */,
 				2E43CABC2B7098FD00FCA414 /* AlarmListViewModel.swift in Sources */,
 				2E43CAC62B70995200FCA414 /* TimerView.swift in Sources */,
 				2E43CAE52B7341DC00FCA414 /* AlarmDetailViewController.swift in Sources */,
 				2E43CA6B2B70925F00FCA414 /* SceneDelegate.swift in Sources */,
 				6B7B04432B7501F700DEAA58 /* CoreDataClass.swift in Sources */,
 				2E43CAD02B70999C00FCA414 /* SleepWakeAlarm.swift in Sources */,
+				6B7B04522B7A038C00DEAA58 /* WorldClockVC.swift in Sources */,
 				6B7B043F2B74FA9E00DEAA58 /* ClockDataManager.swift in Sources */,
 				2E43CAE72B7341E600FCA414 /* AlarmSoundPickerViewController.swift in Sources */,
 				2E43CABE2B70991900FCA414 /* Stopwatch.swift in Sources */,
@@ -701,6 +712,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6B7B044A2B7A031C00DEAA58 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6B7B044B2B7A031C00DEAA58 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B7B044A2B7A031C00DEAA58 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		6B7B044D2B7A031C00DEAA58 /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B7B044A2B7A031C00DEAA58 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2E43CA5D2B70925F00FCA414 /* Project object */;
 }

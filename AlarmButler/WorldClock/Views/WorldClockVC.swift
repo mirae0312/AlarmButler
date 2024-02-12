@@ -1,8 +1,8 @@
 //
-//  WorldClockModel.swift
+//  WorldClockVC.swift
 //  AlarmButler
 //
-//  Created by mirae on 2/5/24.
+//  Created by t2023-m0099 on 2/12/24.
 //
 
 import Foundation
@@ -11,9 +11,13 @@ import SnapKit
 
 
 class WorldClockViewController: UIViewController {
+    
+    //    let clockDataManager = WorldClockManager.shared
+    //    var colckData: [WorldClockEntity]{
+    //
+    //    }
     //슬라이드로 셀 삭제
     //셀이 비었으면 "비었습니다" label
-    
     
     private lazy var tableView = {
         let tableView = UITableView()
@@ -27,11 +31,11 @@ class WorldClockViewController: UIViewController {
         
         return worldLabel
     }()
-
+    //타임존 진입 버튼
     private lazy var plusButton: UIBarButtonItem = {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tappedButton))
         plusButton.tintColor = .systemOrange
-        
+        navigationItem.rightBarButtonItem = plusButton
         return plusButton
     }()
     
@@ -41,7 +45,6 @@ class WorldClockViewController: UIViewController {
         view.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
-        navigationItem.rightBarButtonItem = plusButton
         
         addSubView()
         autoLayout()
@@ -49,7 +52,7 @@ class WorldClockViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         navigationItem.rightBarButtonItem = plusButton
     }
 }
@@ -60,7 +63,7 @@ extension WorldClockViewController {
         view.addSubview(worldLabel)
         
     }
-
+    
     private func autoLayout(){
         tableView.snp.makeConstraints { make in
             make.top.equalTo(worldLabel.snp.bottom)
@@ -70,7 +73,7 @@ extension WorldClockViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalTo(22)
         }
-
+        
     }
 }
 

@@ -15,6 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
+
         window?.rootViewController = CustomTabBarController() // 첫 화면의 ViewController를 설정
         window?.makeKeyAndVisible()
     }

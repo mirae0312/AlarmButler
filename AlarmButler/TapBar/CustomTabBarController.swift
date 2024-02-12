@@ -35,7 +35,7 @@ class CustomTabBarController: UITabBarController {
     func setupTabBar() {
         // 각 탭에 대한 뷰 컨트롤러 생성
         // TODO: (추후 각자 View명 보고 수정 필!)
-        let worldClockVC = AlarmListViewController()
+        let worldClockVC = WorldClockViewController()
         worldClockVC.tabBarItem = UITabBarItem(title: "세계시간", image: UIImage(named: "worldClockIcon"), tag: 0)
         
         let alarmVC = AlarmListViewController() // 알람 뷰 컨트롤러
