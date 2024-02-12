@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class TimeZoneTableViewCell: UITableViewCell {
     
@@ -31,3 +32,4 @@ class TimeZoneTableViewCell: UITableViewCell {
     }
     
 }
+
