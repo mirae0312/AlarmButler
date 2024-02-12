@@ -42,6 +42,8 @@
 		2EA693D42B789DD100BBA548 /* 래디얼.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C82B789DD100BBA548 /* 래디얼.wav */; };
 		2EA693D52B789DD100BBA548 /* 프로모.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2EA693C92B789DD100BBA548 /* 프로모.mp3 */; };
 		2EA693DA2B79951F00BBA548 /* TimerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA693D92B79951F00BBA548 /* TimerRecord.swift */; };
+		2EA693DD2B79B85900BBA548 /* AlarmButler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2EA693DB2B79B85900BBA548 /* AlarmButler.xcdatamodeld */; };
+		2EA693E22B79FB0400BBA548 /* AlarmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA693E12B79FB0400BBA548 /* AlarmListTableViewCell.swift */; };
 		6B7B04352B74D81000DEAA58 /* WorldClockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04342B74D81000DEAA58 /* WorldClockViewController.swift */; };
 		6B7B04372B74D81600DEAA58 /* WorldClockViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04362B74D81600DEAA58 /* WorldClockViewCell.swift */; };
 		6B7B04392B74D81A00DEAA58 /* TimZoneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04382B74D81A00DEAA58 /* TimZoneController.swift */; };
@@ -93,6 +95,8 @@
 		2EA693C82B789DD100BBA548 /* 래디얼.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "래디얼.wav"; sourceTree = "<group>"; };
 		2EA693C92B789DD100BBA548 /* 프로모.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "프로모.mp3"; sourceTree = "<group>"; };
 		2EA693D92B79951F00BBA548 /* TimerRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerRecord.swift; sourceTree = "<group>"; };
+		2EA693DC2B79B85900BBA548 /* AlarmButler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmButler.xcdatamodel; sourceTree = "<group>"; };
+		2EA693E12B79FB0400BBA548 /* AlarmListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListTableViewCell.swift; sourceTree = "<group>"; };
 		6B7B04342B74D81000DEAA58 /* WorldClockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorldClockViewController.swift; path = ../../../../AlarmButler/AlarmButler/WorldClock/Views/WorldClockViewController.swift; sourceTree = "<group>"; };
 		6B7B04362B74D81600DEAA58 /* WorldClockViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorldClockViewCell.swift; path = ../../../../AlarmButler/AlarmButler/WorldClock/Views/WorldClockViewCell.swift; sourceTree = "<group>"; };
 		6B7B04382B74D81A00DEAA58 /* TimZoneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimZoneController.swift; path = ../../../../AlarmButler/AlarmButler/WorldClock/Views/TimZoneController.swift; sourceTree = "<group>"; };
@@ -154,6 +158,7 @@
 				2E43CA742B70926100FCA414 /* Assets.xcassets */,
 				2E43CA762B70926100FCA414 /* LaunchScreen.storyboard */,
 				2E43CA792B70926100FCA414 /* Info.plist */,
+				2EA693DB2B79B85900BBA548 /* AlarmButler.xcdatamodeld */,
 			);
 			path = AlarmButler;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				2E43CAB92B7098EE00FCA414 /* AlarmListViewController.swift */,
 				2E43CAE42B7341DC00FCA414 /* AlarmDetailViewController.swift */,
 				2E43CAFC2B752B8100FCA414 /* RepeatOptionsViewController.swift */,
+				2EA693E12B79FB0400BBA548 /* AlarmListTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -553,6 +559,8 @@
 				2E43CAE92B7341F500FCA414 /* AlarmDetailViewModel.swift in Sources */,
 				2E43CABA2B7098EE00FCA414 /* AlarmListViewController.swift in Sources */,
 				2E43CAEB2B73420000FCA414 /* AlarmSoundPickerViewModel.swift in Sources */,
+				2EA693E22B79FB0400BBA548 /* AlarmListTableViewCell.swift in Sources */,
+				2EA693DD2B79B85900BBA548 /* AlarmButler.xcdatamodeld in Sources */,
 				2E43CAE32B7341D000FCA414 /* AlarmSound.swift in Sources */,
 				6B7B04472B78BB1600DEAA58 /* FilterSectionData.swift in Sources */,
 				2E43CAB82B7098E200FCA414 /* Alarm.swift in Sources */,
@@ -789,6 +797,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2EA693DB2B79B85900BBA548 /* AlarmButler.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2EA693DC2B79B85900BBA548 /* AlarmButler.xcdatamodel */,
+			);
+			currentVersion = 2EA693DC2B79B85900BBA548 /* AlarmButler.xcdatamodel */;
+			path = AlarmButler.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2E43CA5D2B70925F00FCA414 /* Project object */;
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import CoreData
 
 class AlarmDetailViewController: UIViewController {
     // MARK: - UI 컴포넌트 정의
@@ -23,11 +24,16 @@ class AlarmDetailViewController: UIViewController {
     var soundOptionValue: String = "거울"
     // 레이블 값
     var labelTextField: UITextField?
+    // ViewModel 인스턴스
+    var viewModel: AlarmDetailViewModel!
+    // 저장 성공 후 작동할 클로저
+    var onSave: (() -> Void)?
 
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        initializeViewModel() // ViewModel 초기화
     }
     
     // MARK: - UI Setup Methods
@@ -42,11 +48,27 @@ class AlarmDetailViewController: UIViewController {
     // MARK: - 배경색 설정
     private func setupViewBackground() {
         view.backgroundColor = .white
+        
     }
     
-    // TODO: 알람 저장 액션 (구현 필요)
+    // MARK: - 알람 저장 액션
     @objc func saveAlarm() {
-        // 알람 저장 로직 구현
+        viewModel.title = (labelTextField?.text)!
+        viewModel.time = timePicker.date
+        viewModel.sound = soundOptionValue
+        viewModel.isEnabled = (snoozeOptionView as? UISwitch)?.isOn ?? true
+        viewModel.repeatDays = repeatOptionValue != "안 함" ? getSelectedDaysFromOptionValue(repeatOptionValue) : Set<String>()
+        
+        viewModel.saveAlarm()
+        onSave?() // 저장 성공 후 Closure 호출
+        dismissViewController() // 모달 닫기
+    }
+    
+    // ViewModel 초기화 메소드
+    private func initializeViewModel() {
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+            viewModel = AlarmDetailViewModel(context: context)
+        }
     }
     
     // MARK: - 네비게이션 바 설정
@@ -86,7 +108,7 @@ class AlarmDetailViewController: UIViewController {
         // 저장 버튼 설정 및 액션 추가
         saveButton = UIButton(type: .system)
         saveButton.setTitle("저장", for: .normal)
-        saveButton.addTarget(self, action: #selector(dismissViewController), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(saveAlarm), for: .touchUpInside)
         customNavigationBar.addSubview(saveButton)
         
         saveButton.snp.makeConstraints { make in
@@ -147,7 +169,7 @@ class AlarmDetailViewController: UIViewController {
         repeatOptionView.addGestureRecognizer(repeatTapGesture)
         
         // '레이블' 옵션 뷰에 탭 제스처를 추가
-        let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(labelOptionViewTapped))
+        let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(optionViewTapped))
         labelOptionView.addGestureRecognizer(labelTapGesture)
         
         // '사운드' 옵션 뷰에 탭 제스처를 추가
@@ -203,16 +225,18 @@ class AlarmDetailViewController: UIViewController {
                 make.centerY.equalToSuperview()
             }
             
-            // 텍스트 필드 추가
             let textField = UITextField()
             textField.borderStyle = .none
             textField.returnKeyType = .done
             textField.tintColor = .orange
             textField.textColor = .systemGray
             textField.delegate = self
-            textField.alpha = 0 // 초기에는 텍스트 필드를 숨김 (투명도 0)
-            textField.tag = 104 // 텍스트 필드 구분을 위한 태그
-            textField.clearButtonMode = .whileEditing // x버튼
+            // 텍스트 필드의 초기 알파 값을 1로 설정
+            textField.alpha = 1
+            textField.tag = 104
+            textField.clearButtonMode = .whileEditing
+            // labelTextField 속성에 할당
+            self.labelTextField = textField
             optionView.addSubview(textField)
             
             textField.snp.makeConstraints { make in
@@ -275,7 +299,7 @@ class AlarmDetailViewController: UIViewController {
                 }
                 // '레이블' 옵션 뷰가 탭된 경우
                 else if tappedView == self?.labelOptionView {
-                    self?.labelTextField?.becomeFirstResponder()
+                    self?.labelOptionViewTapped()
                 }
                 // '사운드' 옵션 뷰가 탭된 경우
                 else if tappedView == self?.soundOptionView {
@@ -372,6 +396,9 @@ extension AlarmDetailViewController: UITextFieldDelegate {
         return true
     }
 
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 // MARK: - 반복 RepeatOptionsViewController 관련 메서드
