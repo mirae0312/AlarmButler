@@ -6,5 +6,15 @@
 //
 
 import Foundation
+import CoreData
 
-//git test
+@objc(TimerRecord)
+public class TimerRecord: NSManagedObject {
+    @NSManaged public var id: UUID
+    @NSManaged public var duration: Int32
+    @NSManaged public var startTime: Date?
+    @NSManaged public var endTime: Date?
+    @NSManaged public var label: String
+    @NSManaged public var isActive: Bool
+    @NSManaged public var ringTone: String
+}

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2BCBCE7E2B79B47000D56EAF /* TimerRingtoneSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBCE7D2B79B47000D56EAF /* TimerRingtoneSelectViewController.swift */; };
+		2BCBCE802B79B49200D56EAF /* TimerLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBCE7F2B79B49200D56EAF /* TimerLabelTableViewCell.swift */; };
+		2BCBCE822B79B4AC00D56EAF /* TimerRingtoneSelectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBCE812B79B4AC00D56EAF /* TimerRingtoneSelectTableViewCell.swift */; };
+		2BCBCE842B79B4D400D56EAF /* TimerRecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBCE832B79B4D400D56EAF /* TimerRecordManager.swift */; };
+		2BCBCE862B79B4ED00D56EAF /* TimerSoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBCE852B79B4ED00D56EAF /* TimerSoundPlayer.swift */; };
+		2BCBCE882B79E15B00D56EAF /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBCE872B79E15B00D56EAF /* CircularProgressView.swift */; };
 		2E43CA692B70925F00FCA414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA682B70925F00FCA414 /* AppDelegate.swift */; };
 		2E43CA6B2B70925F00FCA414 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA6A2B70925F00FCA414 /* SceneDelegate.swift */; };
 		2E43CA732B70925F00FCA414 /* AlarmButler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA712B70925F00FCA414 /* AlarmButler.xcdatamodeld */; };
@@ -19,7 +25,7 @@
 		2E43CAC02B70992100FCA414 /* StopwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CABF2B70992100FCA414 /* StopwatchView.swift */; };
 		2E43CAC22B70992E00FCA414 /* StopwatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAC12B70992E00FCA414 /* StopwatchViewModel.swift */; };
 		2E43CAC42B70994100FCA414 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAC32B70994100FCA414 /* TimerModel.swift */; };
-		2E43CAC62B70995200FCA414 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAC52B70995200FCA414 /* TimerView.swift */; };
+		2E43CAC62B70995200FCA414 /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAC52B70995200FCA414 /* TimerViewController.swift */; };
 		2E43CAC82B70996700FCA414 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAC72B70996700FCA414 /* TimerViewModel.swift */; };
 		2E43CACA2B70997700FCA414 /* WorldClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAC92B70997700FCA414 /* WorldClock.swift */; };
 		2E43CACC2B70997F00FCA414 /* WorldClockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CACB2B70997F00FCA414 /* WorldClockModel.swift */; };
@@ -32,6 +38,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2BCBCE7D2B79B47000D56EAF /* TimerRingtoneSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRingtoneSelectViewController.swift; sourceTree = "<group>"; };
+		2BCBCE7F2B79B49200D56EAF /* TimerLabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerLabelTableViewCell.swift; sourceTree = "<group>"; };
+		2BCBCE812B79B4AC00D56EAF /* TimerRingtoneSelectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRingtoneSelectTableViewCell.swift; sourceTree = "<group>"; };
+		2BCBCE832B79B4D400D56EAF /* TimerRecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRecordManager.swift; sourceTree = "<group>"; };
+		2BCBCE852B79B4ED00D56EAF /* TimerSoundPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSoundPlayer.swift; sourceTree = "<group>"; };
+		2BCBCE872B79E15B00D56EAF /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		2E43CA652B70925F00FCA414 /* AlarmButler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlarmButler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E43CA682B70925F00FCA414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E43CA6A2B70925F00FCA414 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,7 +58,7 @@
 		2E43CABF2B70992100FCA414 /* StopwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchView.swift; sourceTree = "<group>"; };
 		2E43CAC12B70992E00FCA414 /* StopwatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchViewModel.swift; sourceTree = "<group>"; };
 		2E43CAC32B70994100FCA414 /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
-		2E43CAC52B70995200FCA414 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		2E43CAC52B70995200FCA414 /* TimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
 		2E43CAC72B70996700FCA414 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		2E43CAC92B70997700FCA414 /* WorldClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClock.swift; sourceTree = "<group>"; };
 		2E43CACB2B70997F00FCA414 /* WorldClockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClockModel.swift; sourceTree = "<group>"; };
@@ -135,6 +147,8 @@
 				2E43CAAA2B70964100FCA414 /* Model */,
 				2E43CAA82B70963C00FCA414 /* Views */,
 				2E43CAA62B70963800FCA414 /* ViewModels */,
+				2BCBCE832B79B4D400D56EAF /* TimerRecordManager.swift */,
+				2BCBCE852B79B4ED00D56EAF /* TimerSoundPlayer.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -218,7 +232,11 @@
 		2E43CAA82B70963C00FCA414 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2E43CAC52B70995200FCA414 /* TimerView.swift */,
+				2E43CAC52B70995200FCA414 /* TimerViewController.swift */,
+				2BCBCE7D2B79B47000D56EAF /* TimerRingtoneSelectViewController.swift */,
+				2BCBCE7F2B79B49200D56EAF /* TimerLabelTableViewCell.swift */,
+				2BCBCE812B79B4AC00D56EAF /* TimerRingtoneSelectTableViewCell.swift */,
+				2BCBCE872B79E15B00D56EAF /* CircularProgressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -418,25 +436,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BCBCE862B79B4ED00D56EAF /* TimerSoundPlayer.swift in Sources */,
 				2E43CAC22B70992E00FCA414 /* StopwatchViewModel.swift in Sources */,
 				2E43CACC2B70997F00FCA414 /* WorldClockModel.swift in Sources */,
 				2E43CAE12B7257E000FCA414 /* CustomTabBarController.swift in Sources */,
 				2E43CA692B70925F00FCA414 /* AppDelegate.swift in Sources */,
+				2BCBCE802B79B49200D56EAF /* TimerLabelTableViewCell.swift in Sources */,
 				2E43CACE2B70998E00FCA414 /* WorldClockViewModel.swift in Sources */,
 				2E43CACA2B70997700FCA414 /* WorldClock.swift in Sources */,
 				2E43CAD22B7099A300FCA414 /* SleepWakeAlarmView.swift in Sources */,
 				2E43CAC82B70996700FCA414 /* TimerViewModel.swift in Sources */,
+				2BCBCE7E2B79B47000D56EAF /* TimerRingtoneSelectViewController.swift in Sources */,
 				2E43CABA2B7098EE00FCA414 /* AlarmListView.swift in Sources */,
 				2E43CAB82B7098E200FCA414 /* Alarm.swift in Sources */,
 				2E43CAD42B7099B800FCA414 /* SleepWakeAlarmViewModel.swift in Sources */,
 				2E43CABC2B7098FD00FCA414 /* AlarmListViewModel.swift in Sources */,
-				2E43CAC62B70995200FCA414 /* TimerView.swift in Sources */,
+				2E43CAC62B70995200FCA414 /* TimerViewController.swift in Sources */,
 				2E43CA6B2B70925F00FCA414 /* SceneDelegate.swift in Sources */,
 				2E43CA732B70925F00FCA414 /* AlarmButler.xcdatamodeld in Sources */,
 				2E43CAD02B70999C00FCA414 /* SleepWakeAlarm.swift in Sources */,
+				2BCBCE842B79B4D400D56EAF /* TimerRecordManager.swift in Sources */,
 				2E43CABE2B70991900FCA414 /* Stopwatch.swift in Sources */,
 				2E43CAC42B70994100FCA414 /* TimerModel.swift in Sources */,
 				2E43CAC02B70992100FCA414 /* StopwatchView.swift in Sources */,
+				2BCBCE882B79E15B00D56EAF /* CircularProgressView.swift in Sources */,
+				2BCBCE822B79B4AC00D56EAF /* TimerRingtoneSelectTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
