@@ -483,6 +483,17 @@ extension AlarmDetailViewController {
     @objc func soundOptionViewTapped(_ sender: UITapGestureRecognizer) {
         let soundOptionsVC = AlarmSoundPickerViewController()
 
+        // 현재 선택된 사운드를 AlarmSoundPickerViewController에 전달
+        soundOptionsVC.selectedSoundName = soundOptionValue
+        
+        // 선택된 사운드 값을 받아서 처리할 클로저 설정
+        soundOptionsVC.onSoundSelected = { [weak self] selectedSound in
+            // 선택한 사운드 값을 AlarmDetailViewController의 soundOptionValue에 업데이트
+            self?.soundOptionValue = selectedSound ?? "거울"
+            // UI 업데이트 메서드 호출
+            self?.updateOptionValues()
+        }
+
         // 전환 애니메이션 설정 (오른쪽 > 왼쪽으로 이동)
         let transition = CATransition()
         transition.duration = 0.4 // 애니메이션 지속 시간 설정
@@ -491,6 +502,6 @@ extension AlarmDetailViewController {
         self.view.window!.layer.add(transition, forKey: kCATransition)
 
         // 다음 뷰 컨트롤러 모달로 표시
-        self.present(soundOptionsVC, animated: false, completion: nil)
+        present(soundOptionsVC, animated: false, completion: nil)
     }
 }
