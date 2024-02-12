@@ -1,8 +1,8 @@
 //
-//  AddTableViewCell.swift
+//  TimeZoneTVCell.swift
 //  AlarmButler
 //
-//  Created by t2023-m0099 on 2/8/24.
+//  Created by t2023-m0099 on 2/12/24.
 //
 
 import UIKit
@@ -23,11 +23,11 @@ class TimeZoneTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
 }
