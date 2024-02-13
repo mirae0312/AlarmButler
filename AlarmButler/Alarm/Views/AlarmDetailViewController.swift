@@ -31,7 +31,7 @@ class AlarmDetailViewController: UIViewController {
 
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad() 
         configureUI()
         initializeViewModel() // ViewModel 초기화
     }
