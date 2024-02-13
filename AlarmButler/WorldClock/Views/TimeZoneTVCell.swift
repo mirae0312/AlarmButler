@@ -12,8 +12,17 @@ class TimeZoneTableViewCell: UITableViewCell {
     
     static let identi = "AddTableViewCell"
     
+    var data: String? {
+        didSet {
+            mainLabel.text = data
+        }
+    }
+    
+    var mainLabel = UILabel()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
     }
     
     required init?(coder: NSCoder) {
