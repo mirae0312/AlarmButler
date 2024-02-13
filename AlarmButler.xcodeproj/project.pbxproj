@@ -303,7 +303,6 @@
 		2E43CAAE2B70969800FCA414 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6B7B043C2B74F95000DEAA58 /* WorldClockNavigationController.swift */,
 				6B7B04482B7A011800DEAA58 /* TimeZoneVC.swift */,
 				6B7B044F2B7A034E00DEAA58 /* TimeZoneTVCell.swift */,
 				6B7B04512B7A038C00DEAA58 /* WorldClockVC.swift */,
@@ -570,7 +569,6 @@
 				2E43CAB82B7098E200FCA414 /* Alarm.swift in Sources */,
 				2E43CAD42B7099B800FCA414 /* SleepWakeAlarmViewModel.swift in Sources */,
 				6B7B04542B7A03BE00DEAA58 /* WorldClockTVCell.swift in Sources */,
-				6B7B043D2B74F95000DEAA58 /* WorldClockNavigationController.swift in Sources */,
 				6B7B04452B75029F00DEAA58 /* CoreDataProperties.swift in Sources */,
 				2E43CABC2B7098FD00FCA414 /* AlarmListViewModel.swift in Sources */,
 				2EA693DA2B79951F00BBA548 /* TimerRecord.swift in Sources */,

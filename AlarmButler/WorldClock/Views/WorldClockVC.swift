@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import SwiftUI
 
 
 class WorldClockViewController: UIViewController {
@@ -19,61 +20,58 @@ class WorldClockViewController: UIViewController {
     //슬라이드로 셀 삭제
     //셀이 비었으면 "비었습니다" label
     
+    
     private lazy var tableView = {
         let tableView = UITableView()
         tableView.register(WorldClockViewCell.self, forCellReuseIdentifier: WorldClockViewCell.identi)
+        tableView.backgroundColor = .gray
         return tableView
     }()
-    private lazy var worldLabel = {
-        let worldLabel = UILabel()
-        worldLabel.text = "세계 시계"
-        worldLabel.font = UIFont.boldSystemFont(ofSize: 30)
-        
-        return worldLabel
-    }()
-    //타임존 진입 버튼
-    private lazy var plusButton: UIBarButtonItem = {
-        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tappedButton))
-        plusButton.tintColor = .systemOrange
-        navigationItem.rightBarButtonItem = plusButton
-        return plusButton
-    }()
     
-    
+    //네비게이션바 설정
+    let navigationBar: UINavigationBar = {
+        let navigationBar = UINavigationBar()
+        navigationBar.translatesAutoresizingMaskIntoConstraints = false
+        navigationBar.barTintColor = .white
+        return navigationBar
+    }()
+    func setUpNavigationBar() {
+        let navItem = UINavigationItem()
+
+        let rightButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tappedButton))
+        rightButton.tintColor = .systemOrange
+        navigationItem.rightBarButtonItem = rightButton
+        navItem.rightBarButtonItem = rightButton
+        navigationBar.setItems([navItem], animated: true)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
         view.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
-        
+        setUpNavigationBar()
         addSubView()
         autoLayout()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationItem.rightBarButtonItem = plusButton
-    }
 }
+
 extension WorldClockViewController {
     private func addSubView(){
-        
+        view.addSubview(navigationBar)
         view.addSubview(tableView)
-        view.addSubview(worldLabel)
-        
     }
     
     private func autoLayout(){
+        navigationBar.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(44)
+        }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(worldLabel.snp.bottom)
+            make.top.equalTo(navigationBar.snp.bottom)
             make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        worldLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.leading.equalTo(22)
-        }
-        
     }
 }
 
@@ -96,3 +94,25 @@ extension WorldClockViewController {
         self.present(VC, animated: true)
     }
 }
+
+
+struct PreView: PreviewProvider {
+  static var previews: some View {
+    UINavigationController(rootViewController: WorldClockViewController()).toPreview()
+  }
+}
+#if DEBUG
+extension UIViewController {
+  private struct Preview: UIViewControllerRepresentable {
+      let viewController: UIViewController
+      func makeUIViewController(context: Context) -> UIViewController {
+        return viewController
+      }
+      func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+      }
+    }
+    func toPreview() -> some View {
+      Preview(viewController: self)
+    }
+}
+#endif
