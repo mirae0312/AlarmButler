@@ -22,7 +22,18 @@ class TimeZoneTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        addSubview()
+        autolayout()
+    }
+    
+    private func addSubview() {
+        contentView.addSubview(mainLabel)
+    }
+    
+    private func autolayout() {
+        mainLabel.snp.makeConstraints { make in
+            make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
+        }
     }
     
     required init?(coder: NSCoder) {

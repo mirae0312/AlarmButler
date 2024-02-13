@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SwiftUI
 
 class TimZoneController: UIViewController {
     
@@ -16,6 +17,7 @@ class TimZoneController: UIViewController {
     
     var clockData: [(String, TimeZone)] = [] {
         didSet {
+            setClockDataSection()
         }
     }
     
@@ -202,4 +204,3 @@ extension TimZoneController: UISearchBarDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
-

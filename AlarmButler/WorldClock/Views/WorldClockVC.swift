@@ -13,13 +13,12 @@ import SwiftUI
 
 class WorldClockViewController: UIViewController {
     
-    //    let clockDataManager = WorldClockManager.shared
-    //    var colckData: [WorldClockEntity]{
-    //
-    //    }
-    //슬라이드로 셀 삭제
-    //셀이 비었으면 "비었습니다" label
-    
+    let clockDataManager = WorldClockManager.shared
+    var colckData: [WorldClockEntity] {
+        get {
+            return clockDataManager.getSavedWorldClock()
+        }
+    }
     
     private lazy var tableView = {
         let tableView = UITableView()
@@ -95,24 +94,3 @@ extension WorldClockViewController {
     }
 }
 
-
-struct PreView: PreviewProvider {
-  static var previews: some View {
-    UINavigationController(rootViewController: WorldClockViewController()).toPreview()
-  }
-}
-#if DEBUG
-extension UIViewController {
-  private struct Preview: UIViewControllerRepresentable {
-      let viewController: UIViewController
-      func makeUIViewController(context: Context) -> UIViewController {
-        return viewController
-      }
-      func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-      }
-    }
-    func toPreview() -> some View {
-      Preview(viewController: self)
-    }
-}
-#endif
