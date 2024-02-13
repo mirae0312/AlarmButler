@@ -41,7 +41,7 @@ class CustomTabBarController: UITabBarController {
         let alarmVC = AlarmListViewController() // 알람 뷰 컨트롤러
         alarmVC.tabBarItem = UITabBarItem(title: "알람", image: UIImage(named: "alarmIcon"), tag: 1)
         
-        let stopwatchVC = AlarmListViewController()
+        let stopwatchVC = StopwatchViewController()
         stopwatchVC.tabBarItem = UITabBarItem(title: "스톱워치", image: UIImage(named: "stopwatchIcon"), tag: 2)
         
         let timerVC = AlarmListViewController()
