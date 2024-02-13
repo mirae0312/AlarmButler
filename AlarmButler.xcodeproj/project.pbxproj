@@ -44,6 +44,7 @@
 		2EA693DA2B79951F00BBA548 /* TimerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA693D92B79951F00BBA548 /* TimerRecord.swift */; };
 		2EA693DD2B79B85900BBA548 /* AlarmButler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2EA693DB2B79B85900BBA548 /* AlarmButler.xcdatamodeld */; };
 		2EA693E22B79FB0400BBA548 /* AlarmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA693E12B79FB0400BBA548 /* AlarmListTableViewCell.swift */; };
+		6B7B043D2B74F95000DEAA58 /* WorldClockNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B043C2B74F95000DEAA58 /* WorldClockNavigationController.swift */; };
 		6B7B043F2B74FA9E00DEAA58 /* ClockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B043E2B74FA9E00DEAA58 /* ClockDataManager.swift */; };
 		6B7B04412B74FF4E00DEAA58 /* WorldClockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04402B74FF4E00DEAA58 /* WorldClockManager.swift */; };
 		6B7B04432B7501F700DEAA58 /* CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B04422B7501F700DEAA58 /* CoreDataClass.swift */; };
@@ -96,6 +97,7 @@
 		2EA693D92B79951F00BBA548 /* TimerRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerRecord.swift; sourceTree = "<group>"; };
 		2EA693DC2B79B85900BBA548 /* AlarmButler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmButler.xcdatamodel; sourceTree = "<group>"; };
 		2EA693E12B79FB0400BBA548 /* AlarmListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListTableViewCell.swift; sourceTree = "<group>"; };
+		6B7B043C2B74F95000DEAA58 /* WorldClockNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClockNavigationController.swift; sourceTree = "<group>"; };
 		6B7B043E2B74FA9E00DEAA58 /* ClockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockDataManager.swift; sourceTree = "<group>"; };
 		6B7B04402B74FF4E00DEAA58 /* WorldClockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClockManager.swift; sourceTree = "<group>"; };
 		6B7B04422B7501F700DEAA58 /* CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataClass.swift; sourceTree = "<group>"; };
