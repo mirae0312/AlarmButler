@@ -127,14 +127,15 @@ class AlarmListViewController: UIViewController {
         editButton.setTitle(buttonTitle, for: .normal)
     }
 
+    // MARK: - 테이블뷰 설정
     // 테이블뷰 설정과 SnapKit을 사용한 레이아웃 정의
     private func setupTableView() {
         tableView = UITableView()
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "AlarmCell")
-        tableView.backgroundColor = UIColor.lightGray
+        tableView.register(AlarmListTableViewCell.self, forCellReuseIdentifier: "AlarmListTableViewCell") // AlarmListTableViewCell 등록
+        tableView.backgroundColor = UIColor.white //  설정
 
         tableView.snp.makeConstraints { make in
             make.top.equalTo(customNavigationBar.snp.bottom) // 커스텀 네비게이션 바의 하단에 맞춤
@@ -145,28 +146,23 @@ class AlarmListViewController: UIViewController {
 }
 
 // UITableViewDataSource 및 UITableViewDelegate 구현
-extension AlarmListViewController: UITableViewDataSource, UITableViewDelegate {
+// UITableViewDataSource 구현
+extension AlarmListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.alarms.count // 알람 개수 반환
+        return viewModel.alarms.count // 뷰 모델의 알람 개수 반환
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmListTableViewCell", for: indexPath) as? AlarmListTableViewCell else {
+            return UITableViewCell()
+        }
         let alarm = viewModel.alarms[indexPath.row]
-        cell.textLabel?.text = "\(alarm.title ?? "") - \(alarm.time?.description ?? "")" // 알람 정보 표시
+        cell.configureWith(alarm) // 알람 데이터를 셀에 설정
         return cell
     }
-
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true // 편집 가능 설정
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let alarmToDelete = viewModel.alarms[indexPath.row]
-            viewModel.deleteAlarm(alarm: alarmToDelete) // 알람 삭제
-            tableView.deleteRows(at: [indexPath], with: .automatic) // 테이블뷰에서도 삭제
-        }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 95.0 // 셀의 높이를 100포인트로 설정
     }
 }
 
