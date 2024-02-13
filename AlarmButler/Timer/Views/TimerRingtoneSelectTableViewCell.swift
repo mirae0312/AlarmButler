@@ -6,18 +6,40 @@
 //
 
 import UIKit
+import SnapKit
 
 class TimerRingtoneSelectTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    var soundLabel = UILabel()
+    
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: "RingCell")
+        setupUI()
     }
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
     }
-
+    
+    func setupUI(){
+        self.backgroundColor = UIColor.systemGray2
+        
+        soundLabel.textColor = UIColor.label
+        
+        contentView.addSubview(soundLabel)
+        
+        soundLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().offset(-8)
+            make.left.equalToSuperview().offset(15)
+            make.right.equalToSuperview().offset(-15)
+            
+        }
+    }
 }
