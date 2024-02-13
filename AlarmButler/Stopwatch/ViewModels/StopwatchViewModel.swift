@@ -17,7 +17,6 @@ class StopwatchViewModel {
     
     weak var delegate: UpdateTimerLabelDelegate?
     
-    var lapCount = 1
     
     // 시작과 멈춤 역할 메소드
     @objc func runAndStop(completion: () -> Void) {
@@ -56,6 +55,7 @@ class StopwatchViewModel {
             lapTimer.timer = Timer.scheduledTimer(timeInterval: 0.035, target: self, selector: #selector(updateLapTimer), userInfo: nil, repeats: true)
             
             RunLoop.current.add(self.lapTimer.timer, forMode: .common)
+            
             
         case .stop:
             resetMainTimer()

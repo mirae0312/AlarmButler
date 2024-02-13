@@ -5,35 +5,60 @@
 //  Created by t2023-m0039 on 2/7/24.
 //
 
-import UIKit
+import SnapKit
 
 class StopwatchTableViewCell: UITableViewCell {
     
-    let lapLabel = UILabel()
-    let lapTimer = UILabel()
+    let lapLabel = {
+        var label = UILabel()
+        
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .black
+        return label
+    }()
+    
+    let lapTimer = {
+        var label = UILabel()
+        
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .black
+        return label
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        [lapLabel, lapTimer].forEach {
-            contentView.addSubview($0)
-        }
-        
-        lapLabel.snp.makeConstraints {
-            $0.top.leading.bottom.equalToSuperview().inset(10)
-            $0.width.height.equalTo(50)
-        }
-        
-        lapTimer.snp.makeConstraints {
-            $0.centerY.equalTo(lapLabel)
-            $0.leading.equalTo(lapLabel.snp.trailing).offset(10)
-        }
-        
+        setupCellView()
     }
     
-    required init?(coder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func setupCellView() {
+        // 셀에 컴포넌트들을 추가하고 SnapKit을 사용해 레이아웃 설정
+        contentView.addSubview(lapLabel)
+        contentView.addSubview(lapTimer)
+        
+        // SnapKit을 사용한 레이아웃 설정 예시
+        lapLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(16)
+        }
+        
+        lapTimer.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-16)
+        }
+    }
+    
+    func setUplapLabel(lapTime: String, mainTime: String) {
+        lapLabel.text = ""
+        print(lapTime)
+        lapTimer.text = mainTime
+        print(mainTime)
+    }
+    
+
     
     
 }
