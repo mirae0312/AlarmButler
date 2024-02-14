@@ -292,11 +292,11 @@
 		2E43CAAE2B70969800FCA414 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6B7B04482B7A011800DEAA58 /* TimeZoneVC.swift */,
-				6B7B044F2B7A034E00DEAA58 /* TimeZoneTVCell.swift */,
 				6B7B04512B7A038C00DEAA58 /* WorldClockVC.swift */,
 				6B7B04532B7A03BE00DEAA58 /* WorldClockTVCell.swift */,
 				6BD66C9F2B7CB1EC003B7A96 /* CustomTableViewCell.swift */,
+				6B7B04482B7A011800DEAA58 /* TimeZoneVC.swift */,
+				6B7B044F2B7A034E00DEAA58 /* TimeZoneTVCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

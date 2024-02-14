@@ -21,6 +21,8 @@ class WorldClockViewController: UIViewController {
         }
     }
     
+    
+    
     private lazy var tableView = {
         let tableView = UITableView()
         tableView.register(WorldClockViewCell.self, forCellReuseIdentifier: WorldClockViewCell.identi)
@@ -102,14 +104,39 @@ extension WorldClockViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if let _ = tableView.cellForRow(at: indexPath) as? WorldClockViewCell {
+            return false
+        }
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if(editingStyle == .delete){
+            
+            clockDataManager.removeClock(deleteTarget: colckData[indexPath.row]) {
+            tableView.reloadData()
+            }
+        }
+    }
 }
 
 extension WorldClockViewController {
     @objc private func tappedButton() {
-        let VC = TimZoneController()
+        let firstVC = WorldClockViewController()
+        let VC = TimeZoneController()
+        VC.delegate = self
         //데이터 연결, clockData는 TimZoneController가 표시되기 전에 설정
         VC.clockData = clockDataManager.getWorldClockData()
         self.present(VC, animated: true)
+        firstVC.tableView.reloadData()
     }
 }
 
+extension WorldClockViewController: TimeZoneViewControllerDelegate {
+    func didUpdateWorldClockData() {
+        // 테이블 뷰를 리로드합니다.
+        tableView.reloadData()
+    }
+}

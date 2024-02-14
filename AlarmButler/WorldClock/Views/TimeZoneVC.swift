@@ -9,7 +9,12 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-class TimZoneController: UIViewController {
+protocol TimeZoneViewControllerDelegate: AnyObject {
+    func didUpdateWorldClockData()
+}
+
+class TimeZoneController: UIViewController {
+    weak var delegate: TimeZoneViewControllerDelegate?
     
     var filteredData: [(String, TimeZone)] = []
     
@@ -100,7 +105,7 @@ class TimZoneController: UIViewController {
 
 
 
-extension TimZoneController {
+extension TimeZoneController {
     private func addSubView() {
         view.addSubview(searchBar)
         view.addSubview(addTableView)
@@ -118,7 +123,7 @@ extension TimZoneController {
 }
 
 
-extension TimZoneController: UITableViewDelegate, UITableViewDataSource {
+extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let headerView = view as? UITableViewHeaderFooterView {
             headerView.textLabel?.textColor = .lightGray
@@ -177,13 +182,18 @@ extension TimZoneController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     //셀 선택시
+    
     func tableView(_ tableView:UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        var tableView = WorldClockViewController()
         if(filteredData.count > 0) {
             worldClockManager.saveWorldClockData(newRegion: filteredData[indexPath.row].0, newTimeZone: filteredData[indexPath.row].1) {
+                self.delegate?.didUpdateWorldClockData()
                 self.dismiss(animated: true)
             }
         } else {
             worldClockManager.saveWorldClockData(newRegion: clockDataWithSection[sectionTitle[indexPath.section]]![indexPath.row], newTimeZone: timezoneDataWithSection[sectionTitle[indexPath.section]]![indexPath.row]) {
+                self.delegate?.didUpdateWorldClockData()
                 self.dismiss(animated: true)
             }
         }
@@ -191,7 +201,7 @@ extension TimZoneController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-extension TimZoneController: UISearchBarDelegate {
+extension TimeZoneController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredData = searchText.isEmpty ? clockData : clockData.filter({ tuple -> Bool in
             return tuple.0.range(of: searchText, options: [.caseInsensitive]) != nil
@@ -207,3 +217,4 @@ extension TimZoneController: UISearchBarDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
+
