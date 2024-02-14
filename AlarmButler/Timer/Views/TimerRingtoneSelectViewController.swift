@@ -14,7 +14,7 @@ class TimerRingtoneSelectViewController: UIViewController,UITableViewDelegate {
     
     var soundUpdateClosure: ((String) -> Void)?
     
-    let sounds: [String] = ["daydream", "green", "playTime", "sea", "Timer_alarm"]
+    let sounds: [String] = ["electronic","toaster", "kitchen","beeping"]
     
     var selectedSoundFromTimerViewController: String?
     
@@ -106,12 +106,7 @@ extension TimerRingtoneSelectViewController: UITableViewDataSource{
 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Update UI if needed
-
-        // 직접 sounds 배열에서 선택된 사운드의 이름을 가져옴
         let selectedSound = sounds[indexPath.row]
-
-        // Call a closure instead of using delegate method
         soundUpdateClosure?(selectedSound)
         
         // 모든 visible cells의 체크마크를 제거
@@ -131,6 +126,10 @@ extension TimerRingtoneSelectViewController: UITableViewDataSource{
 
         // 선택한 행의 선택 상태를 해제
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
 
 }

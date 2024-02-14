@@ -14,6 +14,7 @@ class TimerViewModel {
     private let manager = TimerRecordManager.shared
     
     var timerRecords: [TimerRecord] = []
+    var currentTimerId: UUID?
     var timer: Timer?
     var isOn: Bool = false
     var paused: Bool = false
@@ -25,6 +26,7 @@ class TimerViewModel {
             onTimerUpdate?(formattedTime)
         }
     }
+    var selectedRingtone: String?
     // MARK: - Closures for UI Update , 리액티브 프로그래밍 패턴
     var onTimerUpdate: ((String) -> Void)?
 
@@ -52,13 +54,18 @@ class TimerViewModel {
     
     // MARK: - Functions
     
+    func isActiveTimerExists() -> Bool {
+        return timerRecords.contains { $0.isActive }
+    }
+
     func loadTimerRecords() {
         timerRecords = manager.fetchTimerRecords()
     }
     
-    func saveTimerRecord(duration: Int, label: String, ringtone: String) {
-        guard let newRecord = manager.createTimerRecord(duration: duration, label: label, ringtone: ringtone) else { return }
+    func saveTimerRecord(duration: Int, label: String, ringTone: String, isActive: Bool) {
+        guard let newRecord = manager.createTimerRecord(duration: duration, label: label, ringTone: ringTone, isActive: isActive) else { return }
         timerRecords.append(newRecord)
+        currentTimerId = newRecord.id
     }
     
     func deleteTimerRecord(at index: Int) {
@@ -67,9 +74,10 @@ class TimerViewModel {
         timerRecords.remove(at: index)
     }
 
-    func updateTimerRecord(id: UUID, newDuration: Int?, newLabel: String?, newRingtone: String?, newIsActive: Bool?) {
-        manager.updateTimerRecord(id: id, newDuration: newDuration, newLabel: newLabel, newRingtone: newRingtone, newIsActive: newIsActive)
-        loadTimerRecords()
+    // 타이머 기록의 상태를 업데이트하는 함수
+    func updateTimerRecord(id: UUID, newIsActive: Bool? = nil) {
+        manager.updateTimerRecord(id: id, newIsActive: newIsActive)
+        loadTimerRecords() // 업데이트 후 타이머 기록을 다시 로드
     }
     
     // MARK: - Timer Management
@@ -149,7 +157,17 @@ class TimerViewModel {
         isOn = false
         paused = true
         remainingSeconds = 0
+        if let id = currentTimerId {
+            manager.updateTimerRecordIsActiveState(id: id, isActive: false)
+        }
         onTimerStateChange?(isOn, paused)
+        
+        // 타이머 종료 시 알람음 재생
+        if let ringtone = selectedRingtone, !ringtone.isEmpty {
+            playSound(fileName: ringtone)
+        }
+        
+        currentTimerId = nil
     }
     
     // 남은 시간을 계산 및 업데이트하는 로직

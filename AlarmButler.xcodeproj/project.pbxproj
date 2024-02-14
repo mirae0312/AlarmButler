@@ -19,6 +19,10 @@
 		2B5862002B7B83D4001864F3 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5861FF2B7B83D4001864F3 /* TimerViewModel.swift */; };
 		2B5862042B7B8408001864F3 /* playSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5862032B7B8408001864F3 /* playSound.swift */; };
 		2B5862062B7B852A001864F3 /* TimerRecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5862052B7B852A001864F3 /* TimerRecordManager.swift */; };
+		2B5862382B7C8B69001864F3 /* beeping.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2B5862342B7C8B69001864F3 /* beeping.wav */; };
+		2B5862392B7C8B69001864F3 /* toaster.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2B5862352B7C8B69001864F3 /* toaster.wav */; };
+		2B58623A2B7C8B69001864F3 /* electronic.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2B5862362B7C8B69001864F3 /* electronic.wav */; };
+		2B58623B2B7C8B69001864F3 /* kitchen.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2B5862372B7C8B69001864F3 /* kitchen.wav */; };
 		2E43CA692B70925F00FCA414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA682B70925F00FCA414 /* AppDelegate.swift */; };
 		2E43CA6B2B70925F00FCA414 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CA6A2B70925F00FCA414 /* SceneDelegate.swift */; };
 		2E43CA752B70926100FCA414 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E43CA742B70926100FCA414 /* Assets.xcassets */; };
@@ -77,6 +81,10 @@
 		2B5861FF2B7B83D4001864F3 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimerViewModel.swift; path = AlarmButler/Timer/Views/TimerViewModel.swift; sourceTree = SOURCE_ROOT; };
 		2B5862032B7B8408001864F3 /* playSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playSound.swift; sourceTree = "<group>"; };
 		2B5862052B7B852A001864F3 /* TimerRecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRecordManager.swift; sourceTree = "<group>"; };
+		2B5862342B7C8B69001864F3 /* beeping.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beeping.wav; sourceTree = "<group>"; };
+		2B5862352B7C8B69001864F3 /* toaster.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = toaster.wav; sourceTree = "<group>"; };
+		2B5862362B7C8B69001864F3 /* electronic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = electronic.wav; sourceTree = "<group>"; };
+		2B5862372B7C8B69001864F3 /* kitchen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = kitchen.wav; sourceTree = "<group>"; };
 		2E43CA652B70925F00FCA414 /* AlarmButler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlarmButler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E43CA682B70925F00FCA414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E43CA6A2B70925F00FCA414 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +146,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B5862072B7C8924001864F3 /* TimerSound */ = {
+			isa = PBXGroup;
+			children = (
+				2B5862342B7C8B69001864F3 /* beeping.wav */,
+				2B5862362B7C8B69001864F3 /* electronic.wav */,
+				2B5862372B7C8B69001864F3 /* kitchen.wav */,
+				2B5862352B7C8B69001864F3 /* toaster.wav */,
+			);
+			path = TimerSound;
+			sourceTree = "<group>";
+		};
 		2E43CA5C2B70925F00FCA414 = {
 			isa = PBXGroup;
 			children = (
@@ -200,11 +219,11 @@
 		2E43CA842B7093F400FCA414 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
+				2B5862052B7B852A001864F3 /* TimerRecordManager.swift */,
 				2E43CAAA2B70964100FCA414 /* Model */,
 				2E43CAA82B70963C00FCA414 /* Views */,
 				2E43CAA62B70963800FCA414 /* ViewModels */,
 				2B5862032B7B8408001864F3 /* playSound.swift */,
-				2B5862052B7B852A001864F3 /* TimerRecordManager.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -402,6 +421,7 @@
 		2EA693522B78984400BBA548 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				2B5862072B7C8924001864F3 /* TimerSound */,
 				2EA693BD2B789D2700BBA548 /* AlarmSound */,
 			);
 			path = Audio;
@@ -512,11 +532,15 @@
 				2EA693D32B789DD100BBA548 /* 골짜기.wav in Resources */,
 				2EA693D52B789DD100BBA548 /* 프로모.mp3 in Resources */,
 				2EA693CC2B789DD100BBA548 /* 차이코프스키 12월 크리스마스.mp3 in Resources */,
+				2B5862382B7C8B69001864F3 /* beeping.wav in Resources */,
 				2EA693D22B789DD100BBA548 /* 거울.mp3 in Resources */,
 				2EA693D02B789DD100BBA548 /* 머큐리.wav in Resources */,
 				2EA693CE2B789DD100BBA548 /* 차이코프스키 10월 가을.mp3 in Resources */,
+				2B5862392B7C8B69001864F3 /* toaster.wav in Resources */,
 				2EA693D12B789DD100BBA548 /* 타란텔라 A단조.mp3 in Resources */,
 				2EA693D42B789DD100BBA548 /* 래디얼.wav in Resources */,
+				2B58623A2B7C8B69001864F3 /* electronic.wav in Resources */,
+				2B58623B2B7C8B69001864F3 /* kitchen.wav in Resources */,
 				2EA693CA2B789DD100BBA548 /* 로미오와 줄리엣.mp3 in Resources */,
 				2EA693CD2B789DD100BBA548 /* 비발디 사계 여름.mp3 in Resources */,
 				2E43CA752B70926100FCA414 /* Assets.xcassets in Resources */,

@@ -34,7 +34,7 @@ class TimerLabelTableViewCell: UITableViewCell {
     }
     
     func setupUI() {
-        self.backgroundColor = UIColor.systemYellow
+        self.backgroundColor = UIColor.systemGray4
         recordLabel.textColor = UIColor.label
         contentView.addSubview(recordLabel)
     }

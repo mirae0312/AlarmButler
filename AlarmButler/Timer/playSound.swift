@@ -8,29 +8,17 @@
 import Foundation
 import AVFoundation
 
-var audioPlayer:AVAudioPlayer!
+var audioPlayer: AVAudioPlayer!
+
 func playSound(fileName: String) {
-    if(fileName == ""){
-        return
-    }
-    guard let path = Bundle.main.path(forResource: fileName, ofType:"mp3") else {
-            print("bundle error")
-            return
-    }
-        let url = URL(fileURLWithPath: path)
-    
-    do{
+    guard let bundlePath = Bundle.main.path(forResource: fileName, ofType: "wav") else { return }
+    let url = URL(fileURLWithPath: bundlePath)
+
+    do {
         audioPlayer = try AVAudioPlayer(contentsOf: url)
-        
-        guard let player = audioPlayer else {
-            print("player load error")
-            return
-        }
-        
-        player.prepareToPlay()
-        player.play()
-    }catch{
-        print("audio load error")
-        print(error.localizedDescription)
+        audioPlayer?.play()
+    } catch {
+        print("오디오 파일 재생 실패: \(error)")
     }
 }
+

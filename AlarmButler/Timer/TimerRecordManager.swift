@@ -41,19 +41,23 @@ class TimerRecordManager {
     }
     
     // MARK: - CRUD Operations
-    func createTimerRecord(duration: Int, label: String, ringtone: String) -> AlarmButler.TimerRecord? {
+    func createTimerRecord(duration: Int, label: String, ringTone: String, isActive: Bool) -> TimerRecord? {
         guard let entity = NSEntityDescription.entity(forEntityName: "TimerRecord", in: context) else { return nil }
         let timerRecord = TimerRecord(entity: entity, insertInto: context)
 
         timerRecord.id = UUID()
         timerRecord.duration = Int32(duration)
         timerRecord.label = label
-        timerRecord.ringTone = ringtone
-        timerRecord.isActive = false
+        timerRecord.ringTone = ringTone
+        timerRecord.isActive = isActive
 
-        saveContext()
-        
-        return timerRecord
+        do {
+            try context.save()
+            return timerRecord
+        } catch let error as NSError {
+            print("Could not save new timer record: \(error), \(error.userInfo)")
+            return nil
+        }
     }
 
     func fetchTimerRecords() -> [TimerRecord] {
@@ -66,17 +70,17 @@ class TimerRecordManager {
         }
     }
     
-    func updateTimerRecord(id: UUID, newDuration: Int?, newLabel: String?, newRingtone: String?, newIsActive: Bool?) {
+    func updateTimerRecord(id: UUID, newIsActive: Bool?) {
         if let timerRecord = fetchTimerRecords().first(where: { $0.id == id }) {
-            if let duration = newDuration {
-                timerRecord.duration = Int32(Int(duration))
-            }
-            if let label = newLabel {
-                timerRecord.label = label
-            }
-            if let ringtone = newRingtone {
-                timerRecord.ringTone = ringtone
-            }
+//            if let duration = newDuration {
+//                timerRecord.duration = Int32(Int(duration))
+//            }
+//            if let label = newLabel {
+//                timerRecord.label = label
+//            }
+//            if let ringtone = newRingtone {
+//                timerRecord.ringTone = ringtone
+//            }
             if let isActive = newIsActive {
                 timerRecord.isActive = isActive
             }
@@ -90,4 +94,12 @@ class TimerRecordManager {
             saveContext()
         }
     }
+    
+    func updateTimerRecordIsActiveState(id: UUID, isActive: Bool) {
+        if let timerRecord = fetchTimerRecords().first(where: { $0.id == id }) {
+            timerRecord.isActive = isActive
+            saveContext()
+        }
+    }
+
 }

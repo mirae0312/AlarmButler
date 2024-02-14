@@ -28,7 +28,7 @@ class TimerRingtoneSelectTableViewCell: UITableViewCell {
     }
     
     func setupUI(){
-        self.backgroundColor = UIColor.systemGray2
+        self.backgroundColor = UIColor.systemGray4
         
         soundLabel.textColor = UIColor.label
         

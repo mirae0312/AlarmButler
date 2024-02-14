@@ -11,47 +11,49 @@ class CircularProgressView: UIView, CAAnimationDelegate {
 
     private var progressLayer = CAShapeLayer()
     private var trackLayer = CAShapeLayer()
-    
-    var trackColor: UIColor = .systemOrange {
+
+    var trackColor: UIColor = .lightGray {
         didSet {
             trackLayer.strokeColor = trackColor.cgColor
         }
     }
-    
+
     var trackLineWidth: CGFloat = 5.0 {
         didSet {
             trackLayer.lineWidth = trackLineWidth
         }
     }
-    
-    var progressColor: UIColor = .lightGray {
+
+    var progressColor: UIColor = .systemOrange {
         didSet {
             progressLayer.strokeColor = progressColor.cgColor
         }
     }
-    
+
     var progressLineWidth: CGFloat = 5.0 {
         didSet {
             progressLayer.lineWidth = progressLineWidth
         }
     }
-    
-    var progressValue: Double = 0.5 {
+
+    var progressValue: CGFloat = 1.0 {
         didSet {
-            setProgress(progressValue, animated: true)
+            // progressValue가 변경될 때마다 애니메이션을 통해 진행률 업데이트
+            setProgressWithAnimation(duration: 2.0, value: progressValue)
         }
     }
-    
+
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupView()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         setupLayers()
@@ -59,74 +61,48 @@ class CircularProgressView: UIView, CAAnimationDelegate {
 
     private func setupView() {
         backgroundColor = .clear
-        setupLayers()
     }
-    
+
     private func setupLayers() {
         trackLayer.fillColor = UIColor.clear.cgColor
         trackLayer.strokeEnd = 1.0
-        layer.addSublayer(trackLayer)
-        
         progressLayer.lineCap = .round
         progressLayer.fillColor = UIColor.clear.cgColor
+
+        layer.addSublayer(trackLayer)
         layer.addSublayer(progressLayer)
-        
+
         createCircularPath()
     }
-    
+
     private func createCircularPath() {
-        // 원의 중심을 계산
-        let centerPoint = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-        // 원의 반지름을 계산
-        let radius = min(frame.size.width, frame.size.height) / 2
-        // 시작 각도와 끝 각도를 설정하여 UIBezierPath 생성
-        let path = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(-0.5 * .pi), endAngle: CGFloat(1.5 * .pi), clockwise: true)
-        
-        // 트랙 레이어 설정
+        let center = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        let radius = min(frame.size.width, frame.size.height) / 2 - progressLineWidth / 2
+        let startAngle = CGFloat.pi * 1.5 // 12시 방향
+        let endAngle = startAngle - (2 * CGFloat.pi) // 12시 방향에서 완전히 한 바퀴
+        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+
         trackLayer.path = path.cgPath
         trackLayer.strokeColor = trackColor.cgColor
         trackLayer.lineWidth = trackLineWidth
-        
-        // 진행률 레이어 설정
+        trackLayer.lineCap = .round
+
         progressLayer.path = path.cgPath
         progressLayer.strokeColor = progressColor.cgColor
         progressLayer.lineWidth = progressLineWidth
-        // strokeEnd를 사용하여 진행률을 설정 (값은 변경하지 않음)
-        progressLayer.strokeEnd = CGFloat(progressValue)
+        progressLayer.lineCap = .round
+        progressLayer.strokeEnd = 1 // 오렌지 색으로 전체를 채움
     }
-    
-    func setProgress(_ progress: CGFloat, animated: Bool) {
-        if animated {
-            let animation = CABasicAnimation(keyPath: "strokeEnd")
-            animation.toValue = progress
-            animation.duration = 0.2 // Example duration
-            animation.fillMode = .forwards
-            animation.isRemovedOnCompletion = false
-            progressLayer.add(animation, forKey: "progress")
-        } else {
-            progressLayer.strokeEnd = progress
-        }
-    }
-    
-    func setProgressWithAnimation(duration: TimeInterval, value: Float) {
+
+    func setProgressWithAnimation(duration: TimeInterval, value: CGFloat) {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.duration = duration
-        animation.fromValue = progressLayer.presentation()?.strokeEnd
+        animation.fromValue = value
         animation.toValue = value
         animation.timingFunction = CAMediaTimingFunction(name: .linear)
         animation.fillMode = .forwards
         animation.isRemovedOnCompletion = false
-        animation.delegate = self
-        
         progressLayer.add(animation, forKey: "animateProgress")
     }
 
-    
-    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        if flag {
-            progressLayer.strokeEnd = CGFloat(progressValue)
-        }
-    }
-
 }
-
