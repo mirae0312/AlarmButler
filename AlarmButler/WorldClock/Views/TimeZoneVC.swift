@@ -175,7 +175,7 @@ extension TimZoneController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
-    
+    //셀 선택시
     func tableView(_ tableView:UITableView, didSelectRowAt indexPath: IndexPath) {
         if(filteredData.count > 0) {
             worldClockManager.saveWorldClockData(newRegion: filteredData[indexPath.row].0, newTimeZone: filteredData[indexPath.row].1) {

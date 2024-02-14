@@ -121,176 +121,178 @@ class WorldClockManager {
         }
         return worldClickArray
     }
-    private func name(text: String) -> Bool {
-        //String -> Array
-        let arr = Array(text)
-        //정규식 패턴
-        let pattern = "^[가-힣ㄱ-ㅎㅏ-ㅣ]$"
-        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
-            var index = 0
-            //정규식 충족하지 못한 것 제거
-            while index < arr.count {
-                let result = regex.matches(in: String(arr[index]), options: [], range: NSRange(location: 0, length: 1))
-                if result.count == 0 {
-                    return false
-                } else {
-                    index += 1
-                }
-            }
-        }
-        return true
-    }
+//    private func name(text: String) -> Bool {
+//        //String -> Array
+//        let arr = Array(text)
+//        //정규식 패턴
+//        let pattern = "^[가-힣ㄱ-ㅎㅏ-ㅣ]$"
+//        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+//            var index = 0
+//            //정규식 충족하지 못한 것 제거
+//            while index < arr.count {
+//                let result = regex.matches(in: String(arr[index]), options: [], range: NSRange(location: 0, length: 1))
+//                if result.count == 0 {
+//                    return false
+//                } else {
+//                    index += 1
+//                }
+//            }
+//        }
+//        return true
+//    }
     
-    func timeFromTimeZone(timeZone: String, isNoon: Bool) -> String {
-        guard let timeZone = TimeZone(identifier: timeZone) else {
-            return ""
-        }
-        
-        let worldDate = Date()
-        var selectedWorld = Date.FormatStyle.dateTime
-        selectedWorld.timeZone = timeZone
-        
-        var time = worldDate.formatted(selectedWorld).split(separator: " ")
-        time.removeFirst()
-        
-        if(time.last! == "AM" || time.last! == "PM") {
-            return isNoon ? "\(time.last! == "AM" ? "오전" : "오후")" : "\(time.first!)"
-        }
-        
-        return isNoon ? "\(time.first!)" : "\(time.last!)"
-    }
+    //    func timeFromTimeZone(timeZone: String, isNoon: Bool) -> String {
+    //        guard let timeZone = TimeZone(identifier: timeZone) else {
+    //            return ""
+    //        }
+    //
+    //        let worldDate = Date()
+    //        var selectedWorld = Date.FormatStyle.dateTime
+    //        selectedWorld.timeZone = timeZone
+    //
+    //        var time = worldDate.formatted(selectedWorld).split(separator: " ")
+    //        time.removeFirst()
+    //
+    //        if(time.last! == "AM" || time.last! == "PM") {
+    //            return isNoon ? "\(time.last! == "AM" ? "오전" : "오후")" : "\(time.first!)"
+    //        }
+    //
+    //        return isNoon ? "\(time.first!)" : "\(time.last!)"
+    //    }
     
-    private func checkIsToday(timeZone: TimeZone) -> String {
-        let worldDate = Date()
-        var selectedWorld = Date.FormatStyle.dateTime
-        selectedWorld.timeZone = timeZone
-        
-        let formattedString = worldDate.formatted(selectedWorld)
-        
-        let date = formattedString.split(separator: " ").first!
-        var dateArray = date.split(separator: "/")
-        
-        dateArray.removeFirst()
-        let _ = dateArray.popLast()
-        
-        let KSTArray = self.KST.split(separator: " ")
-        
-        let KSTDateArray = KSTArray.first?.split(separator: "/")
-        
-        if(Int("\(String(describing: KSTDateArray?.last!))")! < Int(dateArray.first!)!) {
-            return "내일"
-        } else if (Int("\(String(describing: KSTDateArray?.last!))")! == Int(dateArray.first!)!) {
-            return "오늘"
-        } else {
-            return "어제"
-        }
-    }
+    //    private func checkIsToday(timeZone: TimeZone) -> String {
+    //        let worldDate = Date()
+    //        var selectedWorld = Date.FormatStyle.dateTime
+    //        selectedWorld.timeZone = timeZone
+    //
+    //        let formattedString = worldDate.formatted(selectedWorld)
+    //
+    //        let date = formattedString.split(separator: " ").first!
+    //        var dateArray = date.split(separator: "/")
+    //
+    //        dateArray.removeFirst()
+    //        let _ = dateArray.popLast()
+    //
+    //        let KSTArray = self.KST.split(separator: " ")
+    //
+    //        let KSTDateArray = KSTArray.first?.split(separator: "/")
+    //
+    //        if(Int("\(String(describing: KSTDateArray?.last!))")! < Int(dateArray.first!)!) {
+    //            return "내일"
+    //        } else if (Int("\(String(describing: KSTDateArray?.last!))")! == Int(dateArray.first!)!) {
+    //            return "오늘"
+    //        } else {
+    //            return "어제"
+    //        }
+    //    }
     
-    func getOffSetTimeZone(timeZone: String) -> String {
-        guard let timeZone = TimeZone(identifier: timeZone) else {
-            return ""
-        }
+//    func getOffSetTimeZone(timeZone: String) -> String {
+//        guard let timeZone = TimeZone(identifier: timeZone) else {
+//            return ""
+//        }
+//        
+//        guard let abbreviationName = timeZone.localizedName(for: Foundation.NSTimeZone.NameStyle.shortStandard, locale: Locale(identifier: "ko-KR")) else {
+//            return ""
+//        }
+//        
+//        //let todayString = checkIsToday(timeZone: timeZone)
+//        
+//        let splitArray = abbreviationName.split(separator: "T")
+//        
+//        
+//        if(splitArray.count == 1) {
+//            return "오늘, +9시간"
+//        }
         
-        guard let abbreviationName = timeZone.localizedName(for: Foundation.NSTimeZone.NameStyle.shortStandard, locale: Locale(identifier: "ko-KR")) else {
-            return ""
-        }
+//        let result = Int(splitArray.last!)!
         
-        let todayString = checkIsToday(timeZone: timeZone)
+        //        return 9 - result > 0 ? "\(todayString), -\(9 - result)시간" : "\(todayString), +\(result - 9)시간"
+        //    }
         
-        let splitArray = abbreviationName.split(separator: "T")
-        
-        //GMT = GMT+0
-        
-        if(splitArray.count == 1) {
-            return "오늘, +9시간"
-        }
-        
-        let result = Int(splitArray.last!)!
-        
-        return 9 - result > 0 ? "\(todayString), -\(9 - result)시간" : "\(todayString), +\(result - 9)시간"
+        //        func removeClock(deleteTarget: WorldClockEntity, completion: @escaping () -> Void) {
+        //            let context = context
+        //            let targetID = deleteTarget.date
+        //            let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
+        //            request.predicate = NSPredicate(format: "date = %@", targetID! as any CVarArg as CVarArg)
+        //
+        //            do {
+        //                guard let fetchData = try context?.fetch(request) as? [WorldClockEntity] else {
+        //                    print("패치 오류")
+        //                    completion()
+        //                    return
+        //                }
+        //
+        //                guard let data = fetchData.first else {
+        //                    print("인덱싱 오류")
+        //                    completion()
+        //                    return
+        //                }
+        //
+        //                context?.delete(data)
+        //
+        //                do {
+        //                    try context?.save()
+        //                    completion()
+        //                } catch {
+        //                    print("context 저장 오류")
+        //                    completion()
+        //                }
+        //            } catch {
+        //
+        //            }
+        //        }
+        //
+        //        func updateIndex(sourceData: WorldClockEntity, destinationData: WorldClockEntity, completion: @escaping () -> Void){
+        //            let destinationIndex = destinationData.index
+        //            let sourceIndex = sourceData.index
+        //
+        //            guard let context = context else {
+        //                print("context 로드 오류")
+        //                return
+        //            }
+        //
+        //            let fetchAllRequest = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
+        //            let indexOrder = NSSortDescriptor(key: "index", ascending: true)
+        //            fetchAllRequest.sortDescriptors = [indexOrder]
+        //
+        //            do {
+        //                guard var fetchedData = try context.fetch(fetchAllRequest) as? [WorldClockEntity] else {
+        //                    completion()
+        //                    return
+        //                }
+        //
+        //                if(sourceData.index < destinationData.index) {
+        //                    for idx in sourceIndex ..< destinationIndex + 1 {
+        //                        if(idx == 0) {
+        //                            continue
+        //                        }
+        //                        fetchedData[Int(idx)].index -= 1
+        //                    }
+        //                    fetchedData[Int(sourceIndex)].index = destinationIndex
+        //                } else {
+        //                    for idx in destinationIndex ..< sourceIndex + 1 {
+        //                        fetchedData[Int(idx)].index += 1
+        //                    }
+        //                    fetchedData[Int(sourceIndex)].index = destinationIndex
+        //                }
+        //
+        //
+        //                print("=======최종!=======")
+        //                print(fetchedData)
+        //                do{
+        //                    try context.save()
+        //                    completion()
+        //                } catch {
+        //                    print("updateIndex: context save error")
+        //                    completion()
+        //                }
+        //            } catch {
+        //                print("ERROR in updateIndex")
+        //            }
+        //
+        //        }
+        //
+        //    }
+        //}
     }
-    
-    func removeClock(deleteTarget: WorldClockEntity, completion: @escaping () -> Void) {
-        let context = context
-        let targetID = deleteTarget.date
-        let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
-        request.predicate = NSPredicate(format: "date = %@", targetID! as any CVarArg as CVarArg)
-        
-        do {
-            guard let fetchData = try context?.fetch(request) as? [WorldClockEntity] else {
-                print("패치 오류")
-                completion()
-                return
-            }
-            
-            guard let data = fetchData.first else {
-                print("인덱싱 오류")
-                completion()
-                return
-            }
-            
-            context?.delete(data)
-            
-            do {
-                try context?.save()
-                completion()
-            } catch {
-                print("context 저장 오류")
-                completion()
-            }
-        } catch {
-            
-        }
-    }
-    
-    func updateIndex(sourceData: WorldClockEntity, destinationData: WorldClockEntity, completion: @escaping () -> Void){
-        let destinationIndex = destinationData.index
-        let sourceIndex = sourceData.index
-        
-        guard let context = context else {
-            print("context 로드 오류")
-            return
-        }
-        
-        let fetchAllRequest = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
-        let indexOrder = NSSortDescriptor(key: "index", ascending: true)
-        fetchAllRequest.sortDescriptors = [indexOrder]
-        
-        do {
-            guard var fetchedData = try context.fetch(fetchAllRequest) as? [WorldClockEntity] else {
-                completion()
-                return
-            }
-            
-            if(sourceData.index < destinationData.index) {
-                for idx in sourceIndex ..< destinationIndex + 1 {
-                    if(idx == 0) {
-                        continue
-                    }
-                    fetchedData[Int(idx)].index -= 1
-                }
-                fetchedData[Int(sourceIndex)].index = destinationIndex
-                } else {
-                    for idx in destinationIndex ..< sourceIndex + 1 {
-                        fetchedData[Int(idx)].index += 1
-                    }
-                    fetchedData[Int(sourceIndex)].index = destinationIndex
-                }
-                
-                
-                    print("=======최종!=======")
-                    print(fetchedData)
-                    do{
-                        try context.save()
-                        completion()
-                    } catch {
-                        print("updateIndex: context save error")
-                        completion()
-                    }
-                } catch {
-                    print("ERROR in updateIndex")
-                }
-                
-            }
-            
-        }
+
