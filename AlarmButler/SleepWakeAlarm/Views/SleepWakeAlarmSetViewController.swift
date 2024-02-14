@@ -1,50 +1,93 @@
-//
-//  SleepWakeAlarmSetViewController.swift
-//  AlarmButler
-//
-//  Created by 김우경 on 2/10/24.
+// SleepWakeAlarmSetViewController.swift
+// 수면 및 기상 알람 설정을 위한 뷰 컨트롤러
 
-//SleepWakeAlarmSetViewController.swift
-
-import Foundation
 import UIKit
+import SnapKit
 
+// 델리게이트를 위한 프로토콜 정의
+protocol SleepWakeAlarmSetViewControllerDelegate: AnyObject {
+    func didFinishEditingAlarm(with alarm: SleepWakeAlarmViewModel)
+}
+    
 class SleepWakeAlarmSetViewController: UIViewController {
 
-    // 추가 버튼
-    private let addButton: UIButton = {
+    // 약한 참조로 델리게이트 프로퍼티 추가
+       weak var delegate: SleepWakeAlarmSetViewControllerDelegate?
+
+    // MARK: - 속성
+    
+    // 활성화된 요일을 담을 박스
+    private lazy var activeDaysBox: UIView = {
+        let box = UIView()
+        box.backgroundColor = .systemGray6
+        box.layer.cornerRadius = 8
+        box.layer.masksToBounds = true
+        return box
+    }()
+    
+    // 저장 버튼
+    private let saveButton: UIButton = {
         let button = UIButton()
-        button.setTitle("추가", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)  // 텍스트 색상 추가
-        // TODO: 추가 버튼에 대한 액션 추가 (필요시)
+        button.setTitle("저장", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
         return button
     }()
+    
+    // 저장 버튼 액션
+     @objc private func saveButtonTapped() {
+         // 선택된 요일, 수면 목표, 기상 시각 등을 사용하여 알람을 생성
+         let createdAlarm = createAlarm()
 
+         // 델리게이트를 통해 알람이 추가되었음을 알림
+         delegate?.didFinishEditingAlarm(with: createdAlarm)
+
+         // 화면을 닫거나 다른 작업을 수행할 수 있음
+         navigationController?.popViewController(animated: true)
+     }
+
+     // 알람을 생성하는 메서드 (수면 목표, 기상 시각 등을 사용)
+     private func createAlarm() -> SleepWakeAlarmViewModel {
+         // 실제 알람 생성 로직 구현
+
+         // 임시로 예시 데이터 사용
+         let sleepGoals = [480] // 예시: 8시간을 분 단위로 표현
+         let wakeUpTimes = [Date()] // 예시: 현재 시각
+
+         return SleepWakeAlarmViewModel(sleepGoals: sleepGoals, wakeUpTimes: wakeUpTimes)
+     }
+
+    
     // 취소 버튼
     private let cancelButton: UIButton = {
         let button = UIButton()
         button.setTitle("취소", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)  // 텍스트 색상 추가
-        // TODO: 취소 버튼에 대한 액션 추가 (필요시)
+        button.setTitleColor(.systemBlue, for: .normal)
         return button
     }()
-
-    // 활성화된 요일 라벨
-    let activeDaysLabel: UILabel = {
+    
+    // 수면 패턴 추가 레이블
+    private let sleepPatternLabel: UILabel = {
         let label = UILabel()
-        label.text = "활성화된 요일"
-        // TODO: 라벨 외관 설정 (필요시)
+        label.text = "수면 패턴 추가"
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
     }()
-
-    // 활성화된 요일을 표시할 StackView
-    lazy var activeDaysStackView: UIStackView = {
+    
+    // 활성화된 요일 레이블
+    private let activeDaysLabel: UILabel = {
+        let label = UILabel()
+        label.text = "활성화된 요일"
+        return label
+    }()
+    
+    // 활성화된 요일 스택 뷰
+    let activeDaysStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 8
         stackView.distribution = .fillEqually
-
-        // 원 화 수 목 금 토 일 버튼 추가
+        
+        // 월, 화, 수, 목, 금, 토, 일 버튼 추가
         let dayButtons: [UIButton] = ["월", "화", "수", "목", "금", "토", "일"].map { day in
             let button = UIButton()
             button.setTitle(day, for: .normal)
@@ -52,183 +95,180 @@ class SleepWakeAlarmSetViewController: UIViewController {
             button.addTarget(self, action: #selector(dayButtonTapped(_:)), for: .touchUpInside)
             return button
         }
-
+        
         // StackView에 버튼들 추가
         dayButtons.forEach { stackView.addArrangedSubview($0) }
-
-        // TODO: StackView 설정 (필요시)
+        
         return stackView
     }()
-
-    // 수면 목표 라벨
-    let sleepGoalLabel: UILabel = {
-        let label = UILabel()
-        label.text = "수면 목표"
-        // TODO: 라벨 외관 설정 (필요시)
-        return label
-    }()
-
-    // 수면 목표를 선택할 UIDatePicker
-    let sleepGoalPicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .countDownTimer
-        picker.locale = Locale(identifier: "en_GB")
-        // TODO: DatePicker 설정 (필요시)
-        return picker
-    }()
-
-    // 기상 시각 라벨
-    let wakeUpTimeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "기상 시각"
-        // TODO: 라벨 외관 설정 (필요시)
-        return label
-    }()
-
-    // 기상 시각 피커
-    let wakeUpTimePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .time
-        // TODO: DatePicker 설정 (필요시)
-        return picker
-    }()
-
-    // 알람 옵션 라벨
-    let alarmOptionsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "알람 옵션"
-        // TODO: 라벨 외관 설정 (필요시)
-        return label
-    }()
-
-    // 사운드 옵션 버튼
-    let soundOptionButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("사운드 옵션 바로가기", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
-        // TODO: 버튼에 대한 액션 추가 (사운드 옵션 페이지로 이동하는 액션 등)
-        return button
-    }()
-
-    // Dictionary to track selected days
-    var selectedDays: [String: Bool] = [:]
-
-    // MARK: - View Lifecycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
+    private var selectedDays: [String: Bool] = [:]
+    // 선택된 요일을 로드하는 메서드
+    private func loadSelectedDays() {
+        for (day, isSelected) in selectedDays {
+            if isSelected {
+                if let button = activeDaysStackView.arrangedSubviews.compactMap({ $0 as? UIButton }).first(where: { $0.currentTitle == day }) {
+                    button.setTitleColor(.systemBlue, for: .normal)
+                }
+            }
+        }
+    }
+    
+    // 주어진 토픽에 대한 박스를 생성하는 메서드
+    private func createTopicBox() -> UIView {
+        let box = UIView()
+        box.backgroundColor = .systemGray6
+        box.layer.cornerRadius = 8
+        box.layer.masksToBounds = true
+        box.translatesAutoresizingMaskIntoConstraints = false  // Auto Layout을 사용하기 위해 false로 설정
+        return box
     }
 
+    // 버튼이 탭되었을 때의 처리 메서드
+    @objc private func dayButtonTapped(_ sender: UIButton) {
+        let day = sender.currentTitle ?? ""
+        
+        if let isSelected = selectedDays[day] {
+            selectedDays[day] = !isSelected
+        } else {
+            selectedDays[day] = true
+        }
+        
+        let textColor: UIColor = selectedDays[day] ?? false ? .systemBlue : .black
+        sender.setTitleColor(textColor, for: .normal)
+    }
+    // 수면 목표 레이블 추가
+       private let sleepGoalLabel: UILabel = {
+           let label = UILabel()
+           label.text = "수면 목표"
+           return label
+       }()
+
+       // 수면 목표를 선택할 UIDatePicker 추가
+       private let sleepGoalPicker: UIDatePicker = {
+           let picker = UIDatePicker()
+           picker.datePickerMode = .countDownTimer
+           picker.locale = Locale(identifier: "en_GB")
+           return picker
+       }()
+    
+    // 기상 시각 레이블 추가
+      private let wakeUpTimeLabel: UILabel = {
+          let label = UILabel()
+          label.text = "기상 시각"
+          return label
+      }()
+    
+    // 기상 시각 피커 추가
+      private let wakeUpTimePicker: UIDatePicker = {
+          let picker = UIDatePicker()
+          picker.datePickerMode = .time
+          return picker
+      }()
+    
+    // 알람 옵션 레이블 추가
+        private let alarmOptionsLabel: UILabel = {
+            let label = UILabel()
+            label.text = "알람 옵션"
+            return label
+        }()
+    
+    // 사운드 옵션 버튼 추가
+     private let soundOptionButton: UIButton = {
+         let button = UIButton()
+         button.setTitle("사운드 옵션 바로가기", for: .normal)
+         button.setTitleColor(.systemBlue, for: .normal)
+         return button
+     }()
+    // MARK: - 뷰 라이프사이클
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI() // UI 설정 메서드 호출
+        loadSelectedDays() // 선택된 요일 로드
+    }
+    
     // MARK: - UI 설정 메서드
-
+    
     private func setupUI() {
-        // 배경색
+        // 뷰 배경색 설정
         view.backgroundColor = .white
-
-        // 스크롤 뷰 추가
+        
+        // 스크롤뷰 생성
         let scrollView: UIScrollView = {
             let scrollView = UIScrollView()
             scrollView.translatesAutoresizingMaskIntoConstraints = false
             return scrollView
         }()
-
+        
         view.addSubview(scrollView)
-
-        // 스크롤 뷰의 제약 조건 설정
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-
-        // 나머지 코드는 scrollView에 추가하도록 수정
-        scrollView.addSubview(cancelButton)
-
-        // 취소 버튼
-        view.addSubview(cancelButton)
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            cancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-
-        // 추가 버튼
-        view.addSubview(addButton)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            addButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
-
-        // 수면 패턴 추가 레이블
-        let sleepPatternLabel: UILabel = {
-            let label = UILabel()
-            label.text = "수면 패턴 추가"
-            label.font = UIFont.boldSystemFont(ofSize: 25) // 폰트 크기 조절
-            // TODO: 라벨 외관 설정 (필요시)
-            return label
+        
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        // 컨텐츠 뷰 추가
+        let contentView: UIView = {
+            let view = UIView()
+            return view
         }()
 
-        view.addSubview(sleepPatternLabel)
-        sleepPatternLabel.translatesAutoresizingMaskIntoConstraints = false
-        let topPadding: CGFloat = 0  // 위쪽 여백 크기 조절
-        let spacingBetweenLabels: CGFloat = 16  // "수면 패턴 추가" 레이블과 "활성화된 요일" 레이블 사이의 여백 조절
+        scrollView.addSubview(contentView)
 
-        NSLayoutConstraint.activate([
-            sleepPatternLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: topPadding),
-            sleepPatternLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        ])
-
-        view.addSubview(activeDaysLabel)
-        activeDaysLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            activeDaysLabel.topAnchor.constraint(equalTo: sleepPatternLabel.bottomAnchor, constant: spacingBetweenLabels),
-            activeDaysLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-
-        // 활성화된 요일 레이블
-        view.addSubview(activeDaysLabel)
-        activeDaysLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            activeDaysLabel.topAnchor.constraint(equalTo: sleepPatternLabel.bottomAnchor, constant: 16),
-            activeDaysLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-
-        // 활성화된 요일 스택 뷰
-        let activeDaysBox: UIView = {
-            let box = createTopicBox()
-            return box
-        }()
-
+        contentView.snp.makeConstraints { make in
+            make.edges.width.equalToSuperview()
+            make.height.greaterThanOrEqualToSuperview()
+        }
+        
+        // 취소 버튼 설정
+        contentView.addSubview(cancelButton)
+        cancelButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.leading.equalToSuperview().offset(16)
+        }
+        
+        // 추가 버튼 설정
+        contentView.addSubview(saveButton)
+              saveButton.snp.makeConstraints { make in
+                  make.top.equalToSuperview().offset(8)
+                  make.trailing.equalToSuperview().offset(-16)
+              }
+        
+        // 수면 패턴 추가 레이블 설정
+        contentView.addSubview(sleepPatternLabel)
+        sleepPatternLabel.snp.makeConstraints { make in
+            make.top.equalTo(saveButton.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
+        
+        // 활성화된 요일 레이블 설정
+        contentView.addSubview(activeDaysLabel)
+        activeDaysLabel.snp.makeConstraints { make in
+            make.top.equalTo(sleepPatternLabel.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(16)
+        }
+        
+        // 활성화된 요일 박스 설정
+        contentView.addSubview(activeDaysBox)
+        activeDaysBox.snp.makeConstraints { make in
+            make.top.equalTo(activeDaysLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(8)
+            make.trailing.equalToSuperview().offset(-8)
+        }
+        
+        // 활성화된 요일 스택 뷰 설정
         activeDaysBox.addSubview(activeDaysStackView)
-        activeDaysStackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            activeDaysStackView.topAnchor.constraint(equalTo: activeDaysBox.topAnchor, constant: 8),
-            activeDaysStackView.leadingAnchor.constraint(equalTo: activeDaysBox.leadingAnchor, constant: 16),
-            activeDaysStackView.trailingAnchor.constraint(equalTo: activeDaysBox.trailingAnchor, constant: -16),
-            activeDaysStackView.bottomAnchor.constraint(equalTo: activeDaysBox.bottomAnchor, constant: -8)
-        ])
-
-
-        view.addSubview(activeDaysBox)
-        activeDaysBox.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            activeDaysBox.topAnchor.constraint(equalTo: activeDaysLabel.bottomAnchor, constant: 8),
-            activeDaysBox.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            activeDaysBox.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
-        ])
-
-        // 세부 사항 레이블
-        view.addSubview(sleepGoalLabel)
-        sleepGoalLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            sleepGoalLabel.topAnchor.constraint(equalTo: activeDaysBox.bottomAnchor, constant: 32),
-            sleepGoalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-
-        // 수면 목표 피커
+        activeDaysStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
+        }
+        
+        // 수면 목표 레이블 설정
+        contentView.addSubview(sleepGoalLabel)
+        sleepGoalLabel.snp.makeConstraints { make in
+            make.top.equalTo(activeDaysBox.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(16)
+        }
+        
+        // 수면 목표 박스 설정
         let sleepGoalBox: UIView = {
             let box = createTopicBox()
             box.addSubview(sleepGoalPicker)
@@ -241,126 +281,93 @@ class SleepWakeAlarmSetViewController: UIViewController {
             ])
             return box
         }()
-
-        view.addSubview(sleepGoalBox)
-        sleepGoalBox.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            sleepGoalBox.topAnchor.constraint(equalTo: sleepGoalLabel.bottomAnchor, constant: 8),
-            sleepGoalBox.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            sleepGoalBox.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
-        ])
-
-        // 기상 시각 라벨
-        view.addSubview(wakeUpTimeLabel)
-        wakeUpTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            wakeUpTimeLabel.topAnchor.constraint(equalTo: sleepGoalBox.bottomAnchor, constant: 16),
-            wakeUpTimeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-            
-        ])
-
-        // 기상 시각 피커 박스
-        let wakeUpTimeBox: UIView = {
-            let box = createTopicBox()
-            box.addSubview(wakeUpTimeLabel)
-            box.addSubview(wakeUpTimePicker)
-            wakeUpTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-            wakeUpTimePicker.translatesAutoresizingMaskIntoConstraints = false
-
-            NSLayoutConstraint.activate([
-                wakeUpTimeLabel.topAnchor.constraint(equalTo: box.topAnchor, constant: 8),
-                wakeUpTimeLabel.leadingAnchor.constraint(equalTo: box.leadingAnchor, constant: 16),
-
-                wakeUpTimePicker.topAnchor.constraint(equalTo: wakeUpTimeLabel.topAnchor),
-                wakeUpTimePicker.leadingAnchor.constraint(equalTo: wakeUpTimeLabel.trailingAnchor, constant: 8),
-                wakeUpTimePicker.trailingAnchor.constraint(equalTo: box.trailingAnchor, constant: -16),
-                wakeUpTimePicker.bottomAnchor.constraint(equalTo: box.bottomAnchor, constant: -8),
-
-                wakeUpTimeLabel.centerYAnchor.constraint(equalTo: wakeUpTimePicker.centerYAnchor),
-                wakeUpTimeLabel.bottomAnchor.constraint(equalTo: box.bottomAnchor, constant: -8)
-            ])
-
-            return box
-        }()
-
-        view.addSubview(wakeUpTimeBox)
-        wakeUpTimeBox.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            wakeUpTimeBox.topAnchor.constraint(equalTo: sleepGoalBox.bottomAnchor, constant: 16),
-            wakeUpTimeBox.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            wakeUpTimeBox.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
-        ])
-
-        // 알람 옵션 레이블
-        view.addSubview(alarmOptionsLabel)
-        alarmOptionsLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            alarmOptionsLabel.topAnchor.constraint(equalTo: wakeUpTimeBox.bottomAnchor, constant: 16),
-            alarmOptionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-
-        // 사운드 옵션 레이블 추가
-        view.addSubview(soundOptionButton)
-        soundOptionButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            soundOptionButton.topAnchor.constraint(equalTo: alarmOptionsLabel.bottomAnchor, constant: 16),
-            soundOptionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-
-        // 사운드 옵션 상자 추가
-        let soundOptionBox: UIView = {
-            let box = createTopicBox()
-            return box
-        }()
-
-        view.addSubview(soundOptionBox)
-        soundOptionBox.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            soundOptionBox.topAnchor.constraint(equalTo: alarmOptionsLabel.bottomAnchor, constant: 16),
-            soundOptionBox.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            soundOptionBox.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            soundOptionBox.heightAnchor.constraint(equalToConstant: 100) // 높이 조절
-        ])
-
-        soundOptionBox.addSubview(soundOptionButton)
-        soundOptionButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            soundOptionButton.centerXAnchor.constraint(equalTo: soundOptionBox.centerXAnchor),
-            soundOptionButton.centerYAnchor.constraint(equalTo: soundOptionBox.centerYAnchor)
-        ])
-
-        // 여기에 스크롤 뷰의 contentSize 설정
-        let yourDesiredHeight: CGFloat = soundOptionBox.frame.maxY + 30
-        scrollView.contentSize = CGSize(width: view.frame.width, height: yourDesiredHeight)
-    }
-
-    // 토픽 박스 생성
-    private func createTopicBox() -> UIView {
-        let box = UIView()
-        box.backgroundColor = .systemGray6
-        box.layer.cornerRadius = 8
-        box.layer.masksToBounds = true
-        return box
-    }
-
-    // 요일 버튼이 눌렸을 때 호출되는 메서드
-    @objc private func dayButtonTapped(_ sender: UIButton) {
-        let day = sender.currentTitle ?? ""
         
-        // 선택한 요일의 텍스트 색상을 토글
-        if let isSelected = selectedDays[day] {
-            selectedDays[day] = !isSelected
-        } else {
-            selectedDays[day] = true
+        contentView.addSubview(sleepGoalBox)
+        sleepGoalBox.snp.makeConstraints { make in
+            make.top.equalTo(sleepGoalLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(8)
+            make.trailing.equalToSuperview().offset(-8)
+        }
+        
+        // 기상 시각 레이블 설정
+        contentView.addSubview(wakeUpTimeLabel)
+        wakeUpTimeLabel.snp.makeConstraints { make in
+            make.top.equalTo(sleepGoalBox.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(16)
         }
 
-        // 업데이트된 상태에 따라 텍스트 색상 변경
-        let textColor: UIColor = selectedDays[day] ?? false ? .systemBlue : .black
-        sender.setTitleColor(textColor, for: .normal)
+        // 기상 시각 박스 설정
+        let wakeUpTimeBox: UIView = {
+            let box = createTopicBox()
+            
+            // 기상 시각 레이블과 타임피커를 같은 줄에 위치하도록 함
+            let stackView = UIStackView()
+            stackView.axis = .horizontal
+            stackView.spacing = 8
+            stackView.addArrangedSubview(wakeUpTimeLabel)
+            stackView.addArrangedSubview(wakeUpTimePicker)
+            
+            box.addSubview(stackView)
+            
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                stackView.topAnchor.constraint(equalTo: box.topAnchor, constant: 8),
+                stackView.leadingAnchor.constraint(equalTo: box.leadingAnchor, constant: 16),
+                stackView.trailingAnchor.constraint(equalTo: box.trailingAnchor, constant: -16),
+                stackView.bottomAnchor.constraint(equalTo: box.bottomAnchor, constant: -8)
+            ])
+            
+            wakeUpTimePicker.translatesAutoresizingMaskIntoConstraints = false
+
+            return box
+        }()
+
+        contentView.addSubview(wakeUpTimeBox)
+        wakeUpTimeBox.snp.makeConstraints { make in
+            make.top.equalTo(sleepGoalBox.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(8)
+            make.trailing.equalToSuperview().offset(-8)
+        }
+        
+        // 알람 옵션 레이블 설정
+        contentView.addSubview(alarmOptionsLabel)
+        alarmOptionsLabel.snp.makeConstraints { make in
+            make.top.equalTo(wakeUpTimeBox.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(16)
+        }
+        
+        // 사운드 옵션 박스 설정
+        let soundOptionBox: UIView = {
+            let box = createTopicBox()
+            box.addSubview(soundOptionButton)
+            soundOptionButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                soundOptionButton.centerXAnchor.constraint(equalTo: box.centerXAnchor),
+                soundOptionButton.centerYAnchor.constraint(equalTo: box.centerYAnchor)
+            ])
+            return box
+        }()
+
+        contentView.addSubview(soundOptionBox)
+        soundOptionBox.snp.makeConstraints { make in
+            make.top.equalTo(alarmOptionsLabel.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.lessThanOrEqualToSuperview().offset(-16)
+            make.height.equalTo(100)
+        }
+        
+        // 스크롤뷰의 컨텐츠 크기 설정
+        let yourDesiredHeight: CGFloat = soundOptionBox.frame.maxY + 30
+        scrollView.contentSize = CGSize(width: view.frame.width, height: yourDesiredHeight)
+        
+        // 스크롤뷰의 huggingPriority 설정
+        scrollView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        
+        // 선택된 요일을 로드하는 메서드
+        loadSelectedDays()
     }
 }
-
-
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI
@@ -368,20 +375,30 @@ import SwiftUI
 @available(iOS 13.0, *)
 struct SleepWakeAlarmSetViewController_Preview: PreviewProvider {
     static var previews: some View {
-        // SleepWakeAlarmSetViewController를 UIViewRepresentable로 래핑하여 미리보기
-        SleepWakeAlarmSetViewControllerRepresentable()
+        NavigationView {
+            UIViewControllerPreview {
+                SleepWakeAlarmSetViewController()
+            }
             .edgesIgnoringSafeArea(.all)
+        }
     }
 }
 
-// UIViewController를 UIViewRepresentable로 래핑하는 구조체
 @available(iOS 13.0, *)
-struct SleepWakeAlarmSetViewControllerRepresentable: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> SleepWakeAlarmSetViewController {
-        return SleepWakeAlarmSetViewController()
+struct UIViewControllerPreview<ViewController: UIViewController>: UIViewControllerRepresentable {
+    let viewController: ViewController
+
+    init(_ builder: @escaping () -> ViewController) {
+        self.viewController = builder()
     }
 
-    func updateUIViewController(_ uiViewController: SleepWakeAlarmSetViewController, context: Context) {
+    // MARK: - UIViewControllerRepresentable
+
+    func makeUIViewController(context: Context) -> ViewController {
+        viewController
+    }
+
+    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
         // 뷰 컨트롤러 업데이트가 필요한 경우 처리
     }
 }

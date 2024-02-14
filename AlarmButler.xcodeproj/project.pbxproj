@@ -32,7 +32,8 @@
 		2E43CAE72B7341E600FCA414 /* AlarmSoundPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */; };
 		2E43CAE92B7341F500FCA414 /* AlarmDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */; };
 		2E43CAEB2B73420000FCA414 /* AlarmSoundPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */; };
-		4EA830572B752D0600C19BF7 /* SleepWakeAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA830562B752D0600C19BF7 /* SleepWakeAlarmViewController.swift */; };
+		4E60D1B22B7BAA8100D0E11E /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E60D1B12B7BAA8100D0E11E /* ClockView.swift */; };
+		4E60D1B42B7D346E00D0E11E /* SleepWakeAlarmMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E60D1B32B7D346E00D0E11E /* SleepWakeAlarmMainViewController.swift */; };
 		4EA830592B752D3E00C19BF7 /* SleepWakeAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA830582B752D3E00C19BF7 /* SleepWakeAlarmCell.swift */; };
 		4EB8E4032B766D460089DB8F /* SleepWakeAlarmCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB8E4022B766D460089DB8F /* SleepWakeAlarmCellViewModel.swift */; };
 		4EB8E4052B7693440089DB8F /* SleepWakeAlarmSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB8E4042B7693440089DB8F /* SleepWakeAlarmSetViewController.swift */; };
@@ -67,7 +68,8 @@
 		2E43CAE62B7341E600FCA414 /* AlarmSoundPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundPickerViewController.swift; sourceTree = "<group>"; };
 		2E43CAE82B7341F500FCA414 /* AlarmDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmDetailViewModel.swift; sourceTree = "<group>"; };
 		2E43CAEA2B73420000FCA414 /* AlarmSoundPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundPickerViewModel.swift; sourceTree = "<group>"; };
-		4EA830562B752D0600C19BF7 /* SleepWakeAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmViewController.swift; sourceTree = "<group>"; };
+		4E60D1B12B7BAA8100D0E11E /* ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
+		4E60D1B32B7D346E00D0E11E /* SleepWakeAlarmMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmMainViewController.swift; sourceTree = "<group>"; };
 		4EA830582B752D3E00C19BF7 /* SleepWakeAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmCell.swift; sourceTree = "<group>"; };
 		4EB8E4022B766D460089DB8F /* SleepWakeAlarmCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmCellViewModel.swift; sourceTree = "<group>"; };
 		4EB8E4042B7693440089DB8F /* SleepWakeAlarmSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmSetViewController.swift; sourceTree = "<group>"; };
@@ -288,9 +290,10 @@
 		2E43CAB42B7096BC00FCA414 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4EA830562B752D0600C19BF7 /* SleepWakeAlarmViewController.swift */,
 				4EA830582B752D3E00C19BF7 /* SleepWakeAlarmCell.swift */,
 				4EB8E4042B7693440089DB8F /* SleepWakeAlarmSetViewController.swift */,
+				4E60D1B32B7D346E00D0E11E /* SleepWakeAlarmMainViewController.swift */,
+				4E60D1B12B7BAA8100D0E11E /* ClockView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -445,16 +448,17 @@
 				2E43CAC22B70992E00FCA414 /* StopwatchViewModel.swift in Sources */,
 				2E43CACC2B70997F00FCA414 /* WorldClockModel.swift in Sources */,
 				2E43CAE12B7257E000FCA414 /* CustomTabBarController.swift in Sources */,
+				4E60D1B42B7D346E00D0E11E /* SleepWakeAlarmMainViewController.swift in Sources */,
 				2E43CA692B70925F00FCA414 /* AppDelegate.swift in Sources */,
 				2E43CACE2B70998E00FCA414 /* WorldClockViewModel.swift in Sources */,
 				2E43CACA2B70997700FCA414 /* WorldClock.swift in Sources */,
 				4EA830592B752D3E00C19BF7 /* SleepWakeAlarmCell.swift in Sources */,
+				4E60D1B22B7BAA8100D0E11E /* ClockView.swift in Sources */,
 				2E43CAC82B70996700FCA414 /* TimerViewModel.swift in Sources */,
 				2E43CAE92B7341F500FCA414 /* AlarmDetailViewModel.swift in Sources */,
 				2E43CABA2B7098EE00FCA414 /* AlarmListViewController.swift in Sources */,
 				2E43CAEB2B73420000FCA414 /* AlarmSoundPickerViewModel.swift in Sources */,
 				2E43CAE32B7341D000FCA414 /* AlarmSound.swift in Sources */,
-				4EA830572B752D0600C19BF7 /* SleepWakeAlarmViewController.swift in Sources */,
 				2E43CAB82B7098E200FCA414 /* Alarm.swift in Sources */,
 				2E43CAD42B7099B800FCA414 /* SleepWakeAlarmViewModel.swift in Sources */,
 				2E43CABC2B7098FD00FCA414 /* AlarmListViewModel.swift in Sources */,
