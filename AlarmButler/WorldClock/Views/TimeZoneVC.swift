@@ -81,6 +81,12 @@ class TimZoneController: UIViewController {
         return addTableView
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //서치바를 항상 편집모드로 해서 취소버튼 항상 활성화 되도록
+        searchBar.becomeFirstResponder()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -90,13 +96,8 @@ class TimZoneController: UIViewController {
         addSubView()
         autoLayout()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //서치바를 항상 편집모드로 해서 취소버튼 항상 활성화 되도록
-        searchBar.becomeFirstResponder()
-    }
 }
+
 
 
 extension TimZoneController {
