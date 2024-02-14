@@ -49,7 +49,9 @@ class TimZoneController: UIViewController {
             //getInitialConsonant(text: region)에서 반환된 초성 값을 가져오는 것
             guard var initialConsonant = getInitialConsonant(text: region) else { return }
             //해당 지역명의 초성을 얻어내는 함수
+            
             initialConsonant = toInitialConsonant(consonant: initialConsonant)
+            
             if let _ = clockDataWithSection[initialConsonant] {
                 print(":휴식:")
             } else {

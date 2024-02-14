@@ -23,7 +23,6 @@ class WorldClockViewController: UIViewController {
     private lazy var tableView = {
         let tableView = UITableView()
         tableView.register(WorldClockViewCell.self, forCellReuseIdentifier: WorldClockViewCell.identi)
-        tableView.backgroundColor = .gray
         return tableView
     }()
     
@@ -90,6 +89,8 @@ extension WorldClockViewController: UITableViewDelegate, UITableViewDataSource {
 extension WorldClockViewController {
     @objc private func tappedButton() {
         let VC = TimZoneController()
+        //데이터 연결
+        VC.clockData = clockDataManager.getWorldClockData()
         self.present(VC, animated: true)
     }
 }

@@ -141,8 +141,8 @@ class WorldClockManager {
         return true
     }
     
-    func timeFromTimeZone(timezone: String, isNoon: Bool) -> String {
-        guard let timeZone = TimeZone(identifier: timezone) else {
+    func timeFromTimeZone(timeZone: String, isNoon: Bool) -> String {
+        guard let timeZone = TimeZone(identifier: timeZone) else {
             return ""
         }
         
