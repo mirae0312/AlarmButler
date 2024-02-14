@@ -7,17 +7,28 @@
 
 import UIKit
 import SnapKit
+import CoreData
+
+// 활성화 스위치 프로토콜
+protocol AlarmListTableViewCellDelegate: AnyObject {
+    func alarmSwitchDidChange(_ cell: AlarmListTableViewCell, isOn: Bool)
+    func reloadTableView()
+}
 
 class AlarmListTableViewCell: UITableViewCell {
+    weak var delegate: AlarmListTableViewCellDelegate?
+    // 알람의 고유 ID를 저장하기 위한 프로퍼티
+    var alarmId: NSManagedObjectID?
+    
     let amPmLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20) // 오전/오후 폰트 크기를 16으로 조정
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 50) // 폰트 크기를 36으로 조정
+        label.font = UIFont.systemFont(ofSize: 50)
         label.adjustsFontSizeToFitWidth = true // 레이블 너비에 맞게 폰트 크기 조정
         label.minimumScaleFactor = 0.5 // 최소 스케일 인자 설정
         return label
@@ -25,38 +36,69 @@ class AlarmListTableViewCell: UITableViewCell {
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18) // 폰트 크기를 16으로 조정
+        label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .lightGray
         return label
     }()
     
     let alarmSwitch: UISwitch = {
         let switchControl = UISwitch()
-        // 추가적인 스위치 설정이 필요한 경우 여기서...
         return switchControl
     }()
-
+    
+    let repeatDaysLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18) // 반복 요일 폰트 크기 설정
+        label.textColor = .lightGray
+        return label
+    }()
     
     // 알람 객체와 함께 셀을 구성하는 메소드
     // configureWith 메서드 업데이트
-    func configureWith(_ alarm: AlarmEntity) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm"
-        dateFormatter.locale = Locale(identifier: "ko_KR")
+    func configureWith(_ viewModel: AlarmViewModel, alarmId: NSManagedObjectID) {
+        timeLabel.text = viewModel.customTime
+        amPmLabel.text = viewModel.amPm
+        descriptionLabel.text = viewModel.title
+        alarmSwitch.isOn = viewModel.isEnabled
+        // 알람의 고유 ID 저장
+        self.alarmId = alarmId
         
-        let amPmFormatter = DateFormatter()
-        amPmFormatter.dateFormat = "a" // 오전/오후만 표시
-        amPmFormatter.locale = Locale(identifier: "ko_KR")
+        // 스위치의 액션 설정
+        alarmSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
         
-        timeLabel.text = dateFormatter.string(from: alarm.time ?? Date())
-        amPmLabel.text = amPmFormatter.string(from: alarm.time ?? Date()).uppercased() // 오전/오후를 대문자로 표시
-        descriptionLabel.text = alarm.title?.isEmpty ?? true ? "알람" : alarm.title // 타이틀이 비어있으면 "알람" 표시
-        alarmSwitch.isOn = alarm.isEnabled
+        // isEnabled 상태에 따라 텍스트 색상 조정
+        if viewModel.isEnabled {
+            amPmLabel.textColor = .black
+            timeLabel.textColor = .black
+        } else {
+            amPmLabel.textColor = .lightGray
+            timeLabel.textColor = .lightGray
+        }
+
+    }
+    
+    @objc func switchValueChanged(sender: UISwitch) {
+        // isEnabled 속성 변경
+        let isEnabled = sender.isOn
+        
+        // 텍스트 색상 조정
+        if isEnabled {
+            amPmLabel.textColor = .black
+            timeLabel.textColor = .black
+        } else {
+            amPmLabel.textColor = .lightGray
+            timeLabel.textColor = .lightGray
+        }
+        
+        // delegate에게 알람 스위치 상태 변경 알림
+        delegate?.alarmSwitchDidChange(self, isOn: isEnabled)
+        delegate?.reloadTableView()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCellView()
+        alarmSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
         self.backgroundColor = .white
     }
     
@@ -92,5 +134,6 @@ class AlarmListTableViewCell: UITableViewCell {
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().offset(-16)
         }
+        
     }
 }
