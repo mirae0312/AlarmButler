@@ -1,31 +1,24 @@
-//
-//  SleepWakeAlarmViewModel.swift
-//  AlarmButler
-//
-//  Created by mirae on 2/5/24.
-//
-
-
 // SleepWakeAlarmViewModel.swift
 
 import Foundation
 
 class SleepWakeAlarmViewModel {
-    var sleepGoals: [Int] = []  // 예시 데이터
-    var wakeUpTimes: [Date] = []  // 예시 데이터
+    var sleepGoals: [Int] = []  // 수면 목표
+    var wakeUpTimes: [Date] = []  // 기상 시간
     var selectedDay: String? // 선택된 요일을 저장하는 변수
     var isAlarmEnabled: Bool = true // 알람 활성/비활성 여부를 저장하는 변수
-
+    
     // 초기화 메서드에서 데이터를 설정할 수 있도록 변경
-    init(sleepGoals: [Int], wakeUpTimes: [Date]) {
+    init(sleepGoals: [Int], wakeUpTimes: [Date], selectedDay: String?) {
         self.sleepGoals = sleepGoals
         self.wakeUpTimes = wakeUpTimes
+        self.selectedDay = selectedDay
     }
-
+    
     func toggleAlarm() {
-         isAlarmEnabled.toggle()
+        isAlarmEnabled.toggle()
     }
-
+    
     // cellViewModel(at:) 수정
     func cellViewModel(at indexPath: IndexPath) -> SleepWakeAlarmCellViewModel {
         let sleepGoal = sleepGoals[indexPath.row]
@@ -34,11 +27,35 @@ class SleepWakeAlarmViewModel {
         dateFormatter.timeStyle = .short
         let wakeUpTimeString = dateFormatter.string(from: wakeUpTime) // Date를 String으로 변환
 
-        // 예시 데이터, 실제 데이터와 맞게 수정해야 함
-        let bedtime = "오후 10:00"
-        let days = "월, 수, 금"
+        // 선택된 요일과 기상 시간을 가져와서 셀 뷰 모델을 생성합니다.
+        guard let selectedDay = selectedDay else {
+            fatalError("선택된 요일이 없습니다.")
+        }
+        
+        let viewModel = toCellViewModel(selectedDay: selectedDay, wakeUpTime: wakeUpTime, sleepGoal: sleepGoal)
+        return viewModel
+    }
+    
+    // toCellViewModel() 메서드 추가
+    func toCellViewModel(selectedDay: String, wakeUpTime: Date, sleepGoal: Int) -> SleepWakeAlarmCellViewModel {
+        // 기상 시간에서 수면 목표를 빼서 취침 시간을 계산합니다.
+        let calendar = Calendar.current
+        var components = DateComponents()
+        components.minute = -sleepGoal // 수면 목표를 분 단위로 설정합니다.
+        guard let bedtime = calendar.date(byAdding: components, to: wakeUpTime) else {
+            fatalError("취침 시간을 계산할 수 없습니다.")
+        }
+        
+        // DateFormatter를 사용하여 취침 시간을 문자열로 변환합니다.
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        let bedtimeString = dateFormatter.string(from: bedtime)
+        
+        // 기타 데이터를 설정합니다.
+        let wakeUpTimeString = dateFormatter.string(from: wakeUpTime)
+        let days = selectedDay
         let isSwitchOn = true
 
-        return SleepWakeAlarmCellViewModel(sleepGoalText: "\(sleepGoal) 분", wakeUpTimeText: wakeUpTimeString, bedtime: bedtime, wakeUpTime: wakeUpTimeString, days: days, isSwitchOn: isSwitchOn)
+        return SleepWakeAlarmCellViewModel(sleepGoalText: "\(sleepGoal) 분", wakeUpTimeText: wakeUpTimeString, bedtime: bedtimeString, wakeUpTime: wakeUpTimeString, days: days, isSwitchOn: isSwitchOn)
     }
 }

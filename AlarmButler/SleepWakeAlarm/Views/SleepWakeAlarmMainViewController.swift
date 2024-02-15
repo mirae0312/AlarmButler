@@ -6,7 +6,9 @@ import SnapKit
 class SleepWakeAlarmMainViewController: UIViewController {
     
     static let identifier = "SleepWakeAlarmCell"
+    static let cellIdentifier = "SleepWakeAlarmMainCell"
     
+    var viewModel: SleepWakeAlarmViewModel?
     // MARK: - Properties
     
     // 타이틀 레이블
@@ -50,12 +52,9 @@ class SleepWakeAlarmMainViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
-        
-        // 샘플 데이터 추가
-        let sampleAlarm1 = SleepWakeAlarmViewModel(sleepGoals: [480], wakeUpTimes: [Date()])
-        let sampleAlarm2 = SleepWakeAlarmViewModel(sleepGoals: [360], wakeUpTimes: [Date().addingTimeInterval(60*60)])  // 1시간 뒤
-        alarms = [sampleAlarm1, sampleAlarm2]
-        
+        tableView.register(SleepWakeAlarmMainCell.self, forCellReuseIdentifier: SleepWakeAlarmMainViewController.cellIdentifier)
+
+  
         // 테이블 뷰 리로드
         tableView.reloadData()
         // 기타 UI 설정...
@@ -74,8 +73,8 @@ class SleepWakeAlarmMainViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16) // 추가 버튼을 화면 상단에 정렬
         }
         // addTarget 코드 추가
-           addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-
+        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        
         // 타이틀 레이블 설정
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
@@ -109,8 +108,9 @@ class SleepWakeAlarmMainViewController: UIViewController {
     }
     // MARK: - Button Actions
     private func setupTableView() {
-        // UITableView 설정 및 dataSource, delegate 등록
-        // ...
+        // 테이블 뷰의 데이터 소스와 델리게이트 설정
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     @objc private func addButtonTapped() {
         let sleepWakeAlarmSetViewController = SleepWakeAlarmSetViewController()
@@ -122,29 +122,43 @@ class SleepWakeAlarmMainViewController: UIViewController {
         present(sleepWakeAlarmSetViewController, animated: true, completion: nil)
     }
 }
-
-extension SleepWakeAlarmMainViewController: SleepWakeAlarmSetViewControllerDelegate {
-    func didFinishEditingAlarm(with alarm: SleepWakeAlarmViewModel) {
-        // 편집이 완료되면 알람을 리스트에 추가
-        alarms.append(alarm)
-        
-        // 테이블 뷰를 리로드하여 변경된 데이터를 반영
-        tableView.reloadData()
+    
+    // MARK: - SleepWakeAlarmSetViewControllerDelegate
+    extension SleepWakeAlarmMainViewController: SleepWakeAlarmSetViewControllerDelegate {
+        func didFinishEditingAlarm(with alarm: SleepWakeAlarmViewModel) {
+            // 편집이 완료되면 알람을 리스트에 추가
+            alarms.append(alarm)
+            
+            // 테이블 뷰를 리로드하여 변경된 데이터를 반영
+            tableView.reloadData()
+        }
+    }
+// MARK: - UITableViewDelegate
+extension SleepWakeAlarmMainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 160  // 셀의 높이 설정
     }
 }
+
 // MARK: - UITableViewDataSource
-
 extension SleepWakeAlarmMainViewController: UITableViewDataSource {
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return alarms.count
+        return alarms.count  // 알람의 개수에 따라 셀의 개수를 반환
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SleepWakeAlarmCell.identifier, for: indexPath) as! SleepWakeAlarmCell
-        let alarm = alarms[indexPath.row]
-        let cellViewModel = alarm.cellViewModel(at: indexPath)
-        cell.configure(with: cellViewModel)
+        let cell = tableView.dequeueReusableCell(withIdentifier: SleepWakeAlarmMainViewController.cellIdentifier, for: indexPath) as! SleepWakeAlarmMainCell
+        let alarm = alarms[indexPath.row] // 알람 모델 가져오기
+        
+        // 선택된 요일이 옵셔널이므로 안전하게 처리해줍니다.
+        let selectedDay = alarm.selectedDay ?? ""
+        
+        // 만약 wakeUpTimes나 sleepGoals이 비어있을 수 있으므로 첫 번째 요소를 가져오기 전에 안전하게 체크해줍니다.
+        let wakeUpTime = alarm.wakeUpTimes.first ?? Date()
+        let sleepGoal = alarm.sleepGoals.first ?? 0
+        
+        let viewModel = alarm.toCellViewModel(selectedDay: selectedDay, wakeUpTime: wakeUpTime, sleepGoal: sleepGoal) // SleepWakeAlarmViewModel을 SleepWakeAlarmCellViewModel로 변환
+        cell.configure(with: viewModel)
         return cell
     }
 }
