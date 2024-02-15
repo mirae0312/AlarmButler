@@ -78,7 +78,7 @@
 		2B5861F92B7B8379001864F3 /* TimerLabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerLabelTableViewCell.swift; sourceTree = "<group>"; };
 		2B5861FB2B7B839B001864F3 /* TimerRingtoneSelectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRingtoneSelectTableViewCell.swift; sourceTree = "<group>"; };
 		2B5861FD2B7B83B5001864F3 /* TimerRingtoneSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRingtoneSelectViewController.swift; sourceTree = "<group>"; };
-		2B5861FF2B7B83D4001864F3 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimerViewModel.swift; path = AlarmButler/Timer/Views/TimerViewModel.swift; sourceTree = SOURCE_ROOT; };
+		2B5861FF2B7B83D4001864F3 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimerViewModel.swift; path = AlarmButler/Timer/ViewModels/TimerViewModel.swift; sourceTree = SOURCE_ROOT; };
 		2B5862032B7B8408001864F3 /* playSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playSound.swift; sourceTree = "<group>"; };
 		2B5862052B7B852A001864F3 /* TimerRecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRecordManager.swift; sourceTree = "<group>"; };
 		2B5862342B7C8B69001864F3 /* beeping.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beeping.wav; sourceTree = "<group>"; };
@@ -219,11 +219,11 @@
 		2E43CA842B7093F400FCA414 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
+				2B5862032B7B8408001864F3 /* playSound.swift */,
 				2B5862052B7B852A001864F3 /* TimerRecordManager.swift */,
 				2E43CAAA2B70964100FCA414 /* Model */,
 				2E43CAA82B70963C00FCA414 /* Views */,
 				2E43CAA62B70963800FCA414 /* ViewModels */,
-				2B5862032B7B8408001864F3 /* playSound.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";

@@ -25,12 +25,9 @@ class TimerViewController: UIViewController {
     let timePicker = UIPickerView()
     
     var circularProgressView = CircularProgressView()
-    var initialSeconds: Int = 0 // 타이머의 전체 시간을 초 단위로 저장
-    
     var viewModel = TimerViewModel()
-    
+    var initialSeconds: Int = 0 // 타이머의 전체 시간을 초 단위로 저장
     var timer: Timer?
-//    var remainingSeconds: Int = 0
     
     let date: DateFormatter = {
         let df = DateFormatter()
@@ -58,28 +55,29 @@ class TimerViewController: UIViewController {
         setupUI()
         setupController()
         setupPickerLabel()
-//        setupTimerUI()
+        //        setupTimerUI()
         setupConstraints()
         setupBindings()
         
-//        // ViewModel의 클로저 구현
-//        viewModel.updateTimeLabelClosure = { [weak self] timeStr in
-//            DispatchQueue.main.async {
-//                self?.timeLabel.text = timeStr
-//                // 폰트 크기를 조정하지 않고, 필요한 경우 기본값 또는 뷰 설정에서 정의한 값 사용
-//                // 만약 동적으로 폰트 크기를 조정하고 싶다면, 여기서 직접 조건에 따라 폰트 크기를 결정하고 적용
-//            }
-//        }
+        viewModel.printAllTimerRecordStatus()
+        //        // ViewModel의 클로저 구현
+        //        viewModel.updateTimeLabelClosure = { [weak self] timeStr in
+        //            DispatchQueue.main.async {
+        //                self?.timeLabel.text = timeStr
+        //                // 폰트 크기를 조정하지 않고, 필요한 경우 기본값 또는 뷰 설정에서 정의한 값 사용
+        //                // 만약 동적으로 폰트 크기를 조정하고 싶다면, 여기서 직접 조건에 따라 폰트 크기를 결정하고 적용
+        //            }
+        //        }
         
-//        if viewModel.isActiveTimerExists() {
-//            timePicker.isHidden = true
-//            circularProgressView.isHidden = false
-//            animateTimerTransition()
-//        } else {
-//            timePicker.isHidden = false
-//            circularProgressView.isHidden = true
-//        }
-
+        //        if viewModel.isActiveTimerExists() {
+        //            timePicker.isHidden = true
+        //            circularProgressView.isHidden = false
+        //            animateTimerTransition()
+        //        } else {
+        //            timePicker.isHidden = false
+        //            circularProgressView.isHidden = true
+        //        }
+        
     }
     
     private func animateTimerTransition() {
@@ -93,7 +91,7 @@ class TimerViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         timePicker.isHidden = false
-//        circularProgressView.isHidden = true
+        //        circularProgressView.isHidden = true
         
         view.addSubview(timePicker)
         view.addSubview(cancelButton)
@@ -145,10 +143,17 @@ class TimerViewController: UIViewController {
             self?.ringtoneSelectView.layer.opacity = 0.6
         }
         
-        let modalViewController = TimerRingtoneSelectViewController()
+        let ringtoneSelectVC = TimerRingtoneSelectViewController()
         
-        let navigationController = UINavigationController(rootViewController: modalViewController)
+        // 선택한 벨소리를 ViewModel에 저장하는 콜백 설정
+        ringtoneSelectVC.soundUpdateClosure = { [weak self] selectedSound in
+            self?.viewModel.selectedRingtone = selectedSound
+            self?.ringtoneLabel.text = selectedSound
+        }
+        // 선택한 벨소리를 표시하기 위해 현재 선택된 벨소리를 전달
+        ringtoneSelectVC.selectedSoundFromTimerViewController = viewModel.selectedRingtone
         
+        let navigationController = UINavigationController(rootViewController: ringtoneSelectVC)
         self.present(navigationController, animated: true, completion: nil)
     }
     
@@ -232,18 +237,19 @@ class TimerViewController: UIViewController {
     
     @objc func cancelButtonTapped(_ sender: UIButton) {
         // 타이머 중지
-        viewModel.timer?.invalidate()
-        viewModel.timer = nil
+        timer?.invalidate()
+        timer = nil
         
         viewModel.isOn = false
         viewModel.paused = true
         
-        // 타이머 기록의 isActive 상태를 업데이트
         if let id = viewModel.currentTimerId {
             viewModel.updateTimerRecord(id: id, newIsActive: false)
         }
         
         resetTimer()
+        // 타이머 UI 초기화
+        resetTimerUI()
     }
     
     @objc func startButtonTapped(_ sender: UIButton) {
@@ -277,11 +283,11 @@ class TimerViewController: UIViewController {
             }
         }
     }
-
+    
     func startTimer(hour: Int, minute: Int, second: Int) {
         isOn = true
         paused = false
-                
+        
         let duration = hour * 3600 + minute * 60 + second
         remainingTimeInSeconds = duration
         initialSeconds = duration
@@ -289,13 +295,11 @@ class TimerViewController: UIViewController {
         timer?.invalidate()
         animateTimerTransition()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-
+        
         // 타이머가 시작될 때 Circular Progress 업데이트
         updateCircularProgress()
-        
         let label = "\(hour)시 \(minute)분 \(second)초"
-        viewModel.saveTimerRecord(duration: duration, label: label, ringTone: "기본 벨소리", isActive: isOn)
-        
+        viewModel.saveTimerRecord(duration: duration, label: label, ringTone: "beeping", isActive: isOn)
     }
 
     func pauseTimer() {
@@ -334,7 +338,7 @@ class TimerViewController: UIViewController {
         startButton.backgroundColor = buttonColor
     }
     
-    @objc func updateTimeLabel() {
+    func updateTimeLabel() {
         // 타이머가 중지된 경우 함수 실행을 중단
         if !isOn {
             return
@@ -345,14 +349,6 @@ class TimerViewController: UIViewController {
         
         print("updateTimeLabel 호출: \(hours)시 \(minutes)분 \(seconds)초")
         
-        if hours == 0 && minutes == 0 && seconds == 0 {
-            print("모든 값이 0으로 설정됨. 타이머 리셋.")
-            isOn = false
-            paused = true
-            resetTimer()
-            return
-        }
-        
         let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
         
         timeLabel.text = hours > 0 ? formattedTime : String(format: "%02d:%02d", minutes, seconds)
@@ -361,17 +357,6 @@ class TimerViewController: UIViewController {
 
         print("타이머 레이블 업데이트: \(timeLabel.text ?? "nil")")
         
-        // 타이머 시간 감소 로직
-//        if seconds > 0 {
-//            timePicker.selectRow(seconds - 1, inComponent: 2, animated: false)
-//        } else if minutes > 0 {
-//            timePicker.selectRow(minutes - 1, inComponent: 1, animated: false)
-//            timePicker.selectRow(59, inComponent: 2, animated: false)
-//        } else if hours > 0 {
-//            timePicker.selectRow(hours - 1, inComponent: 0, animated: false)
-//            timePicker.selectRow(59, inComponent: 1, animated: false)
-//            timePicker.selectRow(59, inComponent: 2, animated: false)
-//        }
     }
     
     func setupTimerUI() {
@@ -394,9 +379,6 @@ class TimerViewController: UIViewController {
         circularProgressView.addSubview(timeLabel)
         circularProgressView.addSubview(timeSubLabel)
         setupLabels()
-
-//        timePicker.isHidden = false
-//        circularProgressView.isHidden = true
     }
 
     
@@ -424,28 +406,30 @@ class TimerViewController: UIViewController {
     
     func resetTimer() {
         // 타이머 중지
-        viewModel.stopTimer()
+        timer?.invalidate()
+        timer = nil
+        isOn = false
+        paused = true
         remainingTimeInSeconds = 0
         
+    }
+    
+    func resetTimerUI() {
         // UI 컴포넌트를 초기 상태로 되돌리기
         timePicker.isHidden = false
         circularProgressView.isHidden = true
-        timeLabel.text = "00:00" // 또는 초기 설정값으로 되돌리기
+        timeLabel.text = "00:00"
         
-        // 타이머 뷰와 타임 피커 뷰의 페이드 인/아웃 애니메이션
         UIView.animate(withDuration: 0.6) { [weak self] in
             guard let self = self else { return }
             self.circularProgressView.alpha = 0
             self.timePicker.alpha = 1
         }
         
-        // 타임 피커의 모든 컴포넌트를 초기값으로 리셋
         resetTimePickerComponents()
-        
-        // 테이블 뷰 리로드
         tableView.reloadData()
     }
-
+    
     // 타임 피커의 모든 컴포넌트를 초기 상태로 설정
     private func resetTimePickerComponents() {
         let components = [0, 1, 2] // 시, 분, 초 컴포넌트 인덱스
@@ -512,8 +496,6 @@ extension UIPickerView {
             addSubview(label)
     }
 }
-
-
 extension TimerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -537,45 +519,52 @@ extension TimerViewController: UITableViewDelegate {
     }
     
     func startNewTimer(withDuration duration: Int) {
+        timer?.invalidate()
         setupTimerUI()
         animateTimerTransition()
-        timer?.invalidate()
         remainingTimeInSeconds = duration
         initialSeconds = duration
         isOn = true
         paused = false
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        // 타이머가 시작될 때 Circular Progress 업데이트
         updateCircularProgress()
     }
 
     @objc func updateTime() {
-        // 타이머 업데이트 로직
         if remainingTimeInSeconds > 0 {
-            // 남은 시간 감소
+            // 남은 시간이 있는 경우, 시간 감소 및 UI 업데이트
             remainingTimeInSeconds -= 1
-            
-            // 타이머가 작동 중일 때 Circular Progress 업데이트
             updateCircularProgress()
-            
-            // 시간 업데이트 UI 호출
             updateTimeLabel()
         } else {
-            // 타이머 종료 로직
+            // 타이머가 자연적으로 0에 도달하여 종료될 경우
             timer?.invalidate()
             timer = nil
             isOn = false
             paused = false
-            // 타이머 기록의 isActive 상태를 업데이트
             if let id = viewModel.currentTimerId {
                 viewModel.updateTimerRecord(id: id, newIsActive: false)
             }
-            // 타이머 종료 후 필요한 UI 업데이트
-            updateTimerUI()
             
-            // 타이머 완료 알림 추가
-            notifyTimerCompletion() // 타이머 완료 알림 함수 호출
+            // 타이머 종료 시 알림음 재생
+            notifyTimerCompletion()
+            
+            // UI 컴포넌트를 초기 상태로 되돌리고, 필요한 UI 업데이트 수행
+            DispatchQueue.main.async { [weak self] in
+                self?.resetTimerUI()
+            }
         }
+    }
+
+    func completeTimer() {
+        // 타이머 종료 로직
+        isOn = false
+        paused = false
+        notifyTimerCompletion() // 타이머 종료 시 알림음 재생
+        if let id = viewModel.currentTimerId {
+            viewModel.updateTimerRecord(id: id, newIsActive: false)
+        }
+        resetTimerUI() // UI 컴포넌트를 초기 상태로 되돌리고 타이머 UI 업데이트
     }
     
     func updateCircularProgress() {
@@ -586,9 +575,9 @@ extension TimerViewController: UITableViewDelegate {
         circularProgressView.setProgressWithAnimation(duration: 1.0, value: CGFloat(progress))
         print("progress")
     }
+    
     func notifyTimerCompletion() {
         playSound(fileName: viewModel.selectedRingtone ?? "beeping")
-        print("타이머 완료!")
     }
     
     private func clearCheckmarks(in tableView: UITableView) {
@@ -603,7 +592,6 @@ extension TimerViewController: UITableViewDelegate {
         }
     }
 
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // ViewModel을 통해 해당 타이머 기록 삭제
@@ -620,7 +608,6 @@ extension TimerViewController: UITableViewDelegate {
         44
     }
 }
-
 extension TimerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

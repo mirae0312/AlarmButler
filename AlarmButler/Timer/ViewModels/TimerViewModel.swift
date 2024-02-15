@@ -219,5 +219,10 @@ class TimerViewModel {
         updateUIStateClosure?(paused, labelColor)
     }
     
-    
+    func printAllTimerRecordStatus() {
+        for record in timerRecords {
+            print("ID: \(record.id), isActive: \(record.isActive), duration: \(record.duration)")
+        }
+    }
+
 }

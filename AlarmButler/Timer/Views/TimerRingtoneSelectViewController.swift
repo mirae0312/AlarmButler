@@ -10,6 +10,7 @@ import SnapKit
 
 class TimerRingtoneSelectViewController: UIViewController,UITableViewDelegate {
     
+    var viewModel = TimerViewModel()
     var tableview = UITableView()
     
     var soundUpdateClosure: ((String) -> Void)?
