@@ -72,6 +72,7 @@ class TimeZoneController: UIViewController {
         let searchBar = UISearchBar()
         searchBar.placeholder = "검색"
         searchBar.showsCancelButton = true
+        searchBar.delegate = self
         return searchBar
     }()
     
@@ -131,7 +132,10 @@ extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-
+        //해당되는 데이터의 섹션 하나만 뜨게
+        if(filteredData.count != 0){
+            return 1
+        }
         return sectionTitle.count
     }
     
@@ -185,10 +189,10 @@ extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-extension TimeZoneController: UISearchBarDelegate {
+extension TimeZoneController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredData = searchText.isEmpty ? clockData : clockData.filter({ tuple -> Bool in
-            return tuple.0.range(of: searchText, options: [.caseInsensitive]) != nil
+            return tuple.0.range(of: searchText, options:[.caseInsensitive]) != nil
         })
         addTableView.reloadData()
     }
@@ -201,4 +205,3 @@ extension TimeZoneController: UISearchBarDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
-

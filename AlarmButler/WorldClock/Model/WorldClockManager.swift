@@ -86,7 +86,7 @@ class WorldClockManager {
         if(time.last! == "AM" || time.last! == "PM") {
             return isNoon ? "\(time.last! == "AM" ? "오전" : "오후")" : "\(time.first!)"
         }
-        return isNoon ? "\(time.first!)" : "\(time.last!)"
+        return isNoon ? "\(time.first!)" : "\(time.last!)" //가봉
     }
     
     //코어데이터에 세계 시간 저장
