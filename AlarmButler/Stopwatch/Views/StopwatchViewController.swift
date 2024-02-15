@@ -104,6 +104,7 @@ class StopwatchViewController: UIViewController {
     }
     
     func setupTableView() {
+        
         tableView.allowsSelection = false
         tableView.backgroundColor = .systemGray5
         
@@ -167,10 +168,14 @@ extension StopwatchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "lapCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "lapCell", for: indexPath) as! StopwatchTableViewCell
+        
+        let stopwatch = viewModel.laps[indexPath.row]
         
         
-        
+        cell.setUplapLabel(lapTime: stopwatch.lapTime, mainTime: stopwatch.mainTime)
+        cell.lapLabel.text = "Lap \(viewModel.laps.count - indexPath.row)"
+
         return cell
     }
     
