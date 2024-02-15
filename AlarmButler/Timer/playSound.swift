@@ -18,6 +18,6 @@ func playSound(fileName: String) {
         audioPlayer = try AVAudioPlayer(contentsOf: url)
         audioPlayer?.play()
     } catch {
-        print("오디오 파일 재생 실패: \(error)")
+        
     }
 }
