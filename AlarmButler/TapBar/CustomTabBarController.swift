@@ -47,7 +47,7 @@ class CustomTabBarController: UITabBarController {
         let timerVC = TimerViewController()
         timerVC.tabBarItem = UITabBarItem(title: "타이머", image: UIImage(named: "timerIcon"), tag: 3)
         
-        let SleepWakeAlarmVC = AlarmListViewController()
+        let SleepWakeAlarmVC = SleepWakeAlarmMainViewController()
         SleepWakeAlarmVC.tabBarItem = UITabBarItem(title: "패턴모드", image: UIImage(named: "patternModeIcon"), tag: 4)
         
         // 탭 바 컨트롤러에 뷰 컨트롤러들 추가
