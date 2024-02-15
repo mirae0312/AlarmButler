@@ -130,6 +130,7 @@ extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
             headerView.textLabel?.textColor = .lightGray
         }
     }
+
     
     func numberOfSections(in tableView: UITableView) -> Int {
         //해당되는 데이터의 섹션 하나만 뜨게
@@ -140,9 +141,13 @@ extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-
+        //검색 결과가 있다면 섹션 헤더의 제목으로 nil을 반환
+        if(filteredData.count != 0){
+            return nil
+        }
         return sectionTitle[section]
     }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionArray = clockDataWithSection[sectionTitle[section]] else {
