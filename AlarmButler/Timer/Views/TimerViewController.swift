@@ -328,26 +328,38 @@ class TimerViewController: UIViewController {
     }
     
     func setupTimerUI() {
-        if circularProgressView.superview == nil {
-            view.addSubview(circularProgressView)
-            circularProgressView.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(view.safeAreaLayoutGuide).offset(50)
-                make.width.equalTo(self.view.snp.width).multipliedBy(0.75)
-                make.height.equalTo(circularProgressView.snp.width)
+        // timePicker에서 선택된 시간, 분, 초가 모두 0인지 확인
+        let hour = timePicker.selectedRow(inComponent: 0)
+        let minute = timePicker.selectedRow(inComponent: 1)
+        let second = timePicker.selectedRow(inComponent: 2)
+        let totalSeconds = hour * 3600 + minute * 60 + second
+
+        // totalSeconds가 0이 아니면 circularProgressView 설정 진행
+        if totalSeconds > 0 {
+            if circularProgressView.superview == nil {
+                view.addSubview(circularProgressView)
+                circularProgressView.snp.makeConstraints { make in
+                    make.centerX.equalToSuperview()
+                    make.top.equalTo(view.safeAreaLayoutGuide).offset(50)
+                    make.width.equalTo(self.view.snp.width).multipliedBy(0.75)
+                    make.height.equalTo(circularProgressView.snp.width)
+                }
             }
+
+            circularProgressView.trackColor = .lightGray
+            circularProgressView.progressColor = .systemOrange
+            circularProgressView.trackLineWidth = 15
+            circularProgressView.progressLineWidth = 15
+            circularProgressView.backgroundColor = .clear
+
+            circularProgressView.addSubview(timeLabel)
+            circularProgressView.addSubview(timeSubLabel)
+            setupLabels()
+        } else {
+            circularProgressView.removeFromSuperview()
         }
-
-        circularProgressView.trackColor = .lightGray
-        circularProgressView.progressColor = .systemOrange
-        circularProgressView.trackLineWidth = 15
-        circularProgressView.progressLineWidth = 15
-        circularProgressView.backgroundColor = .clear
-
-        circularProgressView.addSubview(timeLabel)
-        circularProgressView.addSubview(timeSubLabel)
-        setupLabels()
     }
+
 
     
     override func viewDidLayoutSubviews() {
