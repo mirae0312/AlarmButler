@@ -20,6 +20,7 @@ class AlarmListViewModel {
     init(context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext) {
         self.context = context
     }
+    let alarmManager = AlarmManager()
     
     // Core Data에서 알람 목록을 불러오는 함수
     func fetchAlarmsAndUpdateViewModels() {
@@ -65,6 +66,19 @@ class AlarmListViewModel {
             
             // 변경 사항을 저장
             try context.save()
+            
+            // 로컬 알림 업데이트
+            if isEnabled {
+                alarmManager.scheduleLocalNotification(for: alarmToUpdate) { success in
+                    if success {
+                        print("로컬 알림이 성공적으로 업데이트되었습니다.")
+                    } else {
+                        print("로컬 알림 업데이트 중 일부에서 실패했습니다.")
+                    }
+                }
+            } else {
+                alarmManager.removeLocalNotification(for: alarmToUpdate)
+            }
         } catch {
             print("알람 상태 업데이트 실패: \(error.localizedDescription)")
         }
@@ -81,12 +95,21 @@ class AlarmListViewModel {
             print("반복 요일: \(repeatDays.joined(separator: ", "))")
         }
         saveContext() // 컨텍스트 저장
+        // 로컬 알림 설정
+        alarmManager.scheduleLocalNotification(for: alarmEntity) { success in
+            if success {
+                print("로컬 알림이 성공적으로 스케줄링되었습니다.")
+            } else {
+                print("로컬 알림 스케줄링 중 일부에서 실패했습니다.")
+            }
+        }
     }
     
     // 알람을 Core Data에서 삭제하는 함수
     func deleteAlarm(alarmId: NSManagedObjectID) {
         guard let alarmToDelete = context.object(with: alarmId) as? AlarmEntity else { return }
-        
+        // 로컬 알림 제거
+        alarmManager.removeLocalNotification(for: alarmToDelete)
         context.delete(alarmToDelete)
         do {
             try context.save()
@@ -103,5 +126,6 @@ class AlarmListViewModel {
             print("변경사항 저장 실패: \(error.localizedDescription)")
         }
     }
+    
 }
 

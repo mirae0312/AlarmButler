@@ -125,6 +125,7 @@ class AlarmDetailViewController: UIViewController {
         // 뒤로 가기 버튼 설정 및 액션 추가
         backButton = UIButton(type: .system)
         backButton.setTitle("취소", for: .normal)
+        backButton.setTitleColor(.orange, for: .normal)
         backButton.addTarget(self, action: #selector(dismissViewController), for: .touchUpInside)
         customNavigationBar.addSubview(backButton)
         
@@ -136,6 +137,7 @@ class AlarmDetailViewController: UIViewController {
         // 저장 버튼 설정 및 액션 추가
         saveButton = UIButton(type: .system)
         saveButton.setTitle("저장", for: .normal)
+        saveButton.setTitleColor(.orange, for: .normal)
         saveButton.addTarget(self, action: #selector(saveAlarm), for: .touchUpInside)
         customNavigationBar.addSubview(saveButton)
         
@@ -602,19 +604,21 @@ extension AlarmDetailViewController {
     }
 
     @objc func deleteAlarm() {
-        guard let alarmId = alarmId,
-              let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
-        
-        let alarmToDelete = context.object(with: alarmId)
-        context.delete(alarmToDelete)
-        
-        do {
-            try context.save()
-            // 이전 뷰 컨트롤러에 삭제 완료를 알리는 클로저를 호출.
+        guard let alarmId = alarmId else { return }
+            viewModel.deleteAlarm(alarmId: alarmId)
+//        guard let alarmId = alarmId,
+//              let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+//        
+//        let alarmToDelete = context.object(with: alarmId)
+//        context.delete(alarmToDelete)
+//        
+//        do {
+//            try context.save()
+//            // 이전 뷰 컨트롤러에 삭제 완료를 알리는 클로저를 호출.
             onSave?()
             dismissViewController()
-        } catch let error as NSError {
-            print("알람 삭제 에러: \(error), \(error.userInfo)")
-        }
+//        } catch let error as NSError {
+//            print("알람 삭제 에러: \(error), \(error.userInfo)")
+//        }
     }
 }

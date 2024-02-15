@@ -23,6 +23,30 @@ class AlarmListViewController: UIViewController {
         setupCustomNavigationBar()
         viewModel.fetchAlarmsAndUpdateViewModels() // 알람 데이터 불러오기
         setupTableView()
+        // 로컬알림 목록 테스트용
+        printPendingNotificationRequests()
+        //UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
+    
+    // 로컬알림 목록 테스트용
+    func printPendingNotificationRequests() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.getPendingNotificationRequests { requests in
+            for request in requests {
+                print("Pending Notification Request:")
+                print("Identifier: \(request.identifier)")
+                //print("Content: \(request.content)")
+                if let trigger = request.trigger as? UNCalendarNotificationTrigger {
+                    let dateComponents = trigger.dateComponents
+                    let hour = dateComponents.hour ?? 0
+                    let minute = dateComponents.minute ?? 0
+                    let weekday = dateComponents.weekday ?? 0
+                    print("Date Components: \(hour):\(minute), Weekday: \(weekday)")
+                }
+                print("Repeats: \(request.trigger?.repeats ?? false)")
+                print("-------------------------------------------------")
+            }
+        }
     }
 
     // 네비게이션 바 설정
@@ -50,6 +74,7 @@ class AlarmListViewController: UIViewController {
         // 편집 버튼 설정
         editButton = UIButton(type: .system)
         editButton.setTitle("편집", for: .normal)
+        editButton.setTitleColor(.orange, for: .normal) // 텍스트 색상을 오렌지로 설정
         editButton.addTarget(self, action: #selector(toggleEditing), for: .touchUpInside)
         customNavigationBar.addSubview(editButton)
         
@@ -61,6 +86,7 @@ class AlarmListViewController: UIViewController {
         // 추가 버튼 설정
         addButton = UIButton(type: .system)
         addButton.setTitle("+", for: .normal)
+        addButton.setTitleColor(.orange, for: .normal)
         addButton.addTarget(self, action: #selector(addAlarm), for: .touchUpInside)
         customNavigationBar.addSubview(addButton)
         
