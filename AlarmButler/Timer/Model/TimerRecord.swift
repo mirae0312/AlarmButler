@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import CoreData
 
-struct AlarmData {
-    var isOn: Bool
-    var time: Date
-    var label: String
-    var isAgain: Bool
-    var repeatDays: String
-    var sound: String
+@objc(TimerRecord)
+public class TimerRecord: NSManagedObject {
+    @NSManaged public var id: UUID
+    @NSManaged public var duration: Int32
+    @NSManaged public var label: String
+    @NSManaged public var isActive: Bool
+    @NSManaged public var ringTone: String
 }

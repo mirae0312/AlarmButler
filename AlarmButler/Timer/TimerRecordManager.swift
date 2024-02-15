@@ -1,77 +1,105 @@
 //
-//  TimerManager.swift
+//  TimerRecordManager.swift
 //  AlarmButler
 //
-//  Created by t2023-m0024 on 2/8/24.
+//  Created by t2023-m0024 on 2/13/24.
 //
 
 import Foundation
 import CoreData
-import UIKit
 
-class TimerManager {
-    static let shared = TimerManager()
+class TimerRecordManager {
     
+    static let shared = TimerRecordManager()
     private init() {}
+
+    // MARK: - Core Data stack
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "AlarmButler")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    // TimerData를 CoreData에서 모두 가져옵니다.
-    func fetchTimers(completion: @escaping ([TimerData]?, Error?) -> Void) {
-        let request: NSFetchRequest<TimerData> = TimerData.fetchRequest()
-        
-        do {
-            let timers = try context.fetch(request)
-            completion(timers, nil)
-        } catch let error as NSError {
-            completion(nil, error)
+    lazy var context: NSManagedObjectContext = {
+        return persistentContainer.viewContext
+    }()
+
+    // MARK: - Core Data Saving support
+    func saveContext () {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
         }
     }
     
-    // 새 타이머(알람)을 CoreData에 저장합니다.
-    func saveTimer(isOn: Bool, time: Date, label: String, isAgain: Bool, repeatDays: [String], sound: String, completion: @escaping (Bool, Error?) -> Void) {
-        let newTimer = TimerData(context: context)
-        newTimer.isOn = isOn
-        newTimer.time = time
-        newTimer.label = label
-        newTimer.isAgain = isAgain
-        newTimer.repeatDays = repeatDays.joined(separator: ",")
-        newTimer.sound = sound
-        
-        do {
-            try context.save()
-            completion(true, nil)
-        } catch let error as NSError {
-            completion(false, error)
-        }
-    }
-    
-    // 특정 타이머(알람) 데이터를 업데이트합니다.
-    func updateTimer(timer: TimerData, isOn: Bool, time: Date, label: String, isAgain: Bool, repeatDays: [String], sound: String, completion: @escaping (Bool, Error?) -> Void) {
-        timer.isOn = isOn
-        timer.time = time
-        timer.label = label
-        timer.isAgain = isAgain
-        timer.repeatDays = repeatDays.joined(separator: ",")
-        timer.sound = sound
-        
+    // MARK: - CRUD Operations
+    func createTimerRecord(duration: Int, label: String, ringTone: String, isActive: Bool) -> TimerRecord? {
+        guard let entity = NSEntityDescription.entity(forEntityName: "TimerRecord", in: context) else { return nil }
+        let timerRecord = TimerRecord(entity: entity, insertInto: context)
+
+        timerRecord.id = UUID()
+        timerRecord.duration = Int32(duration)
+        timerRecord.label = label
+        timerRecord.ringTone = ringTone
+        timerRecord.isActive = isActive
+
         do {
             try context.save()
-            completion(true, nil)
+            return timerRecord
         } catch let error as NSError {
-            completion(false, error)
+            print("Could not save new timer record: \(error), \(error.userInfo)")
+            return nil
+        }
+    }
+
+    func fetchTimerRecords() -> [TimerRecord] {
+        let fetchRequest: NSFetchRequest<TimerRecord> = NSFetchRequest<TimerRecord>(entityName: "TimerRecord")
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            print("Error fetching data: \(error)")
+            return []
         }
     }
     
-    // 특정 타이머(알람) 데이터를 삭제합니다.
-    func deleteTimer(timer: TimerData, completion: @escaping (Bool, Error?) -> Void) {
-        context.delete(timer)
-        
-        do {
-            try context.save()
-            completion(true, nil)
-        } catch let error as NSError {
-            completion(false, error)
+    func updateTimerRecord(id: UUID, newIsActive: Bool?) {
+        if let timerRecord = fetchTimerRecords().first(where: { $0.id == id }) {
+//            if let duration = newDuration {
+//                timerRecord.duration = Int32(Int(duration))
+//            }
+//            if let label = newLabel {
+//                timerRecord.label = label
+//            }
+//            if let ringtone = newRingtone {
+//                timerRecord.ringTone = ringtone
+//            }
+            if let isActive = newIsActive {
+                timerRecord.isActive = isActive
+            }
+            saveContext()
         }
     }
+    
+    func deleteTimerRecord(id: UUID) {
+        if let timerRecord = fetchTimerRecords().first(where: { $0.id == id }) {
+            context.delete(timerRecord)
+            saveContext()
+        }
+    }
+    
+    func updateTimerRecordIsActiveState(id: UUID, isActive: Bool) {
+        if let timerRecord = fetchTimerRecords().first(where: { $0.id == id }) {
+            timerRecord.isActive = isActive
+            saveContext()
+        }
+    }
+
 }
