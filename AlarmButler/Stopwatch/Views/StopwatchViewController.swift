@@ -11,6 +11,7 @@ import SnapKit
 class StopwatchViewController: UIViewController {
     
     let mainTimer = UILabel()
+    let lapTimer = UILabel()
     let lapAndResetButton = UIButton()
     let startAndStopButton = UIButton()
     let tableView = UITableView()
@@ -32,8 +33,9 @@ class StopwatchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         setupMainTimer()
+//        setupLapTimer()
         setuplapAndResetButton()
         setupstartAndStopButton()
         setupTableView()
@@ -63,11 +65,25 @@ class StopwatchViewController: UIViewController {
         mainTimer.font = .boldSystemFont(ofSize: 80)
         mainTimer.text = "00.00.00"
         mainTimer.sizeToFit()
-        mainTimer.textColor = .white
+        mainTimer.textColor = .black
         view.addSubview(mainTimer)
         
         mainTimer.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(180) // 상단 여백 설정
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(140) // 상단 여백 설정
+            $0.centerX.equalToSuperview() // 가로축 중앙 정렬
+            $0.left.right.equalToSuperview().inset(25) // 좌우 여백 설정
+        }
+    }
+    
+    func setupLapTimer() {
+        lapTimer.font = .boldSystemFont(ofSize: 30)
+        lapTimer.text = "00.00.00"
+        lapTimer.sizeToFit()
+        lapTimer.textColor = .black
+        view.addSubview(lapTimer)
+        
+        mainTimer.snp.makeConstraints {
+            $0.top.equalTo(self.mainTimer.snp.bottom).offset(10) // 상단 여백 설정
             $0.centerX.equalToSuperview() // 가로축 중앙 정렬
             $0.left.right.equalToSuperview().inset(25) // 좌우 여백 설정
         }
@@ -77,8 +93,9 @@ class StopwatchViewController: UIViewController {
         let button = lapAndResetButton
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.setTitle("Reset", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.backgroundColor = .systemGray
+        button.layer.cornerRadius = 35
         view.addSubview(button)
         
         button.snp.makeConstraints {
@@ -94,6 +111,7 @@ class StopwatchViewController: UIViewController {
         button.setTitle("Start", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemGray
+        button.layer.cornerRadius = 35
         view.addSubview(button)
         
         button.snp.makeConstraints {
@@ -106,7 +124,7 @@ class StopwatchViewController: UIViewController {
     func setupTableView() {
         
         tableView.allowsSelection = false
-        tableView.backgroundColor = .systemGray5
+        tableView.backgroundColor = .systemGray6
         
         view.addSubview(tableView)
         
@@ -122,10 +140,12 @@ class StopwatchViewController: UIViewController {
         self.viewModel.runAndStop {
             switch self.viewModel.isRnunnig {
             case .runnig:
-                self.changeButton(self.startAndStopButton, title: "Start", titleColor: .systemGreen)
+                self.changeButton(self.startAndStopButton, title: "Start", titleColor: .black)
+                self.startAndStopButton.backgroundColor = .systemGreen
                 self.lapAndResetButton.setTitle("Reset", for: .normal)
             case .stop:
-                self.changeButton(self.startAndStopButton, title: "Stop", titleColor: .systemRed)
+                self.changeButton(self.startAndStopButton, title: "Stop", titleColor: .white)
+                startAndStopButton.backgroundColor = .systemRed
                 self.lapAndResetButton.setTitle("Lap", for: .normal)
             }
         }
@@ -172,7 +192,7 @@ extension StopwatchViewController: UITableViewDataSource {
         
         let stopwatch = viewModel.laps[indexPath.row]
         
-        
+        cell.backgroundColor = .systemGray4
         cell.setUplapLabel(lapTime: stopwatch.lapTime, mainTime: stopwatch.mainTime)
         cell.lapLabel.text = "Lap \(viewModel.laps.count - indexPath.row)"
 
