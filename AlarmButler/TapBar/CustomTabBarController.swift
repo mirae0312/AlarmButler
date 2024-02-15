@@ -34,19 +34,19 @@ class CustomTabBarController: UITabBarController {
     func setupTabBar() {
         // 각 탭에 대한 뷰 컨트롤러 생성 대만
         let worldClockVC = WorldClockViewController()
-        worldClockVC.tabBarItem = UITabBarItem(title: "세계시간", image: UIImage(named: ""), tag: 0)
+        worldClockVC.tabBarItem = UITabBarItem(title: "세계시간", image: UIImage(named: "AppIcon"), tag: 0)
         
         let alarmVC = AlarmListViewController() // 알람 뷰 컨트롤러
-        alarmVC.tabBarItem = UITabBarItem(title: "알람", image: UIImage(named: ""), tag: 1)
+        alarmVC.tabBarItem = UITabBarItem(title: "알람", image: UIImage(named: "AppIcon"), tag: 1)
         
         let stopwatchVC = StopwatchViewController()
-        stopwatchVC.tabBarItem = UITabBarItem(title: "스톱워치", image: UIImage(named: ""), tag: 2)
+        stopwatchVC.tabBarItem = UITabBarItem(title: "스톱워치", image: UIImage(named: "AppIcon"), tag: 2)
         
         let timerVC = TimerViewController()
-        timerVC.tabBarItem = UITabBarItem(title: "타이머", image: UIImage(named: ""), tag: 3)
+        timerVC.tabBarItem = UITabBarItem(title: "타이머", image: UIImage(named: "AppIcon"), tag: 3)
         
-        let SleepWakeAlarmVC = AlarmListViewController()
-        SleepWakeAlarmVC.tabBarItem = UITabBarItem(title: "패턴모드", image: UIImage(named: ""), tag: 4)
+        let SleepWakeAlarmVC = SleepWakeAlarmMainViewController()
+        SleepWakeAlarmVC.tabBarItem = UITabBarItem(title: "패턴모드", image: UIImage(named: "AppIcon"), tag: 4)
         
         // 탭 바 컨트롤러에 뷰 컨트롤러들 추가
         // 세계시간, 알람, 스톱워치, 타이머, 패턴모드 순서로 배치

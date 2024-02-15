@@ -33,17 +33,19 @@ class SleepWakeAlarmSetViewController: UIViewController {
         return button
     }()
     
-    // 저장 버튼 액션
-     @objc private func saveButtonTapped() {
-         // 선택된 요일, 수면 목표, 기상 시각 등을 사용하여 알람을 생성
-         let createdAlarm = createAlarm()
+    @objc private func saveButtonTapped() {
+        // 선택된 요일, 수면 목표, 기상 시각 등을 사용하여 알람을 생성
+        let createdAlarm = createAlarm()
 
-         // 델리게이트를 통해 알람이 추가되었음을 알림
-         delegate?.didFinishEditingAlarm(with: createdAlarm)
+        // 델리게이트를 통해 알람이 추가되었음을 알림
+        delegate?.didFinishEditingAlarm(with: createdAlarm)
 
-         // 화면을 닫거나 다른 작업을 수행할 수 있음
-         navigationController?.popViewController(animated: true)
-     }
+        // 화면을 닫음
+        dismiss(animated: true, completion: nil)
+        
+        // 로그 추가
+        print("Save button tapped!")
+    }
 
      // 알람을 생성하는 메서드 (수면 목표, 기상 시각 등을 사용)
      private func createAlarm() -> SleepWakeAlarmViewModel {
@@ -226,11 +228,14 @@ class SleepWakeAlarmSetViewController: UIViewController {
             make.leading.equalToSuperview().offset(16)
         }
         
-        // 추가 버튼 설정
+        // 저장 버튼 설정
         contentView.addSubview(saveButton)
               saveButton.snp.makeConstraints { make in
                   make.top.equalToSuperview().offset(8)
                   make.trailing.equalToSuperview().offset(-16)
+                  
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+
               }
         
         // 수면 패턴 추가 레이블 설정
@@ -369,37 +374,37 @@ class SleepWakeAlarmSetViewController: UIViewController {
     }
 }
 
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-@available(iOS 13.0, *)
-struct SleepWakeAlarmSetViewController_Preview: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            UIViewControllerPreview {
-                SleepWakeAlarmSetViewController()
-            }
-            .edgesIgnoringSafeArea(.all)
-        }
-    }
-}
-
-@available(iOS 13.0, *)
-struct UIViewControllerPreview<ViewController: UIViewController>: UIViewControllerRepresentable {
-    let viewController: ViewController
-
-    init(_ builder: @escaping () -> ViewController) {
-        self.viewController = builder()
-    }
-
-    // MARK: - UIViewControllerRepresentable
-
-    func makeUIViewController(context: Context) -> ViewController {
-        viewController
-    }
-
-    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
-        // 뷰 컨트롤러 업데이트가 필요한 경우 처리
-    }
-}
-#endif
+//#if canImport(SwiftUI) && DEBUG
+//import SwiftUI
+//
+//@available(iOS 13.0, *)
+//struct SleepWakeAlarmSetViewController_Preview: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            UIViewControllerPreview {
+//                SleepWakeAlarmSetViewController()
+//            }
+//            .edgesIgnoringSafeArea(.all)
+//        }
+//    }
+//}
+//
+//@available(iOS 13.0, *)
+//struct UIViewControllerPreview<ViewController: UIViewController>: UIViewControllerRepresentable {
+//    let viewController: ViewController
+//
+//    init(_ builder: @escaping () -> ViewController) {
+//        self.viewController = builder()
+//    }
+//
+//    // MARK: - UIViewControllerRepresentable
+//
+//    func makeUIViewController(context: Context) -> ViewController {
+//        viewController
+//    }
+//
+//    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
+//        // 뷰 컨트롤러 업데이트가 필요한 경우 처리
+//    }
+//}
+//#endif

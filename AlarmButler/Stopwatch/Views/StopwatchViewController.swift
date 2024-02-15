@@ -11,7 +11,7 @@ import SnapKit
 class StopwatchViewController: UIViewController {
     
     let mainTimer = UILabel()
-    let lapTimer = UILabel()
+    var lapTimer = ""
     let lapAndResetButton = UIButton()
     let startAndStopButton = UIButton()
     let tableView = UITableView()
@@ -35,7 +35,6 @@ class StopwatchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupMainTimer()
-//        setupLapTimer()
         setuplapAndResetButton()
         setupstartAndStopButton()
         setupTableView()
@@ -69,25 +68,12 @@ class StopwatchViewController: UIViewController {
         view.addSubview(mainTimer)
         
         mainTimer.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(140) // 상단 여백 설정
+            $0.top.equalToSuperview().offset(200) // 상단 여백 설정
             $0.centerX.equalToSuperview() // 가로축 중앙 정렬
-            $0.left.right.equalToSuperview().inset(25) // 좌우 여백 설정
         }
     }
     
-    func setupLapTimer() {
-        lapTimer.font = .boldSystemFont(ofSize: 30)
-        lapTimer.text = "00.00.00"
-        lapTimer.sizeToFit()
-        lapTimer.textColor = .black
-        view.addSubview(lapTimer)
-        
-        mainTimer.snp.makeConstraints {
-            $0.top.equalTo(self.mainTimer.snp.bottom).offset(10) // 상단 여백 설정
-            $0.centerX.equalToSuperview() // 가로축 중앙 정렬
-            $0.left.right.equalToSuperview().inset(25) // 좌우 여백 설정
-        }
-    }
+    
     
     func setuplapAndResetButton() {
         let button = lapAndResetButton
@@ -110,7 +96,7 @@ class StopwatchViewController: UIViewController {
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.setTitle("Start", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemGray
+        button.backgroundColor = .systemGreen
         button.layer.cornerRadius = 35
         view.addSubview(button)
         
@@ -152,7 +138,7 @@ class StopwatchViewController: UIViewController {
     }
     
     @objc func lapResetAction() {
-        self.viewModel.lapReset(mainTime: self.mainTimer.text, lapTime: "") {
+        self.viewModel.lapReset(mainTime: self.mainTimer.text, lapTime: lapTimer) {
             if self.viewModel.isRnunnig == .stop {
                 self.mainTimer.text = "00.00.00"
             }
@@ -172,8 +158,8 @@ extension StopwatchViewController: UpdateTimerLabelDelegate {
         switch stopwatch.watchType {
         case .main:
             self.mainTimer.text = text
-        case .lap: break
-//            self.lapTimer.text = text
+        case .lap:
+            self.lapTimer = text
             
         }
     }
@@ -194,7 +180,8 @@ extension StopwatchViewController: UITableViewDataSource {
         
         cell.backgroundColor = .systemGray4
         cell.setUplapLabel(lapTime: stopwatch.lapTime, mainTime: stopwatch.mainTime)
-        cell.lapLabel.text = "Lap \(viewModel.laps.count - indexPath.row)"
+        cell.lapCount.text = "Lap \(viewModel.laps.count - indexPath.row)"
+        
 
         return cell
     }

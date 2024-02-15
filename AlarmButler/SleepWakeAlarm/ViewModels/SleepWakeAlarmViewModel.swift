@@ -24,7 +24,7 @@ class SleepWakeAlarmViewModel {
 
     func toggleAlarm() {
          isAlarmEnabled.toggle()
-     }
+    }
 
     // cellViewModel(at:) 수정
     func cellViewModel(at indexPath: IndexPath) -> SleepWakeAlarmCellViewModel {
@@ -33,11 +33,12 @@ class SleepWakeAlarmViewModel {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
         let wakeUpTimeString = dateFormatter.string(from: wakeUpTime) // Date를 String으로 변환
-        return SleepWakeAlarmCellViewModel(sleepGoalText: "\(sleepGoal) 분", wakeUpTimeText: wakeUpTimeString)
-    }
 
-    // 알람 스킵 메서드
-    func skipAlarm() {
-        // 스킵할 때 수행할 동작 구현
+        // 예시 데이터, 실제 데이터와 맞게 수정해야 함
+        let bedtime = "오후 10:00"
+        let days = "월, 수, 금"
+        let isSwitchOn = true
+
+        return SleepWakeAlarmCellViewModel(sleepGoalText: "\(sleepGoal) 분", wakeUpTimeText: wakeUpTimeString, bedtime: bedtime, wakeUpTime: wakeUpTimeString, days: days, isSwitchOn: isSwitchOn)
     }
 }
