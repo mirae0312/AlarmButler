@@ -591,34 +591,23 @@ extension AlarmDetailViewController {
         deleteButton.setTitle("알람 삭제", for: .normal)
         deleteButton.backgroundColor = .systemGray6
         deleteButton.setTitleColor(.red, for: .normal)
-        deleteButton.layer.cornerRadius = 10
-        deleteButton.addTarget(self, action: #selector(deleteAlarm), for: .touchUpInside)
+        deleteButton.layer.cornerRadius = 10 // 버튼의 모서리를 둥글게 처리
+        deleteButton.addTarget(self, action: #selector(deleteAlarm), for: .touchUpInside) // 버튼을 눌렀을 때 'deleteAlarm' 메서드가 호출
         
         view.addSubview(deleteButton)
-            
+        
         deleteButton.snp.makeConstraints { make in
-            make.top.equalTo(optionsContainer.snp.bottom).offset(20) // optionsContainer 아래에 배치
-            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(50)
+            make.top.equalTo(optionsContainer.snp.bottom).offset(20) // 'optionsContainer'의 아래쪽으로부터 20 포인트 떨어진 위치에 배치
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(20) // 뷰의 안전 영역을 기준으로 좌우에 20 포인트의 인셋을 두어 배치
+            make.height.equalTo(50) // 버튼의 높이를 50 포인트로 설정
         }
     }
-
+    
+    // 알람을 삭제하는 메서드
     @objc func deleteAlarm() {
         guard let alarmId = alarmId else { return }
-            viewModel.deleteAlarm(alarmId: alarmId)
-//        guard let alarmId = alarmId,
-//              let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
-//        
-//        let alarmToDelete = context.object(with: alarmId)
-//        context.delete(alarmToDelete)
-//        
-//        do {
-//            try context.save()
-//            // 이전 뷰 컨트롤러에 삭제 완료를 알리는 클로저를 호출.
-            onSave?()
-            dismissViewController()
-//        } catch let error as NSError {
-//            print("알람 삭제 에러: \(error), \(error.userInfo)")
-//        }
+        viewModel.deleteAlarm(alarmId: alarmId)
+        onSave?() // 알람 삭제 후 저장 콜백을 호출, 알람 목록이 갱신
+        dismissViewController()
     }
 }
