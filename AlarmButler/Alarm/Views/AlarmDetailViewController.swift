@@ -14,7 +14,7 @@ class AlarmDetailViewController: UIViewController {
     // 네비게이션 바 관련 UI
     var customNavigationBar: UIView!
     var titleLabel: UILabel!
-    var backButton, saveButton: UIButton!
+    var backButton, saveButton, deleteButton: UIButton!
     // 시간 선택 피커
     var timePicker: UIDatePicker!
     // 옵션들을 담을 컨테이너
@@ -22,18 +22,20 @@ class AlarmDetailViewController: UIViewController {
     // 반복, 사운드의 기본 값
     var repeatOptionValue: String = "안 함"
     var soundOptionValue: String = "거울"
+    var optionSwitch: UISwitch!
     // 레이블 값
     var labelTextField: UITextField?
     // ViewModel 인스턴스
     var viewModel: AlarmDetailViewModel!
     // 저장 성공 후 작동할 클로저
     var onSave: (() -> Void)?
+    // 알람 고유 id
+    var alarmId: NSManagedObjectID?
 
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        initializeViewModel() // ViewModel 초기화
     }
     
     // MARK: - UI Setup Methods
@@ -43,21 +45,38 @@ class AlarmDetailViewController: UIViewController {
         setupTimePicker()           // 시간 선택 피커
         setupOptionsContainer()     // 옵션 컨테이너 설정
         updateOptionValues()        // 옵션 뷰에 반복, 사운드 현재 값을 표시하는 메소드
+        initializeViewModel()
+        if let _ = self.alarmId {
+            setupDeleteButton()
+            titleLabel.text = "알람 편집"  // 편집 화면의 타이틀 변경
+        } else {
+            titleLabel.text = "알람 추가"  // 추가 화면의 타이틀 변경
+        }
     }
     
     // MARK: - 배경색 설정
     private func setupViewBackground() {
         view.backgroundColor = .white
-        
     }
     
     // MARK: - 알람 저장 액션
     @objc func saveAlarm() {
-        viewModel.title = (labelTextField?.text)!
-        viewModel.time = timePicker.date
-        viewModel.sound = soundOptionValue
-        viewModel.isEnabled = (snoozeOptionView as? UISwitch)?.isOn ?? true
-        viewModel.repeatDays = repeatOptionValue != "안 함" ? getSelectedDaysFromOptionValue(repeatOptionValue) : Set<String>()
+        guard let viewModel = viewModel else {
+            print("ViewModel is nil")
+            return
+        }
+
+        let textFieldText = labelTextField?.text ?? ""
+        let time = timePicker.date // timePicker에서 선택된 시간
+        let sound = soundOptionValue // 선택된 사운드 옵션
+        let snooze = snoozeOptionView.subviews.compactMap({ $0 as? UISwitch }).first?.isOn ?? true // 다시 알림 스위치 상태
+        let repeatDays = repeatOptionValue != "안 함" ? getSelectedDaysFromOptionValue(repeatOptionValue) : Set<String>() // 반복 설정
+
+        viewModel.title = textFieldText
+        viewModel.time = time
+        viewModel.sound = sound
+        viewModel.isEnabled = snooze
+        viewModel.repeatDays = repeatDays
         
         viewModel.saveAlarm()
         onSave?() // 저장 성공 후 Closure 호출
@@ -66,7 +85,17 @@ class AlarmDetailViewController: UIViewController {
     
     // ViewModel 초기화 메소드
     private func initializeViewModel() {
-        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+            return
+        }
+        if let alarmId = self.alarmId {
+            // 기존 알람 편집인 경우
+            viewModel = AlarmDetailViewModel(context: context, alarmId: alarmId)
+            viewModel.loadAlarmData()
+            updateUIWithAlarmDetails() // 데이터 로드 후 UI 업데이트
+            updateOptionValues()
+        } else {
+            // 새 알람 추가인 경우
             viewModel = AlarmDetailViewModel(context: context)
         }
     }
@@ -86,7 +115,6 @@ class AlarmDetailViewController: UIViewController {
         
         // 타이틀 설정
         titleLabel = UILabel()
-        titleLabel.text = "알람 추가" // 타이틀 텍스트
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         customNavigationBar.addSubview(titleLabel)
         
@@ -184,7 +212,7 @@ class AlarmDetailViewController: UIViewController {
     func createOptionView(title: String, isSwitchEnabled: Bool) -> UIView {
         // 옵션 뷰 초기화 및 설정
         let optionView = UIView()
-        optionView.backgroundColor = .clear // 배경색 없음
+        optionView.backgroundColor = .clear
         
         // 옵션 타이틀 레이블 설정
         let titleLabel = UILabel()
@@ -197,45 +225,17 @@ class AlarmDetailViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
-        // "반복" 또는 "사운드" 옵션에 대한 기본값 레이블 추가
-        if title == "반복" || title == "사운드" {
-            let defaultValueLabel = UILabel()
-            defaultValueLabel.textColor = .systemGray // 텍스트 색상 설정
-            defaultValueLabel.text = title == "반복" ? "\(repeatOptionValue) ⟩" : "\(soundOptionValue) ⟩" // 초기값으로 'repeatOptionValue' 또는 'soundOptionValue' 사용
-            defaultValueLabel.tag = title == "반복" ? 101 : 102 // 태그를 설정하여 나중에 찾기 쉽게 함
-            optionView.addSubview(defaultValueLabel)
-            
-            defaultValueLabel.snp.makeConstraints { make in
-                make.right.equalToSuperview().offset(-15) // 오른쪽 여백 설정
-                make.centerY.equalToSuperview()
-            }
-        }
-        
-        // "레이블" 옵션에 대한 기본값 레이블 추가
         if title == "레이블" {
-            // '알람' 기본값 레이블 추가
-            let defaultValueLabel = UILabel()
-            defaultValueLabel.textColor = .systemGray2
-            defaultValueLabel.text = "알람"
-            defaultValueLabel.tag = 103
-            optionView.addSubview(defaultValueLabel)
-            
-            defaultValueLabel.snp.makeConstraints { make in
-                make.right.equalToSuperview().offset(-15)
-                make.centerY.equalToSuperview()
-            }
-            
             let textField = UITextField()
             textField.borderStyle = .none
             textField.returnKeyType = .done
             textField.tintColor = .orange
             textField.textColor = .systemGray
             textField.delegate = self
-            // 텍스트 필드의 초기 알파 값을 1로 설정
             textField.alpha = 1
             textField.tag = 104
             textField.clearButtonMode = .whileEditing
-            // labelTextField 속성에 할당
+            textField.placeholder = "알람"
             self.labelTextField = textField
             optionView.addSubview(textField)
             
@@ -244,20 +244,29 @@ class AlarmDetailViewController: UIViewController {
                 make.right.equalToSuperview().offset(-15)
                 make.centerY.equalToSuperview()
             }
-        }
-        
-        // 스위치 옵션이 필요한 경우 설정
-        if isSwitchEnabled {
-            let optionSwitch = UISwitch()
-            optionSwitch.isOn = true // 디폴트 활성화 상태
-            optionView.addSubview(optionSwitch)
-            optionSwitch.snp.makeConstraints { make in
-                make.right.equalToSuperview().inset(17)
+        } else {
+            // 기본값 레이블 설정 (반복, 사운드, 다시 알림)
+            let defaultValueLabel = UILabel()
+            defaultValueLabel.textColor = .systemGray
+            defaultValueLabel.tag = title == "반복" ? 101 : title == "사운드" ? 102 : 103
+            optionView.addSubview(defaultValueLabel)
+            
+            defaultValueLabel.snp.makeConstraints { make in
+                make.right.equalToSuperview().offset(-15)
                 make.centerY.equalToSuperview()
+            }
+            
+            if isSwitchEnabled {
+                let optionSwitch = UISwitch()
+                optionSwitch.isOn = true
+                optionView.addSubview(optionSwitch)
+                optionSwitch.snp.makeConstraints { make in
+                    make.right.equalToSuperview().inset(17)
+                    make.centerY.equalToSuperview()
+                }
             }
         }
         
-        // 세퍼레이터 설정
         let separator = UIView()
         separator.backgroundColor = .systemGray5
         optionView.addSubview(separator)
@@ -267,6 +276,28 @@ class AlarmDetailViewController: UIViewController {
         }
         
         return optionView
+    }
+
+    // MARK: - 편집 뷰 인 경우 값 업데이트
+    func updateUIWithAlarmDetails() {
+        labelTextField?.text = viewModel.title
+        timePicker.setDate(viewModel.time, animated: false)
+
+        // viewModel에서 로드한 반복 옵션 값을 업데이트
+        repeatOptionValue = viewModel.repeatDays.joined(separator: ", ")
+        if let repeatLabel = repeatOptionView.viewWithTag(101) as? UILabel {
+            repeatLabel.text = "\(repeatOptionValue) ⟩"
+        }
+
+        // viewModel에서 로드한 사운드 옵션 값을 업데이트
+        soundOptionValue = viewModel.sound
+        if let soundLabel = soundOptionView.viewWithTag(102) as? UILabel {
+            soundLabel.text = "\(soundOptionValue) ⟩"
+        }
+
+        if let snoozeSwitch = snoozeOptionView.subviews.compactMap({ $0 as? UISwitch }).first {
+            snoozeSwitch.isOn = viewModel.isEnabled
+        }
     }
     
     // 옵션 뷰에 반복, 사운드 현재 값을 표시하는 메소드
@@ -280,6 +311,7 @@ class AlarmDetailViewController: UIViewController {
         if let soundLabel = soundOptionView.subviews.compactMap({ $0 as? UILabel }).first(where: { $0.tag == 102 }) {
             soundLabel.text = "\(soundOptionValue) ⟩"
         }
+        
     }
 
     // 옵션 뷰 탭 시 처리
@@ -331,6 +363,7 @@ class AlarmDetailViewController: UIViewController {
         }
     }
 }
+
 // MARK: - 레이블 UITextField 관련 설정
 extension AlarmDetailViewController: UITextFieldDelegate {
     // '레이블' 옵션 뷰 탭 시 호출될 함수
@@ -361,9 +394,9 @@ extension AlarmDetailViewController: UITextFieldDelegate {
                 textField.alpha = 0
             }
         } else if textField.tag == 104 {
-            // 텍스트 필드가 비어 있는 경우, 기본값 레이블을 "알람"으로 설정하고 텍스트 필드 숨김
+            // 텍스트 필드가 비어 있는 경우, 기본값 레이블을 "알림"으로 설정하고 텍스트 필드 숨김
             if let defaultValueLabel = labelOptionView.subviews.first(where: { $0.tag == 103 }) as? UILabel {
-                defaultValueLabel.text = "알람" // 텍스트 필드가 비어 있으면 기본값으로 "알람"을 설정
+                defaultValueLabel.text = "알림" // 텍스트 필드가 비어 있으면 기본값으로 "알림"을 설정
                 defaultValueLabel.textColor = .systemGray2
                 defaultValueLabel.isHidden = false
                 textField.alpha = 0
@@ -379,9 +412,24 @@ extension AlarmDetailViewController: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-        textField.textAlignment = newText.isEmpty ? .right : .left
-        return true
+        // 현재 텍스트 필드의 텍스트를 가져옴
+        var currentText = textField.text ?? ""
+        
+        // 범위와 교체 문자열을 사용하여 업데이트된 텍스트를 생성
+        if let textRange = Range(range, in: currentText) {
+            currentText.replaceSubrange(textRange, with: string)
+        }
+        
+        // 텍스트 필드의 텍스트를 업데이트
+        textField.text = currentText
+        
+        // 커서를 텍스트의 끝으로 이동시킵니다.
+        if let newPosition = textField.position(from: textField.endOfDocument, offset: 0) {
+            textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
+        }
+        
+        // false를 반환하여 시스템이 텍스트 필드의 텍스트를 자동으로 업데이트하지 않도록 합니다.
+        return false
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -530,5 +578,43 @@ extension AlarmDetailViewController {
 
         // 다음 뷰 컨트롤러 모달로 표시
         present(soundOptionsVC, animated: false, completion: nil)
+    }
+}
+
+
+// MARK: - 삭제 버튼 설정
+extension AlarmDetailViewController {
+    private func setupDeleteButton() {
+        deleteButton = UIButton(type: .system)
+        deleteButton.setTitle("알람 삭제", for: .normal)
+        deleteButton.backgroundColor = .systemGray6
+        deleteButton.setTitleColor(.red, for: .normal)
+        deleteButton.layer.cornerRadius = 10
+        deleteButton.addTarget(self, action: #selector(deleteAlarm), for: .touchUpInside)
+        
+        view.addSubview(deleteButton)
+            
+        deleteButton.snp.makeConstraints { make in
+            make.top.equalTo(optionsContainer.snp.bottom).offset(20) // optionsContainer 아래에 배치
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.height.equalTo(50)
+        }
+    }
+
+    @objc func deleteAlarm() {
+        guard let alarmId = alarmId,
+              let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
+        
+        let alarmToDelete = context.object(with: alarmId)
+        context.delete(alarmToDelete)
+        
+        do {
+            try context.save()
+            // 이전 뷰 컨트롤러에 삭제 완료를 알리는 클로저를 호출.
+            onSave?()
+            dismissViewController()
+        } catch let error as NSError {
+            print("알람 삭제 에러: \(error), \(error.userInfo)")
+        }
     }
 }
