@@ -65,8 +65,6 @@ class StopwatchViewModel {
     }
     
     
-    
-    
     // Timer 리셋
     func resetMainTimer() {
         resetTimer(self.mainTimer)
