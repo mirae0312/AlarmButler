@@ -54,6 +54,8 @@
 		2EA693DA2B79951F00BBA548 /* TimerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA693D92B79951F00BBA548 /* TimerRecord.swift */; };
 		2EA693E22B79FB0400BBA548 /* AlarmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA693E12B79FB0400BBA548 /* AlarmListTableViewCell.swift */; };
 		2EBDEAF12B7B833F00AD1FEA /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDEAF02B7B833F00AD1FEA /* AlarmViewModel.swift */; };
+		2EBDEB002B7CE7BF00AD1FEA /* AlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDEAFF2B7CE7BF00AD1FEA /* AlarmManager.swift */; };
+		6B7B043F2B74FA9E00DEAA58 /* ClockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B043E2B74FA9E00DEAA58 /* ClockDataManager.swift */; };
 		4E60D1B22B7BAA8100D0E11E /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E60D1B12B7BAA8100D0E11E /* ClockView.swift */; };
 		4E60D1B42B7D346E00D0E11E /* SleepWakeAlarmMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E60D1B32B7D346E00D0E11E /* SleepWakeAlarmMainViewController.swift */; };
 		4EA830592B752D3E00C19BF7 /* SleepWakeAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA830582B752D3E00C19BF7 /* SleepWakeAlarmCell.swift */; };
@@ -119,6 +121,8 @@
 		2EA693D92B79951F00BBA548 /* TimerRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerRecord.swift; sourceTree = "<group>"; };
 		2EA693E12B79FB0400BBA548 /* AlarmListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListTableViewCell.swift; sourceTree = "<group>"; };
 		2EBDEAF02B7B833F00AD1FEA /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
+		2EBDEAFF2B7CE7BF00AD1FEA /* AlarmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmManager.swift; sourceTree = "<group>"; };
+		6B7B043E2B74FA9E00DEAA58 /* ClockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockDataManager.swift; sourceTree = "<group>"; };
 		4E60D1B12B7BAA8100D0E11E /* ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
 		4E60D1B32B7D346E00D0E11E /* SleepWakeAlarmMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmMainViewController.swift; sourceTree = "<group>"; };
 		4EA830582B752D3E00C19BF7 /* SleepWakeAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepWakeAlarmCell.swift; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 		2E43CA672B70925F00FCA414 /* AlarmButler */ = {
 			isa = PBXGroup;
 			children = (
+				2EBDEAFE2B7CE79C00AD1FEA /* AlarmService */,
 				2E43CAF32B74B7F000FCA414 /* AlarmSoundPicker */,
 				2E43CADF2B7257B200FCA414 /* TapBar */,
 				2E43CA962B70953F00FCA414 /* Alarm */,
@@ -449,6 +454,14 @@
 			path = AlarmSound;
 			sourceTree = "<group>";
 		};
+		2EBDEAFE2B7CE79C00AD1FEA /* AlarmService */ = {
+			isa = PBXGroup;
+			children = (
+				2EBDEAFF2B7CE7BF00AD1FEA /* AlarmManager.swift */,
+			);
+			path = AlarmService;
+			sourceTree = "<group>";
+		};
 		35090F2188E74A464AE395DD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -620,6 +633,7 @@
 				2E43CAEB2B73420000FCA414 /* AlarmSoundPickerViewModel.swift in Sources */,
 				2B5862002B7B83D4001864F3 /* TimerViewModel.swift in Sources */,
 				2EA693E22B79FB0400BBA548 /* AlarmListTableViewCell.swift in Sources */,
+				2EBDEB002B7CE7BF00AD1FEA /* AlarmManager.swift in Sources */,
 				2B5861FA2B7B8379001864F3 /* TimerLabelTableViewCell.swift in Sources */,
 				2EBDEAF12B7B833F00AD1FEA /* AlarmViewModel.swift in Sources */,
 				0BF25A382B7B3CBF00B0C8CE /* Stopwatch.swift in Sources */,

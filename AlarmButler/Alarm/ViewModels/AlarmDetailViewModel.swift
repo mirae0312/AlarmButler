@@ -14,6 +14,7 @@ class AlarmDetailViewModel {
     var sound: String = "거울"
     var isEnabled: Bool = true
     var repeatDays: Set<String> = []
+    let alarmManager = AlarmManager()
 
     private var context: NSManagedObjectContext
     var alarm: AlarmEntity?
@@ -22,41 +23,52 @@ class AlarmDetailViewModel {
         self.context = context
         if let alarmId = alarmId {
             self.alarm = context.object(with: alarmId) as? AlarmEntity
-            // 알람 상세 정보 불러오기 및 ViewModel 업데이트
-            
         }
     }
 
     func saveAlarm() {
-        if let alarm = self.alarm { // 편집 모드일 때
-            alarm.title = self.title
-            alarm.time = self.time
-            alarm.sound = self.sound
-            alarm.isEnabled = self.isEnabled
-            alarm.repeatDays = Array(self.repeatDays) as NSObject
-            
-            do {
-                try context.save()
-                print("Alarm updated successfully")
-            } catch let error as NSError {
-                print("Could not update alarm. \(error), \(error.userInfo)")
-            }
-        } else { // 추가 모드일 때
-            let alarmIdValue = UUID()
-            let alarmEntity = NSEntityDescription.insertNewObject(forEntityName: "AlarmEntity", into: context) as! AlarmEntity
+        let alarmEntity: AlarmEntity
+        if let existingAlarm = self.alarm {
+            // 편집 모드
+            alarmEntity = existingAlarm
             alarmEntity.title = self.title
             alarmEntity.time = self.time
             alarmEntity.sound = self.sound
             alarmEntity.isEnabled = self.isEnabled
-            alarmEntity.alarmId = alarmIdValue
             alarmEntity.repeatDays = Array(self.repeatDays) as NSObject
-            
-            do {
-                try context.save()
-                print("Alarm saved successfully")
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+
+            // 기존에 스케줄링된 로컬 알림 취소
+            alarmManager.removeLocalNotification(for: alarmEntity)
+            print("알람 스케줄링이 성공적으로 삭제되었습니다.")
+        } else {
+            // 추가 모드
+            alarmEntity = AlarmEntity(context: context)
+            alarmEntity.title = self.title
+            alarmEntity.time = self.time
+            alarmEntity.sound = self.sound
+            alarmEntity.isEnabled = self.isEnabled
+            alarmEntity.alarmId = UUID()  // 새 알람에 대한 새 UUID 생성
+            alarmEntity.repeatDays = Array(self.repeatDays) as NSObject
+        }
+
+        // Core Data에 알람 정보 저장
+        do {
+            try context.save()
+            print("Alarm saved successfully")
+
+            // 로컬 알림 스케줄링
+            if alarmEntity.isEnabled {
+                alarmManager.scheduleLocalNotification(for: alarmEntity) { success in
+                    if success {
+                        print("알람이 성공적으로 스케줄링되었습니다.")
+                    } else {
+                        print("알람이 스케줄링 중 일부에서 실패했습니다.")
+                    }
+                }
             }
+
+        } catch let error as NSError {
+            print("Could not save alarm. \(error), \(error.userInfo)")
         }
     }
     
@@ -81,6 +93,19 @@ class AlarmDetailViewModel {
             // formatRepeatDays 함수를 사용하여 repeatDays 포맷팅
             let formattedRepeatDays = AlarmDetailViewModel.formatRepeatDays(repeatDaysArray)
             self.repeatDays = Set([formattedRepeatDays]) // 포맷된 결과를 Set으로 저장
+        }
+    }
+    
+    // 알람을 Core Data에서 삭제하는 함수
+    func deleteAlarm(alarmId: NSManagedObjectID) {
+        guard let alarmToDelete = context.object(with: alarmId) as? AlarmEntity else { return }
+        // 로컬 알림 제거
+        alarmManager.removeLocalNotification(for: alarmToDelete)
+        context.delete(alarmToDelete)
+        do {
+            try context.save()
+        } catch {
+            print("삭제 실패: \(error)")
         }
     }
 
@@ -121,4 +146,6 @@ class AlarmDetailViewModel {
             }
         }
     }
+    
+    
 }

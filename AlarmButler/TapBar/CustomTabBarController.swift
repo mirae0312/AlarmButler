@@ -19,7 +19,6 @@ class CustomTabBarController: UITabBarController {
             // appearance.backgroundColor = .systemBackground
             
             // 탭 바 아이템과 관련된 속성도 설정할 수 있음
-            // 예: 선택된 아이템과 선택되지 않은 아이템의 색상
             appearance.stackedLayoutAppearance.selected.iconColor = .systemBlue
             appearance.stackedLayoutAppearance.normal.iconColor = .gray
             
