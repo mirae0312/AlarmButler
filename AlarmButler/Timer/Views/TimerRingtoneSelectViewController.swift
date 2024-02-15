@@ -44,7 +44,7 @@ class TimerRingtoneSelectViewController: UIViewController,UITableViewDelegate {
         
         //테이블 뷰 설정 및 제약 조건 추가
         tableview.register(TimerRingtoneSelectTableViewCell.self, forCellReuseIdentifier: "RingCell")
-        tableview.backgroundColor = UIColor.systemGray2
+        tableview.backgroundColor = UIColor.systemGray6
 
         view.addSubview(tableview)
         

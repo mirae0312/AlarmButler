@@ -135,7 +135,7 @@ class TimerViewController: UIViewController {
         ringtoneLabel.textColor = UIColor.tertiaryLabel
         
         tableView.layer.cornerRadius = 10
-        tableView.backgroundColor = UIColor.systemGray4
+        tableView.backgroundColor = UIColor.systemGray6
     }
     
     @objc func ringtoneSelectViewTapped(){
