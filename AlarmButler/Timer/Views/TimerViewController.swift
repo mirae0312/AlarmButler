@@ -60,6 +60,12 @@ class TimerViewController: UIViewController {
         setupBindings()
         
         viewModel.printAllTimerRecordStatus()
+        print(viewModel.timerRecords)
+        
+        viewModel.onTimerStateChange = { [weak self] isOn, isPaused in DispatchQueue.main.async { self?.isOn = isOn
+            self?.paused = isPaused
+        }
+      }
         //        // ViewModel의 클로저 구현
         //        viewModel.updateTimeLabelClosure = { [weak self] timeStr in
         //            DispatchQueue.main.async {
@@ -236,19 +242,11 @@ class TimerViewController: UIViewController {
     }
     
     @objc func cancelButtonTapped(_ sender: UIButton) {
-        // 타이머 중지
-        timer?.invalidate()
-        timer = nil
-        
-        viewModel.isOn = false
-        viewModel.paused = true
+        viewModel.stopTimer()
         
         if let id = viewModel.currentTimerId {
             viewModel.updateTimerRecord(id: id, newIsActive: false)
         }
-        
-        resetTimer()
-        // 타이머 UI 초기화
         resetTimerUI()
     }
     
@@ -279,18 +277,15 @@ class TimerViewController: UIViewController {
             // 타이머가 아직 시작되지 않은 경우 타이머 시작
             if !isOn {
                 remainingTimeInSeconds = totalSeconds
-                startTimer(hour: hour, minute: minute, second: second)
+                let selectedRingtone = ringtoneLabel.text ?? "toaster"
+                startTimer(hour: hour, minute: minute, second: second, ringTone: selectedRingtone)
             }
         }
     }
     
-    func startTimer(hour: Int, minute: Int, second: Int) {
+    func startTimer(hour: Int, minute: Int, second: Int, ringTone: String) {
         isOn = true
         paused = false
-        
-        let duration = hour * 3600 + minute * 60 + second
-        remainingTimeInSeconds = duration
-        initialSeconds = duration
         
         timer?.invalidate()
         animateTimerTransition()
@@ -298,8 +293,12 @@ class TimerViewController: UIViewController {
         
         // 타이머가 시작될 때 Circular Progress 업데이트
         updateCircularProgress()
+        let duration = hour * 3600 + minute * 60 + second
+        remainingTimeInSeconds = duration
+        initialSeconds = duration
         let label = "\(hour)시 \(minute)분 \(second)초"
-        viewModel.saveTimerRecord(duration: duration, label: label, ringTone: "beeping", isActive: isOn)
+        let ringTone = ringtoneLabel.text ?? "toaster"
+        viewModel.saveTimerRecord(duration: duration, label: label, ringTone: ringTone, isActive: isOn)
     }
 
     func pauseTimer() {
@@ -340,9 +339,8 @@ class TimerViewController: UIViewController {
     
     func updateTimeLabel() {
         // 타이머가 중지된 경우 함수 실행을 중단
-        if !isOn {
-            return
-        }
+        guard isOn else { return }
+        
         let hours = remainingTimeInSeconds / 3600
         let minutes = (remainingTimeInSeconds % 3600) / 60
         let seconds = remainingTimeInSeconds % 60
@@ -350,10 +348,9 @@ class TimerViewController: UIViewController {
         print("updateTimeLabel 호출: \(hours)시 \(minutes)분 \(seconds)초")
         
         let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-        
         timeLabel.text = hours > 0 ? formattedTime : String(format: "%02d:%02d", minutes, seconds)
-        timeLabel.font = timeLabel.font.withSize(hours > 0 ? 78 : 82)
-        timeSubLabel.text = date.string(from: Date(timeIntervalSinceNow: TimeInterval(timePicker.selectedRow(inComponent: 0) * 3600 + timePicker.selectedRow(inComponent: 1) * 60 + timePicker.selectedRow(inComponent: 2))))
+                timeLabel.font = timeLabel.font.withSize(hours > 0 ? 78 : 82)
+                timeSubLabel.text = date.string(from: Date(timeIntervalSinceNow: TimeInterval(timePicker.selectedRow(inComponent: 0) * 3600 + timePicker.selectedRow(inComponent: 1) * 60 + timePicker.selectedRow(inComponent: 2))))
 
         print("타이머 레이블 업데이트: \(timeLabel.text ?? "nil")")
         
@@ -402,16 +399,6 @@ class TimerViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(timeLabel.snp.bottom).offset(20)
         }
-    }
-    
-    func resetTimer() {
-        // 타이머 중지
-        timer?.invalidate()
-        timer = nil
-        isOn = false
-        paused = true
-        remainingTimeInSeconds = 0
-        
     }
     
     func resetTimerUI() {
@@ -509,7 +496,7 @@ extension TimerViewController: UITableViewDelegate {
         clearCheckmarks(in: tableView)
         
         // 새 타이머 시작
-        startNewTimer(withDuration: Int(selectedTimer.duration))
+        startNewTimer(withDuration: Int(selectedTimer.duration), ringTone: viewModel.selectedRingtone ?? "toaster")
 
         // 현재 선택된 셀에 체크마크 추가
         addCheckmarkToSelectedCell(at: indexPath, in: tableView)
@@ -518,12 +505,13 @@ extension TimerViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func startNewTimer(withDuration duration: Int) {
+    func startNewTimer(withDuration duration: Int, ringTone: String) {
         timer?.invalidate()
         setupTimerUI()
         animateTimerTransition()
         remainingTimeInSeconds = duration
         initialSeconds = duration
+        viewModel.selectedRingtone = ringTone
         isOn = true
         paused = false
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
@@ -532,10 +520,19 @@ extension TimerViewController: UITableViewDelegate {
 
     @objc func updateTime() {
         if remainingTimeInSeconds > 0 {
-            // 남은 시간이 있는 경우, 시간 감소 및 UI 업데이트
             remainingTimeInSeconds -= 1
-            updateCircularProgress()
-            updateTimeLabel()
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.updateTimeLabel()
+                print("updateTimeLabel")
+                self?.updateCircularProgress()
+                print("updateCircularProgress")
+            }
+
+            if let id = viewModel.currentTimerId {
+                viewModel.updateTimerRecord(id: id, newIsActive: true)
+                print("true")
+            }
         } else {
             // 타이머가 자연적으로 0에 도달하여 종료될 경우
             timer?.invalidate()
@@ -544,40 +541,35 @@ extension TimerViewController: UITableViewDelegate {
             paused = false
             if let id = viewModel.currentTimerId {
                 viewModel.updateTimerRecord(id: id, newIsActive: false)
+                print("false")
             }
-            
             // 타이머 종료 시 알림음 재생
-            notifyTimerCompletion()
-            
+            viewModel.notifyTimerCompletion()
             // UI 컴포넌트를 초기 상태로 되돌리고, 필요한 UI 업데이트 수행
             DispatchQueue.main.async { [weak self] in
                 self?.resetTimerUI()
+                print("resetTimerUI")
             }
         }
     }
 
-    func completeTimer() {
-        // 타이머 종료 로직
-        isOn = false
-        paused = false
-        notifyTimerCompletion() // 타이머 종료 시 알림음 재생
-        if let id = viewModel.currentTimerId {
-            viewModel.updateTimerRecord(id: id, newIsActive: false)
-        }
-        resetTimerUI() // UI 컴포넌트를 초기 상태로 되돌리고 타이머 UI 업데이트
-    }
+//    func completeTimer() {
+//        // 타이머 종료 로직
+//        isOn = false
+//        paused = false
+//        viewModel.notifyTimerCompletion() // 타이머 종료 시 알림음 재생
+//        if let id = viewModel.currentTimerId {
+//            viewModel.updateTimerRecord(id: id, newIsActive: false, newRingtone: <#String?#>)
+//        }
+//        resetTimerUI() // UI 컴포넌트를 초기 상태로 되돌리고 타이머 UI 업데이트
+//    }
     
     func updateCircularProgress() {
         // 진행률 계산
         let progress = CGFloat(remainingTimeInSeconds) / CGFloat(initialSeconds)
         
-        // Circular Progress 업데이트
+        // Circular Progress 업데이트 (
         circularProgressView.setProgressWithAnimation(duration: 1.0, value: CGFloat(progress))
-        print("progress")
-    }
-    
-    func notifyTimerCompletion() {
-        playSound(fileName: viewModel.selectedRingtone ?? "beeping")
     }
     
     private func clearCheckmarks(in tableView: UITableView) {

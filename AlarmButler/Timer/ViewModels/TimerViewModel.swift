@@ -16,16 +16,25 @@ class TimerViewModel {
     var timerRecords: [TimerRecord] = []
     var currentTimerId: UUID?
     var timer: Timer?
-    var isOn: Bool = false
-    var paused: Bool = false
-    // 추가
-    var remainingSeconds: Int = 0 {
+    private var isOn: Bool = false {
         didSet {
-            // remainingSeconds를 String으로 변환하여 클로저에 전달
-            let formattedTime = formatTimeForDisplay(duration: remainingSeconds)
+            onTimerStateChange?(isOn, paused)
+        }
+    }
+    private var paused: Bool = false {
+        didSet {
+            onTimerStateChange?(isOn, paused)
+        }
+    }
+    var remainingTimeInSeconds: Int = 0 {
+        didSet {
+            // remainingTimeInSeconds를 String으로 변환하여 클로저에 전달
+            let formattedTime = formatTimeForDisplay(duration: remainingTimeInSeconds)
             onTimerUpdate?(formattedTime)
         }
     }
+    var initialSeconds: Int = 0 // 타이머의 전체 시간을 초 단위로 저장
+    
     var selectedRingtone: String?
     // MARK: - Closures for UI Update , 리액티브 프로그래밍 패턴
     var onTimerUpdate: ((String) -> Void)?
@@ -37,7 +46,7 @@ class TimerViewModel {
 
     var updateUIStateClosure: ((Bool, UIColor) -> Void)?
     
-    var durationInSeconds: Int = 0
+//    var durationInSeconds: Int = 0
     
     var duration: TimeInterval = 0
     
@@ -81,18 +90,18 @@ class TimerViewModel {
     }
     
     // MARK: - Timer Management
-    func startTimer(hour: Int, minute: Int, second: Int) {
-//        let totalSeconds = hour * 3600 + minute * 60 + second
-//        if totalSeconds == 0 { return }
-//
-//        durationInSeconds = totalSeconds
-//        isOn = true
-//        paused = false
-//
-//        timer?.invalidate()
+    func startTimer(hour: Int, minute: Int, second: Int, ringTone: String) {
+        isOn = true
+        paused = false
+        
+        timer?.invalidate()
+        
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             self?.updateTime()
         }
+        let duration = hour * 3600 + minute * 60 + second
+        remainingTimeInSeconds = duration
+        initialSeconds = duration
         // 타이머 시작 시 UI 업데이트 클로저 호출
         formatAndUpdateTimeLabel(hour: hour, minute: minute, second: second)
         
@@ -111,24 +120,24 @@ class TimerViewModel {
     }
 
     
-    func pauseOrResumeTimer() {
-        paused.toggle()
-        if paused {
-            timer?.invalidate()
-        } else {
-            startTimer(hour: 0, minute: 0, second: remainingSeconds)
-        }
-        onTimerStateChange?(isOn, paused)
-    }
+//    func pauseOrResumeTimer() {
+//        paused.toggle()
+//        if paused {
+//            timer?.invalidate()
+//        } else {
+//            startTimer(hour: 0, minute: 0, second: remainingTimeInSeconds, ringTone: String)
+//        }
+//        onTimerStateChange?(isOn, paused)
+//    }
     
     // Record 타이머 새로시작 및 업데이트 로직
     func startRecordTimer(withDuration duration: Int) {
-        remainingSeconds = duration
+        remainingTimeInSeconds = duration
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let strongSelf = self else { return }
-            if strongSelf.remainingSeconds > 0 {
-                strongSelf.remainingSeconds -= 1
+            if strongSelf.remainingTimeInSeconds > 0 {
+                strongSelf.remainingTimeInSeconds -= 1
             } else {
                 strongSelf.stopTimer()
             }
@@ -137,17 +146,21 @@ class TimerViewModel {
     
     // 타이머 업데이트 함수
     @objc func updateTimer() {
-        // 타이머 뷰 업데이트 로직
-        
-        if remainingSeconds > 0 {
-            // 남은 시간을 계산하여 표시
-            remainingSeconds -= 1
-            // 여기서 타이머 뷰에 남은 시간을 표시하는 로직을 추가
+        if remainingTimeInSeconds > 0 {
+            remainingTimeInSeconds -= 1
+            if let id = currentTimerId {
+                manager.updateTimerRecordIsActiveState(id: id, isActive: true)
+            }
         } else {
-            // 타이머 종료
+            // 타이머가 자연적으로 0에 도달하여 종료될 경우
             timer?.invalidate()
             timer = nil
-            // 타이머가 종료되었음을 사용자에게 알리는 로직을 추가
+            isOn = false
+            paused = false
+            if let id = currentTimerId {
+                manager.updateTimerRecordIsActiveState(id: id, isActive: false)
+            }
+            notifyTimerCompletion()
         }
     }
     
@@ -156,16 +169,16 @@ class TimerViewModel {
         timer = nil
         isOn = false
         paused = true
-        remainingSeconds = 0
+        remainingTimeInSeconds = 0
         if let id = currentTimerId {
             manager.updateTimerRecordIsActiveState(id: id, isActive: false)
         }
         onTimerStateChange?(isOn, paused)
         
         // 타이머 종료 시 알람음 재생
-        if let ringtone = selectedRingtone, !ringtone.isEmpty {
-            playSound(fileName: ringtone)
-        }
+//        if let ringtone = selectedRingtone, !ringtone.isEmpty {
+//            playSound(fileName: ringtone)
+//        }
         
         currentTimerId = nil
     }
@@ -176,10 +189,10 @@ class TimerViewModel {
     }
     
     private func updateRemainingSeconds() {
-        if remainingSeconds > 0 {
-            remainingSeconds -= 1
+        if remainingTimeInSeconds > 0 {
+            remainingTimeInSeconds -= 1
             // 남은 시간을 포맷팅하여 전달
-            let formattedTime = formatTimeForDisplay(duration: remainingSeconds)
+            let formattedTime = formatTimeForDisplay(duration: remainingTimeInSeconds)
             onTimerUpdate?(formattedTime)
         } else {
             stopTimer()
@@ -198,18 +211,19 @@ class TimerViewModel {
         timer = nil
         isOn = false
         paused = true
-        durationInSeconds = 0
+        remainingTimeInSeconds = 0
         updateUI()
     }
     
     private func updateTime() {
-        durationInSeconds -= 1
-        if durationInSeconds <= 0 {
+        if remainingTimeInSeconds > 0 {
+            remainingTimeInSeconds -= 1
+            
             resetTimer()
             return
         }
         // 여기서 타이머 레이블을 업데이트하기 위한 포맷팅 로직을 추가
-        let timeString = formatTimeForDisplay(duration: durationInSeconds)
+        let timeString = formatTimeForDisplay(duration: remainingTimeInSeconds)
         updateTimeLabelClosure?(timeString)
     }
     
@@ -223,6 +237,10 @@ class TimerViewModel {
         for record in timerRecords {
             print("ID: \(record.id), isActive: \(record.isActive), duration: \(record.duration)")
         }
+    }
+    
+    func notifyTimerCompletion() {
+        playSound(fileName: selectedRingtone ?? "toaster")
     }
 
 }

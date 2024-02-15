@@ -39,7 +39,7 @@ class CircularProgressView: UIView, CAAnimationDelegate {
     var progressValue: CGFloat = 1.0 {
         didSet {
             // progressValue가 변경될 때마다 애니메이션을 통해 진행률 업데이트
-            setProgressWithAnimation(duration: 2.0, value: progressValue)
+            setProgressWithAnimation(duration: 1.0, value: progressValue)
         }
     }
 
