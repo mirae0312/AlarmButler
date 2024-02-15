@@ -49,7 +49,7 @@ class SleepWakeAlarmMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupTableView()   
+        setupTableView()
         
         // 샘플 데이터 추가
         let sampleAlarm1 = SleepWakeAlarmViewModel(sleepGoals: [480], wakeUpTimes: [Date()])
@@ -73,7 +73,9 @@ class SleepWakeAlarmMainViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-25)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16) // 추가 버튼을 화면 상단에 정렬
         }
-        
+        // addTarget 코드 추가
+           addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+
         // 타이틀 레이블 설정
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
@@ -111,10 +113,23 @@ class SleepWakeAlarmMainViewController: UIViewController {
         // ...
     }
     @objc private func addButtonTapped() {
-        // "추가" 버튼이 눌렸을 때의 동작 구현
-        // SleepWakeAlarmSetViewController 로 이동하는 코드 추가
-        let setViewController = SleepWakeAlarmSetViewController()
-        navigationController?.pushViewController(setViewController, animated: true)
+        let sleepWakeAlarmSetViewController = SleepWakeAlarmSetViewController()
+        
+        // 편집화면으로 이동할 때 메인화면을 델리게이트로 지정
+        sleepWakeAlarmSetViewController.delegate = self
+        
+        // 새로운 편집 화면을 모달로 표시
+        present(sleepWakeAlarmSetViewController, animated: true, completion: nil)
+    }
+}
+
+extension SleepWakeAlarmMainViewController: SleepWakeAlarmSetViewControllerDelegate {
+    func didFinishEditingAlarm(with alarm: SleepWakeAlarmViewModel) {
+        // 편집이 완료되면 알람을 리스트에 추가
+        alarms.append(alarm)
+        
+        // 테이블 뷰를 리로드하여 변경된 데이터를 반영
+        tableView.reloadData()
     }
 }
 // MARK: - UITableViewDataSource
@@ -134,18 +149,25 @@ extension SleepWakeAlarmMainViewController: UITableViewDataSource {
     }
 }
 
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-@available(iOS 13.0, *)
-struct SleepWakeAlarmMainViewController_Preview: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            UIViewControllerPreview {
-                SleepWakeAlarmMainViewController()
-            }
-            .edgesIgnoringSafeArea(.all)
-        }
-    }
-}
-#endif
+//#if canImport(SwiftUI) && DEBUG
+//import SwiftUI
+//// SwiftUI 뷰로 UIKit 뷰 컨트롤러를 래핑
+//struct ViewControllerPreview: UIViewControllerRepresentable {
+//  func makeUIViewController(context: Context) -> AlarmListViewController {
+//    return AlarmListViewController()
+//  }
+//
+//  func updateUIViewController(_ uiViewController: AlarmListViewController, context: Context) {
+//    // 뷰 컨트롤러 업데이트가 필요할 때 사용
+//  }
+//}
+//
+//// SwiftUI Preview
+//@available(iOS 13.0, *)
+//struct ViewControllerPreview_Preview: PreviewProvider {
+//  static var previews: some View {
+//    ViewControllerPreview()
+//      .edgesIgnoringSafeArea(.all) // Safe Area를 무시하고 전체 화면으로 표시하고 싶은 경우
+//  }
+//}
+//#endif
