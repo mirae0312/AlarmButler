@@ -34,7 +34,6 @@ class CustomTableViewCell: UITableViewCell {
         return offsetLabel
     }()
     
-    
     func setLabel() {
         guard let clock = clockData else {
             return
@@ -55,10 +54,10 @@ class CustomTableViewCell: UITableViewCell {
         addSubView()
         autoLayout()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     private func addSubView() {
         

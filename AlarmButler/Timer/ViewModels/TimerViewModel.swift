@@ -37,7 +37,7 @@ class TimerViewModel {
 
     func loadTimerRecords() {
         timerRecords = manager.fetchTimerRecords()
-    }
+    } //일본
     
     func saveTimerRecord(duration: Int, label: String, ringTone: String, isActive: Bool) {
         guard let newRecord = manager.createTimerRecord(duration: duration, label: label, ringTone: ringTone, isActive: isActive) else { return }

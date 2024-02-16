@@ -28,7 +28,6 @@ class WorldClockManager {
         }
     }
     
-    
     private init() {}
     
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -86,7 +85,7 @@ class WorldClockManager {
         if(time.last! == "AM" || time.last! == "PM") {
             return isNoon ? "\(time.last! == "AM" ? "오전" : "오후")" : "\(time.first!)"
         }
-        return isNoon ? "\(time.first!)" : "\(time.last!)" //가봉
+        return isNoon ? "\(time.first!)" : "\(time.last!)"
     }
     
     //코어데이터에 세계 시간 저장
