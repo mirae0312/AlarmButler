@@ -33,7 +33,6 @@ class TimeZoneController: UIViewController {
         }
     }
 
-    
     // 주어진 문자열의 초성을 추출하는 함수
     //0xAC00...0xD7A3 = 가...힣 범위의 유니코드
     func getInitialConsonant(text: String) -> String? {
@@ -84,7 +83,7 @@ class TimeZoneController: UIViewController {
     }()
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         //서치바를 항상 편집모드로 해서 취소버튼 항상 활성화 되도록
         searchBar.becomeFirstResponder()
     }
@@ -99,8 +98,6 @@ class TimeZoneController: UIViewController {
         autoLayout()
     }
 }
-
-
 
 extension TimeZoneController {
     private func addSubView() {
@@ -119,7 +116,6 @@ extension TimeZoneController {
     }
 }
 
-
 extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 13// 원하는 높이로 변경
@@ -131,7 +127,6 @@ extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         //해당되는 데이터의 섹션 하나만 뜨게
         if(filteredData.count != 0){
@@ -148,7 +143,6 @@ extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
         return sectionTitle[section]
     }
 
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionArray = clockDataWithSection[sectionTitle[section]] else {
             return 0
@@ -192,7 +186,6 @@ extension TimeZoneController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
 
 extension TimeZoneController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
