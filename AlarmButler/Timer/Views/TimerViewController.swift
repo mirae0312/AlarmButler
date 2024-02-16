@@ -225,6 +225,18 @@ class TimerViewController: UIViewController {
     }
     
     @objc func startButtonTapped(_ sender: UIButton) {
+        // timePicker에서 선택된 시간, 분, 초가 모두 0인지 확인
+        let hour = timePicker.selectedRow(inComponent: 0)
+        let minute = timePicker.selectedRow(inComponent: 1)
+        let second = timePicker.selectedRow(inComponent: 2)
+        let totalSeconds = hour * 3600 + minute * 60 + second
+        
+        // totalSeconds가 0이 아니면 circularProgressView 설정 진행
+        if totalSeconds > 0 {
+            if circularProgressView.superview == nil {
+                view.addSubview(circularProgressView)
+            }
+        }
         setupTimerUI()
         if isOn {
             if paused {
@@ -268,30 +280,30 @@ class TimerViewController: UIViewController {
         
         // 타이머가 시작될 때 Circular Progress 업데이트
         updateCircularProgress()
-
+        
         remainingTimeInSeconds = duration
         initialSeconds = duration
         let label = "\(hour)시 \(minute)분 \(second)초"
         let ringTone = ringtoneLabel.text ?? "toaster"
         viewModel.saveTimerRecord(duration: duration, label: label, ringTone: ringTone, isActive: isOn)
     }
-
+    
     func pauseTimer() {
         paused = true
         timer?.invalidate()
     }
-
+    
     func resumeTimer() {
         paused = false
         
         // `updateTime` 함수를 타이머의 콜백으로 지정하여 시간 감소 및 UI 업데이트
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
-
+    
     func updateTimerUI() {
         
         updateStartButton()
-
+        
         timePicker.isHidden = isOn
         circularProgressView.isHidden = !isOn
     }
@@ -299,7 +311,7 @@ class TimerViewController: UIViewController {
     private func updateStartButton() {
         let buttonTitle: String
         let buttonColor: UIColor
-
+        
         if isOn {
             buttonTitle = paused ? "재개" : "일시 정지"
             buttonColor = paused ? .systemTeal : .systemOrange
@@ -307,7 +319,7 @@ class TimerViewController: UIViewController {
             buttonTitle = "시작"
             buttonColor = .systemGreen
         }
-
+        
         startButton.setTitle(buttonTitle, for: .normal)
         startButton.backgroundColor = buttonColor
     }
@@ -322,45 +334,28 @@ class TimerViewController: UIViewController {
         
         let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
         timeLabel.text = hours > 0 ? formattedTime : String(format: "%02d:%02d", minutes, seconds)
-                timeLabel.font = timeLabel.font.withSize(hours > 0 ? 78 : 82)
-                timeSubLabel.text = date.string(from: Date(timeIntervalSinceNow: TimeInterval(timePicker.selectedRow(inComponent: 0) * 3600 + timePicker.selectedRow(inComponent: 1) * 60 + timePicker.selectedRow(inComponent: 2))))
+        timeLabel.font = timeLabel.font.withSize(hours > 0 ? 78 : 82)
+        timeSubLabel.text = date.string(from: Date(timeIntervalSinceNow: TimeInterval(timePicker.selectedRow(inComponent: 0) * 3600 + timePicker.selectedRow(inComponent: 1) * 60 + timePicker.selectedRow(inComponent: 2))))
         
     }
     
     func setupTimerUI() {
-        // timePicker에서 선택된 시간, 분, 초가 모두 0인지 확인
-        let hour = timePicker.selectedRow(inComponent: 0)
-        let minute = timePicker.selectedRow(inComponent: 1)
-        let second = timePicker.selectedRow(inComponent: 2)
-        let totalSeconds = hour * 3600 + minute * 60 + second
-
-        // totalSeconds가 0이 아니면 circularProgressView 설정 진행
-        if totalSeconds > 0 {
-            if circularProgressView.superview == nil {
-                view.addSubview(circularProgressView)
-                circularProgressView.snp.makeConstraints { make in
-                    make.centerX.equalToSuperview()
-                    make.top.equalTo(view.safeAreaLayoutGuide).offset(50)
-                    make.width.equalTo(self.view.snp.width).multipliedBy(0.75)
-                    make.height.equalTo(circularProgressView.snp.width)
-                }
-            }
-
-            circularProgressView.trackColor = .lightGray
-            circularProgressView.progressColor = .systemOrange
-            circularProgressView.trackLineWidth = 15
-            circularProgressView.progressLineWidth = 15
-            circularProgressView.backgroundColor = .clear
-
-            circularProgressView.addSubview(timeLabel)
-            circularProgressView.addSubview(timeSubLabel)
-            setupLabels()
-        } else {
-            circularProgressView.removeFromSuperview()
+        circularProgressView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(50)
+            make.width.equalTo(self.view.snp.width).multipliedBy(0.75)
+            make.height.equalTo(circularProgressView.snp.width)
         }
+        circularProgressView.trackColor = .lightGray
+        circularProgressView.progressColor = .systemOrange
+        circularProgressView.trackLineWidth = 15
+        circularProgressView.progressLineWidth = 15
+        circularProgressView.backgroundColor = .clear
+        
+        circularProgressView.addSubview(timeLabel)
+        circularProgressView.addSubview(timeSubLabel)
+        setupLabels()
     }
-
-
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -373,11 +368,11 @@ class TimerViewController: UIViewController {
     private func setupLabels() {
         timeLabel.textColor = UIColor.label
         timeSubLabel.textColor = UIColor.label
-
+        
         timeLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
         }
-
+        
         timeSubLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(timeLabel.snp.bottom).offset(20)
@@ -455,7 +450,7 @@ extension UIPickerView {
     
     private func addLabelToPicker(_ label: UILabel) {
         guard !subviews.contains(label) else { return }
-            addSubview(label)
+        addSubview(label)
     }
 }
 extension TimerViewController: UITableViewDelegate {
@@ -472,7 +467,7 @@ extension TimerViewController: UITableViewDelegate {
         
         // 새 타이머 시작
         startNewTimer(withDuration: Int(selectedTimer.duration), ringTone: viewModel.selectedRingtone ?? "toaster")
-
+        
         // 현재 선택된 셀에 체크마크 추가
         addCheckmarkToSelectedCell(at: indexPath, in: tableView)
         
@@ -482,6 +477,7 @@ extension TimerViewController: UITableViewDelegate {
     
     func startNewTimer(withDuration duration: Int, ringTone: String) {
         timer?.invalidate()
+        view.addSubview(circularProgressView)
         setupTimerUI()
         animateTimerTransition()
         remainingTimeInSeconds = duration
@@ -492,7 +488,7 @@ extension TimerViewController: UITableViewDelegate {
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         updateCircularProgress()
     }
-
+    
     @objc func updateTime() {
         if remainingTimeInSeconds > 0 {
             remainingTimeInSeconds -= 1
@@ -501,7 +497,7 @@ extension TimerViewController: UITableViewDelegate {
                 self?.updateTimeLabel()
                 self?.updateCircularProgress()
             }
-
+            
             if let id = viewModel.currentTimerId {
                 viewModel.updateTimerRecord(id: id, newIsActive: true)
             }
@@ -542,18 +538,18 @@ extension TimerViewController: UITableViewDelegate {
             cell.accessoryType = .checkmark
         }
     }
-
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-
+            
             viewModel.deleteTimerRecord(at: indexPath.row)
-
+            
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }
     }
-
+    
     func tableView(_: UITableView, heightForRowAt: IndexPath) -> CGFloat {
         44
     }
